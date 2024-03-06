@@ -36,7 +36,7 @@
             <table class="table table-bordered table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>Tên kh</th>
+                        <th>Tên kha</th>
                         <th>Email</th>
                         <th>Địa chỉ</th>
                         <th>SĐT</th>
