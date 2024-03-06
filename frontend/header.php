@@ -13,16 +13,24 @@
 			<!-- /TOP HEADER -->
 
 			<!-- MAIN HEADER -->
-			<div id="header" style="background-color:#070707">
+			<div id="header" style="background-color:white">
 				<!-- container -->
 				<div class="container">
 					<!-- row -->
 					<div class="row">
 						<!-- LOGO -->
-						<div class="col-md-3">
+						<!-- <div class="col-md-1">
+							<div class="my-store">
+									<a href="#">
+										<i class="fa-solid fa-store"></i>
+										<span>Cửa hàng của tôi</span>
+									</a>
+								</div>
+						</div> -->
+						<div class="col-md-2">
 							<div class="header-logo">
 								<a href="index.php" class="logo">
-									<img src="./img/logo.jpg" alt="" width=120px, height= 90px>
+									<img src="./img/logo.png" alt="" width=150px, height= 90px>
 								</a>
 							</div>
 						</div>
@@ -54,7 +62,8 @@
 						<!-- /SEARCH BAR -->
 
 						<!-- ACCOUNT -->
-						<div class="col-md-3 clearfix">
+
+						<div class="col-md-4 clearfix">
 							<div class="header-ctn">
 								
 
@@ -70,8 +79,8 @@
 								?>
 								<div>
 									<a href="?act=cart">
-										<i class="fa fa-shopping-cart"></i>
-										<span>Giỏ Hàng</span>
+										<i class="fa fa-shopping-cart" style="color: green"></i>
+										<span style="color: black">Giỏ Hàng</span>
 										<div class="qty" id="qtyPro"><?=$qty?></div>
 									</a>
 								</div>
@@ -81,8 +90,8 @@
 								<!-- Cài đặt -->
 								<div class="dropdown">
 									<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-										<i><img src="img/users-cog-solid.svg" alt="XYZ" style="filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg) brightness(102%) contrast(102%); width:30px;" /></i>
-										<span>Cài Đặt</span>
+									<i class="fa-solid fa-gear" style="color: green"></i>										
+									<span style="color: black">Cài Đặt</span>
 										
 									</a>
 									<div class="cart-dropdown">
@@ -120,6 +129,12 @@
 									</a>
 								</div>
 								<!-- /Menu Toogle -->
+							</div>
+							<div class="my-store" style="margin-top:30px; color:green;">
+									<a href="#">
+										<i class="fa-solid fa-store"></i>
+										<span>My Store</span>
+									</a>
 							</div>
 						</div>
 						<!-- /ACCOUNT -->
@@ -167,6 +182,7 @@
 										}
 						?>
 					</ul>
+					
 					<!-- /NAV -->
 				</div>
 				<!-- /responsive-nav -->
