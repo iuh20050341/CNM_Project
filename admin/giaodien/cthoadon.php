@@ -19,7 +19,7 @@
                     <table class="table table-bordered table-striped table-hover">
                         <thead >
                             <tr>
-                                <th>Tên sản phẩm</th>
+                                <th>Tên sản phẩmAAAA</th>
                                 <th>Số lượng</th>
                                 <th>Đơn giá</th>
                             </tr>
