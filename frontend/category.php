@@ -5,7 +5,7 @@
 				<!-- row -->
 				<div class="row">
 					<div class="col-md-12">
-						<img src="./img/cb.jpg" alt="Your Banner" style="width: 100%; height: 500px; display: inline-block; border-top-left-radius: 100px 100px; border-bottom-right-radius: 100px 100px; " class="img-fluid"> <!-- Thêm thuộc tính "display: inline-block;" -->
+						<img src="./img/banner/banner1.jpg" alt="Your Banner" style="width: 100%; height: 500px; display: inline-block; border-top-left-radius: 100px 100px; border-bottom-right-radius: 100px 100px; " class="img-fluid"> <!-- Thêm thuộc tính "display: inline-block;" -->
 
 					</div>
 					
