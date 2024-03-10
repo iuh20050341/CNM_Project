@@ -159,9 +159,9 @@
 							if($act=='' && !(isset($_GET['id']))) {
 								echo '<li class="active"><a href="index.php">Trang Chủ</a></li>';
 							}else echo '<li><a href="index.php">Trang Chủ</a></li>';
-							if($act=='hot'){
-								echo '<li class="active"><a href="index.php?act=category">Tùy Chọn</a></li>';
-							}else echo '<li><a href="?act=category">Tùy Chọn</a></li>';
+							// if($act=='hot'){
+							// 	echo '<li class="active"><a href="index.php?act=category">Tùy Chọn</a></li>';
+							// }else echo '<li><a href="?act=category">Tùy Chọn</a></li>';
 						?>				
 						
 						
