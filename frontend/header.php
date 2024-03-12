@@ -131,7 +131,7 @@
 								<!-- /Menu Toogle -->
 							</div>
 							<div class="my-store" style="margin-top:30px; color:green;">
-								<a href="#">
+								<a href="./supplier/giaodien/index.php">
 										<i class="fa-solid fa-store"></i>
 										<span>My Store</span>
 									</a>
