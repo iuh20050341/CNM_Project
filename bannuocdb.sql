@@ -285,33 +285,6 @@ CREATE TABLE `hinhanhsp` (
 --
 
 INSERT INTO `hinhanhsp` (`id`, `hinh_anh`, `id_sp`) VALUES
-<<<<<<< HEAD
-(1, 'AoThun1.jpg', 1),
-(2, 'AoThun2.jpg', 2),
-(3, 'AoThun3.jpg', 3),
-(4, 'AoThun4.jpg', 4),
-(5, 'AoThun5.jpg', 5),
-(6, 'AoThun6.jpg', 6),
-(7, 'AoPoLo_1.jpg', 7),
-(8, 'AoPoLo_2.jpg', 8),
-(9, 'AoPoLo_3.jpg', 9),
-(10, 'AoPoLo_4.jpg', 10),
-(11, 'AoPoLo_5.jpg', 11),
-(12, 'AoPoLo_6.jpg', 12),
-(13, 'AoSoMi_1.jpg', 13),
-(14, 'AoSoMi_2.jpg', 14),
-(15, 'AoSoMi_3.jpg', 15),
-(16, 'AoSoMi_4.jpg', 16),
-(17, 'AoSoMi_5.jpg', 17),
-(18, 'AoSoMi_6.jpg', 18),
-(19, 'QuanJean_1.jpg', 19),
-(20, 'QuanJean_2.jpg', 20),
-(21, 'QuanJean_3.jpg', 21),
-(22, 'QuanJean_4.jpg', 22),
-(23, 'QuanJean_5.jpg', 23),
-(24, 'QuanJean_6.jpg', 24),
-
-=======
 (1, 'TraiCay1.jpg', 1),
 (2, 'TraiCay2.jpg', 2),
 (3, 'TraiCay3.jpg', 3),
@@ -459,8 +432,6 @@ INSERT INTO `hinhanhsp` (`id`, `hinh_anh`, `id_sp`) VALUES
 (152, '99d02277a94ceb61595bb7d8d2dc(1).jpg', 53),
 (153, '', 54),
 (154, '', 55);
->>>>>>> master
-
 -- --------------------------------------------------------
 
 --
@@ -794,32 +765,7 @@ CREATE TABLE `sanpham` (
 --
 
 INSERT INTO `sanpham` (`id`, `ten_sp`, `don_gia`, `hinh_anh`, `noi_dung`, `id_the_loai`, `id_nha_cc`, `so_luong`, `sl_da_ban`, `ngay_tao`, `ngay_sua`, `trangthai`) VALUES
-<<<<<<< HEAD
-(1, 'ÁO THUN LOANG MÀU BALANCE NAM', 445000, 'Aothun1.jpg', 'Màu sắc: Họa tiết Tím cà', 1, 1, 26, 27, '2021-04-15 10:37:34', '0000-00-00 00:00:00', 0),
-(2, 'ÁO THUN NAM DÀI TAY NAM\r\n\r\n', 222500, 'Aothun2.jpg', 'Màu sắc: Be sáng', 1, 1, 19, 31, '2021-04-15 10:39:21', '2021-04-15 10:39:21', 0),
-(3, 'ÁO THUN TRƠN SLIM FIT NAM\r\n', 207000, 'Aothun3.jpg', 'Màu sắc: Đen', 1, 3, 43, 14, '2021-04-15 10:40:44', '2021-04-15 10:40:44', 0),
-(4, 'ÁO THUN WONDER NỮ', 425000, 'AoThun_4.jpg', 'Màu sắc: Hồng tím\r\n\r\n', 1, 4, 32, 21, '2021-04-15 10:42:35', '2021-04-15 10:42:35', 0),
-(5, 'ÁO THUN LADIES TAY DÀI NỮ\r\n', 237000, 'Aothun5.jpg', 'Màu sắc: Xanh dương', 1, 5, 31, 20, '2021-04-15 10:43:51', '0000-00-00 00:00:00', 0),
-(6, 'ÁO THUN CỔ CHÉO CHỮ V NỮ\r\n', 355000, 'AoThun_6.jpg', 'Màu sắc: Hồng tím', 1, 5, 21, 38, '2021-04-15 10:44:47', '0000-00-00 00:00:00', 0),
-(7, 'ÁO POLO PHỐI KẺ NAM', 237000, 'AoPoLo1.jpg', 'Màu sắc: Xanh cổ vịt', 2, 5, 39, 19, '2021-04-15 10:45:58', '2021-04-15 10:45:58', 0),
-(8, 'ÁO POLO SUÔNG NAM', 207000, 'AoPoLo2.jpg', 'Màu sắc: Họa tiết Bạc hà', 2, 4, 25, 30, '2021-04-15 10:47:36', '0000-00-00 00:00:00', 0),
-(9, 'ÁO POLO KẺ NGANG NAM', 207000, 'AoPoLo3.jpg', 'Màu sắc: Kẻ Xanh dương đậm', 2, 8, 33, 18, '2021-04-15 10:51:33', '2021-04-15 10:51:33', 0),
-(10, 'ÁO THUN CROPTOP CỔ VUÔNG NỮ\r\n', 490000, 'AoPoLo4.jpg', 'Màu sắc: Cam đỏ\r\n\r\n', 2, 13, 49, 3, '2021-04-15 10:53:07', '0000-00-00 00:00:00', 0),
-(11, 'ÁO THUN ÔM DÁNG CROPTOP NỮ\r\n', 237000, 'AoPoLo5.jpg', 'Màu sắc: Đen', 2, 16, 47, 5, '2021-04-15 10:54:27', '2021-04-15 10:54:27', 0),
-(12, 'ÁO CROPTOP LỤA HỌA TIẾT KẺ NGANG NỮ\r\n', 500000, 'AoPoLo6.jpg', 'Màu sắc: Họa tiết Xanh tím than\r\n\r\n', 2, 17, 49, 3, '2021-04-15 10:55:19', '2021-04-15 10:55:19', 0),
-(13, 'ÁO SƠ MI HỌA TIẾT MONOGRAM NAM\r\n', 322000, 'AoSoMi1.jpg', 'Màu sắc: Họa tiết Xanh oliu', 3, 6, 49, 1, '2021-05-12 17:51:12', '2021-05-12 17:51:12', 0),
-(14, 'ÁO SƠ MI NAM 2 TÚI\r\n', 297000, 'AoSoMi2.jpg', 'Màu sắc: Kẻ Đỏ tươi', 3, 14, 49, 1, '2021-05-12 17:56:00', '2021-05-12 17:56:00', 0),
-(15, 'ÁO SƠ MI KHAKI TÚI NGỰC NAM\r\n', 500000, 'AoSoMi3.jpg', 'Màu sắc: Be vàng', 3, 2, 50, 0, '2021-05-12 17:56:00', '2021-05-12 17:56:00', 0),
-(16, 'ÁO SƠ MI XẾP TÀ PEPLUM NỮ\r\n\r\n', 272500, 'AoSoMi4.jpg', 'Màu sắc: Xanh ghi đá', 3, 1, 50, 0, '2021-05-12 18:01:19', '2021-05-12 18:01:19', 0),
-(17, 'ÁO SƠ MI ĐÍNH HOA NỮ\r\n', 287000, 'AoSoMi5.jpg', 'Màu sắc: Trắng', 3, 7, 50, 0, '2021-05-12 18:28:16', '2021-05-12 18:28:16', 0),
-(18, 'ÁO SƠ MI LỤA CỔ KIỂU NỮ\r\n\r\n', 272500, 'AoSoMi6.jpg', 'Màu sắc: Xanh matcha', 3, 16, 48, 2, '2021-05-12 18:31:22', '2021-05-12 18:31:22', 0),
-(19, 'QUẦN BÒ SLIM FIT NAM\r\n', 300000, 'QuanJean1.jpg', 'Màu sắc: Xanh ghi đá', 4, 17, 50, 0, '2021-05-12 18:31:22', '2021-05-12 18:31:22', 0),
-(20, 'QUẦN BÒ REGULAR FIT NAM\r\n ', 250000, 'QuanJean2.jpg', 'Màu sắc: Xanh ghi đá\r\n\r\n', 4, 18, 50, 0, '2021-05-12 18:31:22', '2021-05-12 18:31:22', 0),
-(21, 'QUẦN BÒ ĐEN DÁNG SLIM FIT NAM\r\n ', 320000, 'QuanJean3.jpg', 'Màu sắc: Đen', 4, 15, 50, 0, '2021-05-12 18:35:24', '2021-05-12 18:35:24', 0),
-(22, 'QUẦN BÒ PHỐI TÚI SƯỜN NỮ\r\n', 260000, 'QuanJean4.jpg', 'Màu sắc: Xanh ghi đá', 4, 16, 49, 1, '2021-05-13 02:11:49', '2021-05-13 02:11:49', 0),
-(23, 'QUẦN JEANS SKINNY BASIC NỮ\r\n', 350000, 'QuanJean5.jpg', 'Màu sắc: Đen', 4, 12, 50, 0, '2021-05-13 02:11:49', '2021-05-13 02:11:49', 0),
-(24, 'QUẦN JEANS LOE XẺ GẤU NỮ\r\n', 450000, 'QuanJean6.jpg', 'Màu sắc: Xanh ghi đá\r\n\r\n', 4, 4, 50, 0, '2021-05-13 02:11:49', '2021-05-13 02:11:49', 0),
-=======
+
 (1, 'ÁO THUN LOANG MÀU BALANCE NAM', 445000, 'TraiCay1.jpg', 'Màu sắc: Họa tiết Tím cà', 1, 1, 26, 27, '2021-04-15 10:37:34', '0000-00-00 00:00:00', 0),
 (2, 'ÁO THUN NAM DÀI TAY NAM\r\n\r\n', 222500, 'TraiCay2.jpg', 'Màu sắc: Be sáng', 1, 1, 19, 31, '2021-04-15 10:39:21', '2021-04-15 10:39:21', 0),
 (3, 'ÁO THUN TRƠN SLIM FIT NAM\r\n', 207000, 'TraiCay3.jpg', 'Màu sắc: Đen', 1, 3, 43, 14, '2021-04-15 10:40:44', '2021-04-15 10:40:44', 0),
@@ -844,7 +790,6 @@ INSERT INTO `sanpham` (`id`, `ten_sp`, `don_gia`, `hinh_anh`, `noi_dung`, `id_th
 (22, 'QUẦN BÒ PHỐI TÚI SƯỜN NỮ\r\n', 260000, 'BunGao4.jpg', 'Màu sắc: Xanh ghi đá', 4, 16, 49, 1, '2021-05-13 02:11:49', '2021-05-13 02:11:49', 0),
 (23, 'QUẦN JEANS SKINNY BASIC NỮ\r\n', 350000, 'BunGao5.jpg', 'Màu sắc: Đen', 4, 12, 50, 0, '2021-05-13 02:11:49', '2021-05-13 02:11:49', 0),
 (24, 'QUẦN JEANS LOE XẺ GẤU NỮ\r\n', 450000, 'BunGao6.jpg', 'Màu sắc: Xanh ghi đá\r\n\r\n', 4, 4, 50, 0, '2021-05-13 02:11:49', '2021-05-13 02:11:49', 0),
->>>>>>> master
 (25, 'QUẦN ÂU KẺ CARO NAM\r\n', 375000, 'QuanTay1.jpg', 'Màu sắc: Kẻ Ghi khói', 5, 16, 50, 0, '2021-05-13 02:11:49', '2021-05-13 02:11:49', 0),
 (26, 'QUẦN DÀI KẺ DÁNG SLIM NAM\r\n', 337000, 'QuanTay2.jpg', 'Màu sắc: Kẻ Nâu socola\r\n\r\n', 5, 7, 34, 16, '2021-05-13 02:26:46', '2021-05-13 02:26:46', 0),
 (27, 'QUẦN ÂU NAM DÁNG SLIM NAM\r\n', 254000, 'QuanTay3.jpg', 'Màu sắc: Ghi khói\r\n\r\n', 5, 7, 44, 6, '2021-05-13 02:26:46', '2021-05-13 02:26:46', 0),
