@@ -1,7 +1,7 @@
 <style>
 	#footer {
     margin-top: 20px;
-    color: #cebd79;
+    color: white;
     padding: 20px 0;
     margin-top: 40px;
     width: 100%;
@@ -40,7 +40,7 @@
 }
 
 .footer-column a {
-    color: #cebd79;
+    color: white;
     text-decoration: none;
     transition: color 0.3s;
 }
@@ -75,7 +75,7 @@
 }
 </style>
 
-<div id="footer" style="background-color:#070707">
+<div id="footer" style="background-color:#5fa533">
             <div class="footer-container">
                 <div class="footer-column">
                     <h3>Thông tin liên hệ</h3>
@@ -87,9 +87,11 @@
                             <img src="img/logo-footer2.jpg" alt="Logo Liên Kết 1">
                         </a>    
                     </div>
-                    <p>Nhóm: TH2N4</p>
+                    <p>Nhóm: 11</p>
+                    <i>Sinh viên thực hiện</i> <br>
+                    <b>Trần Quỳnh Nam - Huỳnh Đình Phúc</b>
                     <p>Địa chỉ: 12 Nguyễn Văn Bảo, Phường 4, Gò Vấp, Thành phố Hồ Chí Minh</p>
-                    <p>Email: th2n4@gmail.com</p>
+                    <p>Email: np@gmail.com</p>
                     <p>Điện thoại: 0387.985.987</p>
                 </div>
 
