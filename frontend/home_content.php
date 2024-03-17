@@ -7,7 +7,7 @@
 					<div class="banner text-center mx-auto"> <!-- Thêm lớp "text-center" để căn giữa -->
 						<!-- Thay đổi đường dẫn và alt theo hình ảnh của banner bạn muốn sử dụng -->
 						<div>
-							<a href="https://ivymoda.com/danh-muc/flash-sale-upto50-0411"><img src="https://shopnongsansach.com/wp-content/uploads/thuc-pham-sach-nong-san-sach.jpg" alt="Your Banner" style="max-width: 75%; height: auto; display: inline-block; border-radius: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" class="img-fluid"></a> <!-- Thêm thuộc tính "display: inline-block;" -->
+							<a href="#"><img src="./img/banner/banner9.png" alt="Your Banner" style="max-width: 75%; height: auto; display: inline-block; border-radius: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" class="img-fluid"></a> <!-- Thêm thuộc tính "display: inline-block;" -->
 						</div>
 					</div>
 				</div>
@@ -23,7 +23,7 @@
 								<img src="https://xenangnhapkhau.com/wp-content/uploads/2022/01/nong-san-la-gi-4.jpg" alt="">
 							</div>
 							<div class="shop-body">
-								<a href="https://ivymoda.com/tin-tuc/fashion-show"><h3>Thực Phẩm An Toàn</h3></a>
+								<a href="#"><h3>Thực Phẩm An Toàn</h3></a>
 							</div>
 						</div>
 					</div>
@@ -36,7 +36,7 @@
 								<img src="https://vietjack.me/storage/uploads/images/34622/gia-dinh-hanh-phuc-hoat-hinh-10-1697616192.jpg" alt="">
 							</div>
 							<div class="shop-body">
-								<a href="https://ivymoda.com/about/gioi-thieu"><h3>Bữa Tối Hạnh Phúc</h3></a>
+								<a href="#"><h3>Bữa Tối Hạnh Phúc</h3></a>
 							</div>
 						</div>
 					</div>
@@ -49,7 +49,7 @@
 								<img src="https://cdnmedia.baotintuc.vn/Upload/pTMF1jgWpbjY1m8G1xWUsg/files/2022/12/dongnai.jpg" alt="">
 							</div>
 							<div class="shop-body">
-								<a href="https://ivymoda.com/lien-he"><h3>Đặc Sản Vùng Miền</h3></a>
+								<a href="#"><h3>Đặc Sản Vùng Miền</h3></a>
 							</div>
 						</div>
 					</div>

@@ -4,7 +4,7 @@
 				<div class="container">
 					<ul class="header-links pull-left">
 						<li><a href="#"><i class="fa fa-phone"></i> 0987654321</a></li>
-						<li><a href="#"><i class="fa fa-envelope-o"></i> th2n4@email.com</a></li>
+						<li><a href="#"><i class="fa fa-envelope-o"></i> namphuc@email.com</a></li>
 						<li><a href="#"><i class="fa fa-map-marker"></i> 12 Nguyễn Văn Bảo, Phường 4, Gò Vấp, Thành phố Hồ Chí Minh</a></li>
 					</ul>
 					

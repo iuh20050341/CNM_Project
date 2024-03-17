@@ -66,7 +66,7 @@
 <header>
     <div class="row">
         <div class="col-md-3">
-            <img style="width:125px;" src="../../img/logo.png" alt="">
+            <a href="../../index.php"><img style="width:125px;" src="../../img/logo.png" alt=""></a>
         </div>
         <div class="col-md-9">
             <h1>TRANG NHÀ BÁN </h1>
