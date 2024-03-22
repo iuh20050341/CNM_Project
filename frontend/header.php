@@ -5,7 +5,7 @@
 					<ul class="header-links pull-left">
 						<li><a href="#"><i class="fa fa-phone"></i> 0987654321</a></li>
 						<li><a href="#"><i class="fa fa-envelope-o"></i> namphuc@email.com</a></li>
-						<li><a href="#"><i class="fa fa-map-marker"></i> 12 Nguyễn Văn Bảo, Phường 4, Gò Vấp, Thành phố Hồ Chí Minh</a></li>
+						<li><a href="#"><i class="fa fa-map-marker"></i> 256/126/33 Phan Huy Ích, Phường 12, Gò Vấp, Thành phố Hồ Chí Minh</a></li>
 					</ul>
 					
 				</div>
@@ -30,7 +30,7 @@
 						<div class="col-md-2">
 							<div class="header-logo">
 								<a href="index.php" class="logo">
-									<img src="./img/logo.png" alt="" width=150px, height= 90px>
+									<img src="./img/logo1.jpg" alt="" width=160px, height= 90px>
 								</a>
 							</div>
 						</div>
