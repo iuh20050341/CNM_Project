@@ -40,17 +40,8 @@
 						<div class="col-md-6" style="padding-top:30px">
 							<div class="header-search">
 								<form method="get">
-									<select class="input-select" onchange="location = this.value;">
-										<option value="0">Tìm Kiếm Nhiều Nhất</option>
-										<?php
-										$sql='select id, ten_tl from theloai';
-										$list=executeResult($sql);
-										foreach($list as $item){
-											echo '<option value="?act=category&id='.$item['id'].'">'.$item['ten_tl'].'</option>';
-										}
-										?>
-									</select>
-									<input class="input" name="search" id="search-input" placeholder="Tên sản phẩm......" required>
+									
+									<input style ="width: 400px" class="input" name="search" id="search-input" placeholder="Tên sản phẩm......" required>
 						                        <span class="microphone">
 						                            <i class="fa fa-microphone"></i>
 						                            <span class="recording-icon"></span>
