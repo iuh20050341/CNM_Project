@@ -25,22 +25,9 @@
 					<div id="aside" class="col-md-3">
 						<!-- aside Widget -->
 						<div class="aside">
-							<h3 class="aside-title">Thương Hiệu</h3>
-							<div class="checkbox-filter" id="chkBrand">
-
-                                    <?php
-										$list=['Áo thun','Áo polo','Áo sơ mi','Quần jeans','Quần tây','Quần kaki'];
-										foreach($list as $key => $value){
-											echo '<div class="input-checkbox">
-                                            <input class="checkBrand" type="checkbox" id="'.$key.'" value="'.$value.'">
-                                            <label for="'.$key.'">
-                                                <span></span>
-                                                '.$value.'
-                                            </label>
-                                        </div>';
-										}
-										?>
-							</div>
+							<h3 class="aside-title"></h3>
+							<img src="./img/quangcao.jpg" alt="Your Banner" style="width: 100%; height: 500px; display: inline-block; border-top-left-radius: 100px 100px; border-bottom-right-radius: 100px 100px; " class="img-fluid">
+							
 						</div>
 						<!-- /aside Widget -->
 
@@ -49,23 +36,7 @@
 						<!-- /aside Widget -->
 
 						<!-- aside Widget -->
-						<div class="aside">
-							<h3 class="aside-title">Giới Tính</h3>
-							<div class="checkbox-filter" id="chkDv">
-									<?php
-										$list=['NAM','Nữ'];
-										foreach($list as $key => $value){
-											echo '<div class="input-checkbox">
-                                            <input class="checkDv" type="checkbox" id="'.'Dv'.$key.'" value="'.$value.'">
-                                            <label for="'.'Dv'.$key.'">
-                                                <span></span>
-                                                '.$value.'
-                                            </label>
-                                        </div>';
-										}
-									?>
-							</div>
-						</div>
+						
 						<!-- /aside Widget -->
 
 						
