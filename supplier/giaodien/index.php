@@ -15,7 +15,7 @@
         padding: 0;
     }
     header {
-        background-color: #333;
+        background-color: #5fa533;
         color: #fff;
         padding: 10px;
     }
@@ -54,7 +54,7 @@
         text-align: left;
     }
     th {
-        background-color: #f2f2f2;
+        background-color: #5fa533;
     }
     .hidden {
         display: none;
@@ -66,7 +66,7 @@
 <header>
     <div class="row">
         <div class="col-md-3">
-            <a href="../../index.php"><img style="width:125px;" src="../../img/logo.png" alt=""></a>
+            <a href="../../index.php"><img style="width:125px;" src="../../img/logo2.png" alt=""></a>
         </div>
         <div class="col-md-9">
             <h1>TRANG NHÀ BÁN </h1>
