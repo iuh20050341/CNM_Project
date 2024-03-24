@@ -6,11 +6,14 @@ width: 400px;
 border-radius: 10px;
 overflow: hidden;
 padding: 55px 55px 37px;
-background: -webkit-linear-gradient(top,#000000,#736A6A,#000000);
+/* background: -webkit-linear-gradient(top,#000000,#736A6A,#000000);
 background: -o-linear-gradient(top,#000000,#736A6A,#000000);
 background: -moz-linear-gradient(top,#000000,#736A6A,#000000);
-background: linear-gradient(top,#000000,#736A6A,#000000);
+background: linear-gradient(top,#000000,#736A6A,#000000); */
+background: darkgreen;
 text-align: center;
+margin-top: 20px;
+
 }
 .form-tt h2 {
 font-size: 30px;

@@ -30,14 +30,14 @@
 						<div class="col-md-2">
 							<div class="header-logo">
 								<a href="index.php" class="logo">
-									<img src="./img/logo1.jpg" alt="" width=160px, height= 90px>
+									<img src="./img/logo2.png" alt="" width=150px, height= 125px>
 								</a>
 							</div>
 						</div>
 						<!-- /LOGO -->
 
 						<!-- SEARCH BAR -->
-						<div class="col-md-6" style="padding-top:10px">
+						<div class="col-md-6" style="padding-top:30px">
 							<div class="header-search">
 								<form method="get">
 									<select class="input-select" onchange="location = this.value;">
@@ -55,7 +55,7 @@
 						                            <i class="fa fa-microphone"></i>
 						                            <span class="recording-icon"></span>
 						                        </span>
-						                        <button class="search-btn">Tìm</button>
+						                        <button style="background: green;" class="search-btn">Tìm</button>
 								</form>
 							</div>
 						</div>
@@ -77,7 +77,7 @@
 										}
 									}
 								?>
-								<div>
+								<div style="padding-top:30px">
 									<a href="?act=cart">
 										<i class="fa fa-shopping-cart" style="color: green"></i>
 										<span style="color: black">Giỏ Hàng</span>
@@ -130,7 +130,7 @@
 								</div>
 								<!-- /Menu Toogle -->
 							</div>
-							<div class="my-store" style="margin-top:30px; color:green;">
+							<div class="my-store" style="margin-top:30px; color:green; padding-top:25px">
 								<a href="./supplier/giaodien/index.php">
 										<i class="fa-solid fa-store"></i>
 										<span>My Store</span>

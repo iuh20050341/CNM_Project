@@ -482,11 +482,12 @@ textarea.input {
 .header-search form .search-btn {
   height: 40px;
   width: 100px;
-  background: #D10024;
+  background: green;
   color: #FFF;
   font-weight: 700;
   border: none;
   border-radius: 0px 40px 40px 0px;
+
 }
 
 /*----------------------------*\
