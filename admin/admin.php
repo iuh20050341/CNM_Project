@@ -31,12 +31,12 @@
 <?php if (!empty($_SESSION['nguoidung'])){?>
 <body>
     <div id="wrapper">
-        <div id="header2">
+        <div style="background: #5fa533;" id="header2">
         <?php require_once('giaodien/header.php'); ?>
 
         </div>
         <div id="body">
-            <div id="leftmenu">
+            <div style="background:darkgreen;" id="leftmenu">
                 <?php require_once('giaodien/leftmenu.php'); ?>
             </div>
             <div id="content">

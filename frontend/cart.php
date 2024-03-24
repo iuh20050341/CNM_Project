@@ -87,11 +87,12 @@
                 </div>
 
 
+
                 <?php 
 				if(isset($_SESSION['cart']) && !empty($_SESSION['cart'])){
 						if(isset($_SESSION['ten_dangnhap']) && !empty($_SESSION['ten_dangnhap']))
 						echo '<a href="frontend/thanh_toan.php" class="primary-btn order-submit" >Tiến Hành Thanh Toán</a>';
-						else echo '<button style="width:100%" class="primary-btn order-submit" >Vui Lòng đăng nhập để Tiến Hành Thanh Toán</button>';
+						else echo '<a href="index.php?act=login"><button style="width:100%" class="primary-btn order-submit" >Vui Lòng đăng nhập để Tiến Hành Thanh Toán</button></a>';
 						}
 				?>
             </div>

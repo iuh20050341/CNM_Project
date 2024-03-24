@@ -31,11 +31,14 @@ unset($_SESSION['cart']);
         }
 
         body {
-            background-image: url("img/dn.jpg");
+            background-image: url("img/bg.jpg");
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+
         }
         .wrapper{
             

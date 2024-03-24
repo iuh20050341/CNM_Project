@@ -1,3 +1,4 @@
+
 <!-- SECTION -->
 <div class="section">
 	
@@ -7,7 +8,7 @@
 					<div class="banner text-center mx-auto"> <!-- Thêm lớp "text-center" để căn giữa -->
 						<!-- Thay đổi đường dẫn và alt theo hình ảnh của banner bạn muốn sử dụng -->
 						<div>
-							<a href="#"><img src="./img/banner/banner9.png" alt="Your Banner" style="max-width: 75%; height: auto; display: inline-block; border-radius: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" class="img-fluid"></a> <!-- Thêm thuộc tính "display: inline-block;" -->
+							<a href="#"><img src="./img/banner/banner9.png" alt="Your Banner" style="max-width: 75%; height: auto; display: inline-block; border-radius: 20px; box-shadow: 0 14px 16px rgba(0, 0, 0, 0.1);" class="img-fluid"></a> <!-- Thêm thuộc tính "display: inline-block;" -->
 						</div>
 					</div>
 				</div>
