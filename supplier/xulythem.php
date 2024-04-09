@@ -40,8 +40,8 @@
                     if ($_POST['price'] != '') {
                         if (isset($_POST['idtl']))
                             if ($_POST['idtl'] != '') {
-                                if (isset($_POST['soluong']))
-                                    if ($_POST['soluong'] != '') {
+                                if (isset($_POST['idncc']))
+                                    if ($_POST['idncc'] != '') {
                                         if (isset($_POST['content']))
                                             if ($_POST['content'] != '') {
                                                 $conn = mysqli_connect("localhost", "root", "", "bannuocdb");
@@ -49,7 +49,7 @@
                                                 $price = $_POST['price'];
                                                 // $image=$_FILES['image'];
                                                 $idtl = $_POST['idtl'];
-                                                $sl = $_POST['soluong'];
+                                                $ncc = $_POST['idncc'];
                                                 $idnb = $_POST['idnb'];
                                                 $content = $_POST['content'];
                                                 if ($_FILES['image']['name'] != NULL) {
@@ -65,8 +65,8 @@
                                                         move_uploaded_file($tmp_name, $path2 . $name);
                                                         $image_url = $path1 . $name; // Đường dẫn ảnh lưu vào cơ sở dữ liệu
                                                         // Insert ảnh vào cơ sở dữ liệu
-                                                        $sql1 = "INSERT INTO `sanpham` (`ten_sp`, `hinh_anh`, `don_gia`, `noi_dung`,`so_luong`,`id_the_loai`,`trangthai`,`id_nhaban`) 
-                                                        VALUES ('$namei','$image_url', " . str_replace('.', '', $price) . ", '$content',$sl,'$idtl',0,'$idnb');";
+                                                        $sql1 = "INSERT INTO `sanpham` (`ten_sp`, `hinh_anh`, `don_gia`, `noi_dung`,`so_luong`,`id_the_loai`,`id_nha_cc`,`trangthai`,`id_nhaban`) 
+                                                        VALUES ('$namei','$image_url', " . str_replace('.', '', $price) . ", '$content',0,'$idtl','$ncc',0,'$idnb');";
                                                         $result1 = mysqli_query($conn, $sql1);
                                                         if (isset($_FILES['gallery']))
                                                             if ($_FILES['gallery'] != '') {

@@ -42,8 +42,8 @@ $sql = "INSERT INTO `sanpham` (`id`, `ten_sp`, `hinh_anh`, `don_gia`, `noi_dung`
         <div class="clear-both"></div>
     </div>
     <div class="wrap-field">
-        <label>Số lượng: </label>
-        <input type="number" name="soluong" value="" />
+        <label>ID nhà cung cấp: </label>
+        <select name="idncc"><?php while($row=mysqli_fetch_array($nhacungcap)){?><option value="<?= $row['id']?>"><?= $row['id']?> - <?=$row['ten_ncc']?></option><?php } ?></select>
         <div class="clear-both"></div>
     </div>
     <div class="wrap-field">
