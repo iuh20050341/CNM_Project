@@ -622,7 +622,11 @@ textarea.input {
 #navigation {
   background: #fff;
   border-bottom: 2px solid #e4e7ed;
+<<<<<<< HEAD
+  border-top: 3px solid green;
+=======
   border-top: 3px solid #5fa533;
+>>>>>>> master
 }
 
 /*----------------------------*\

@@ -622,7 +622,15 @@ textarea.input {
 #navigation {
   background: #FFF;
   border-bottom: 2px solid #E4E7ED;
+<<<<<<< HEAD
   border-top: 3px solid #D10024;
+=======
+<<<<<<< HEAD
+  border-top: 3px solid green;
+=======
+  border-top: 3px solid #5fa533;
+>>>>>>> master
+>>>>>>> feature/phuc-branch
 }
 
 /*----------------------------*\
