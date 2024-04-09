@@ -1,6 +1,6 @@
 <?php
     include_once("./connect_db.php");
-    if (!empty($_SESSION['nguoidung'])) {
+    if (isset($_SESSION['ten_dangnhap']) && !empty($_SESSION['ten_dangnhap'])) {
         $item_per_page = (!empty($_GET['per_page'])) ? $_GET['per_page'] : 10;
         $current_page = (!empty($_GET['page'])) ? $_GET['page'] : 1;
         $offset = ($current_page - 1) * $item_per_page;
@@ -14,9 +14,6 @@
 <div class="main-content">
             <h1>Nhà cung cấp</h1>
             <div class="product-items">
-                <div class="buttons">
-                    <a href="admin.php?act=addncc">Thêm nhà cung cấp</a>
-                </div>
                 <div class="table-responsive-sm ">
                     <table class="table table-bordered table-striped table-hover">
                         <thead >
@@ -26,7 +23,7 @@
                                 <th>Email</th>
                                 <th>Website</th>
                                 <th>SĐT</th>
-                                <th>Xóa ncc</th>
+                                <th>Đặt hàng</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -39,7 +36,7 @@
                                     <td><?= $row['email'] ?></td>
                                     <td><?= $row['web_site'] ?></td>
                                     <td><?= $row['phone'] ?></td>
-                                    <td><a href="admin.php?act=xoancc&id=<?= $row['id'] ?>" onclick="return confirm('Are you sure you want to delete this item?');">Xóa</a></td>                                  
+                                    <td><a href="admin.php?act=datncc&id=<?= $row['id'] ?>">Đặt</a></td>
                                     <div class="clear-both"></div>
                                 </tr>
                                 <?php } ?>

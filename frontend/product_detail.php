@@ -1,7 +1,12 @@
 <!-- Lấy tên thể loại khi biết id sản phẩm -->
 <?php
-	$sql='select ten_sp, ten_tl, theloai.id as id_tl from sanpham, theloai where sanpham.id='.$id.' and theloai.id=sanpham.id_the_loai';
+	$sql='select ten_sp, ten_tl,id_nhaban, theloai.id as id_tl from sanpham, theloai where sanpham.id='.$id.' and theloai.id=sanpham.id_the_loai';
 	$listcate_pro=executeSingleResult($sql);
+	$id_nhaban = $listcate_pro['id_nhaban'];
+	$sql1= 'select ten_kh from khachhang where id = '.$id_nhaban.'';
+	$nhaban = executeSingleResult($sql1);
+	$ten_nhaban = $nhaban['ten_kh'];
+
 ?>
 <!-- /Lấy tên thể loại khi biết id sản phẩm -->
 
@@ -10,6 +15,7 @@
 	$sql='select * from sanpham where id='.$id;
 	$detailproduct=executeSingleResult($sql);
 ?>
+
 <!-- /Lấy thông tin chi tiết của sản phẩm -->
 
 <!-- BREADCRUMB -->
@@ -119,6 +125,10 @@
 								
 								<li><a href="?act=category&id=<?=$listcate_pro['id_tl']?>"><?=$listcate_pro['ten_tl']?></a></li>
 								<li><a href=""><?=$listcate_pro['ten_sp']?></a></li>
+							</ul>
+							<ul class="product-links">
+								<li>Nhà bán:</li>
+								<li><b><?=$ten_nhaban?></b></li>
 							</ul>
 
 							<ul class="product-links">

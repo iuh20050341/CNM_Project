@@ -4,42 +4,45 @@
         $item_per_page = (!empty($_GET['per_page'])) ? $_GET['per_page'] : 10;
         $current_page = (!empty($_GET['page'])) ? $_GET['page'] : 1;
         $offset = ($current_page - 1) * $item_per_page;
-        $totalRecords = mysqli_query($con, "SELECT * FROM `nhacungcap`");
+        $totalRecords = mysqli_query($con, "SELECT * FROM `nhanvien`");
         $totalRecords = $totalRecords->num_rows;
         $totalPages = ceil($totalRecords / $item_per_page);
-        $nhacungcap = mysqli_query($con, "SELECT * FROM `nhacungcap` ORDER BY `id` ASC LIMIT " . $item_per_page . " OFFSET " . $offset);
+        $nhanvien = mysqli_query($con, "SELECT * FROM `nhanvien` ORDER BY `id` ASC LIMIT " . $item_per_page . " OFFSET " . $offset);
 
         mysqli_close($con);
     ?>
 <div class="main-content">
-            <h1>Nhà cung cấp</h1>
-            <div class="product-items">
-                <div class="buttons">
-                    <a href="admin.php?act=addncc">Thêm nhà cung cấp</a>
+            <h1>Nhân viên</h1>
+            <div class="buttons">
+                    <a href="admin.php?act=addnv">Thêm nhân viên</a>
                 </div>
+            <div class="product-items">
                 <div class="table-responsive-sm ">
                     <table class="table table-bordered table-striped table-hover">
                         <thead >
                             <tr>
-                                <th>Id</th>
-                                <th>Tên nhà cung cấp</th>
+                                <th>ID</th>
+                                <th>Tên nhân viên</th>
+                                <th>Username</th>
                                 <th>Email</th>
-                                <th>Website</th>
                                 <th>SĐT</th>
-                                <th>Xóa ncc</th>
+                                <th>Sửa</th>
+                                <th>Xóa</th>
                             </tr>
                         </thead>
                         <tbody>
                              <?php
-                            while ($row = mysqli_fetch_array($nhacungcap)) {
+                            while ($row = mysqli_fetch_array($nhanvien)) {
                             ?>
-                                <tr>           
-                                    <td><?= $row['id'] ?></td>     
-                                    <td><?= $row['ten_ncc'] ?></td>
+                                <tr>                 
+                                    <td><?= $row['id'] ?></td>         
+                                    <td><?= $row['ten_nv'] ?></td>
+                                    <td><?= $row['ten_dangnhap'] ?></td>
                                     <td><?= $row['email'] ?></td>
-                                    <td><?= $row['web_site'] ?></td>
                                     <td><?= $row['phone'] ?></td>
-                                    <td><a href="admin.php?act=xoancc&id=<?= $row['id'] ?>" onclick="return confirm('Are you sure you want to delete this item?');">Xóa</a></td>                                  
+                                    <td><a href="admin.php?act=suanv&id=<?= $row['id'] ?>">Sửa</a>
+                                    </td>
+                                    <td><a href="admin.php?act=xoanv&id=<?= $row['id'] ?>" onclick="return confirm('Are you sure you want to delete this item?');">Xóa</a></td>                              
                                     <div class="clear-both"></div>
                                 </tr>
                                 <?php } ?>

@@ -100,11 +100,14 @@
 										?>
 										
 										<div class="cart-btns">
-											<a href="index.php?act=login">Đăng Nhập</a>
 											<?php
 												if(isset($_SESSION['ten_dangnhap'])){
-													echo '<a href="frontend/logout.php">Đăng Xuất <i class="fa fa-arrow-circle-right"></i></a>';
-												}else echo '<a href="index.php?act=register">Đăng Ký</a>';
+													echo '<a style="width:100%;"href="frontend/logout.php">Đăng Xuất <i class="fa fa-arrow-circle-right"></i></a>';
+												}else{
+													echo '<a href="index.php?act=login">Đăng Nhập</a>';
+													echo '<a href="index.php?act=register">Đăng Ký</a>';
+												}
+
 											?>
 											
 										</div>
@@ -122,7 +125,7 @@
 								<!-- /Menu Toogle -->
 							</div>
 							<div class="my-store" style="margin-top:30px; color:green; padding-top:25px">
-								<a href="./supplier/giaodien/index.php">
+								<a href="./supplier/admin.php">
 										<i class="fa-solid fa-store"></i>
 										<span>My Store</span>
 									</a>

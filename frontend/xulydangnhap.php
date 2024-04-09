@@ -17,7 +17,7 @@ $password = addslashes($_POST['password']);
 if ($username == "" || $password =="") {
     echo '<br><p style="color:red;">Username hoặc Password không được để trống!</p>';
 }else{
-    $sql = "select ten_dangnhap, mat_khau, trangthai from khachhang where ten_dangnhap = '$username' and mat_khau = '$password' ";
+    $sql = "select id, ten_dangnhap, mat_khau, trangthai from khachhang where ten_dangnhap = '$username' and mat_khau = '$password' ";
     $query = mysqli_query($conn,$sql);
     $num_rows = mysqli_num_rows($query);
     if ($num_rows==0) {
@@ -28,7 +28,9 @@ if ($username == "" || $password =="") {
         if ($row['trangthai'] == 1) {
             echo "<script type='text/javascript'>alert('Tài khoản của bạn đã bị khóa');window.location='index.php?act=login';</script>";
         }else {
+            $_SESSION['user_id'] = $row['id'];
             $_SESSION['ten_dangnhap'] = $username;
+            $_SESSION['quyen'] = '7';
             echo "<script type='text/javascript'>alert('Đăng nhập thành công');window.location='index.php';</script>";
         }
     }
