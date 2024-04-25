@@ -59,7 +59,7 @@ if($product>0)
 else
 {
 	$_SESSION['success']='Khong ton tai sp trong csdl:';
-	header("locaton:./admin.php?muc=9&tmuc=Nhà%20cung%20cấp");
+	header("locaton:./supplier.php?muc=9&tmuc=Nhà%20cung%20cấp");
 }
 
 ?>

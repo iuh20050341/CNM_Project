@@ -36,7 +36,7 @@
                                     <td><?= $row['email'] ?></td>
                                     <td><?= $row['web_site'] ?></td>
                                     <td><?= $row['phone'] ?></td>
-                                    <td><a href="admin.php?act=datncc&id=<?= $row['id'] ?>">Đặt</a></td>
+                                    <td><a href="supplier.php?act=datncc&id=<?= $row['id'] ?>">Đặt</a></td>
                                     <div class="clear-both"></div>
                                 </tr>
                                 <?php } ?>

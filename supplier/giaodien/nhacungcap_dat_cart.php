@@ -27,9 +27,9 @@ if (isset($_SESSION['cart'])) {
 	//echo '<pre>';
 	//var_dump($_SESSION['cart']);
 ?>
-	<form action="./admin.php?act=ncccartlist" method="POST">
+	<form action="./supplier.php?act=ncccartlist" method="POST">
 		<div class="table-responsive-sm ">
-			<div class="buttons" style="float: left;"><a href="./admin.php?muc=9&tmuc=Nhà%20cung%20cấp">Thoát</a></div>
+			<div class="buttons" style="float: left;"><a href="./supplier.php?muc=9&tmuc=Nhà%20cung%20cấp">Thoát</a></div>
 			<div class="buttons">
 				<input type="submit" name="update_click" value="Cập nhật">
 			</div>
@@ -59,7 +59,7 @@ if (isset($_SESSION['cart'])) {
 					<td><?php echo $val['price'] ?></td>
 					<td><input type="number" name="qty[<?= $key ?>]" value="<?php echo $val['qty'] ?>"></td>
 					<td><?= $val['qty'] * $val['price'] ?></td>
-					<td><a href="./admin.php?act=ncccartlist&xoa=y&id=<?= $key ?>">Xóa</a></td>
+					<td><a href="./supplier.php?act=ncccartlist&xoa=y&id=<?= $key ?>">Xóa</a></td>
 					</tr>
 				<?php
 					$total += $val['qty'] * $val['price'];
@@ -127,7 +127,7 @@ if (isset($_SESSION['cart'])) {
 										execute('UPDATE theloai SET tong_sp="'.$tongsanphamtheoloai.'" WHERE id='.$item['id']);
 									}
 									unset($_SESSION['cart']);
-									echo ('<a href="./admin.php?muc=6&tmuc=Phiếu%20nhập">Nhấp vào mình đi, bạn thành công rồi đó </a>');
+									echo ('<a href="./supplier.php?muc=6&tmuc=Phiếu%20nhập">Nhấp vào mình đi, bạn thành công rồi đó </a>');
 								}
 							} else echo "Vui lòng nhập đủ thông tin!!";
 					} else echo "Vui lòng nhập đủ thông tin!!";
@@ -137,7 +137,7 @@ if (isset($_SESSION['cart'])) {
 	<div id="error-notify" class="box-content">
 		<h2>Không có sản phẩm nào trong giỏ hàng</h2>
 
-		<a href="./admin.php?muc=9&tmuc=Nhà%20cung%20cấp">Danh sách nhà cung cấp</a>
+		<a href="./supplier.php?muc=9&tmuc=Nhà%20cung%20cấp">Danh sách nhà cung cấp</a>
 	</div>
 <?php }
 ?>

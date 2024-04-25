@@ -73,7 +73,7 @@ if (isset($_GET['act'])) {
 //     echo ('<div id="error-notify" class="box-content">
 //     <h2>Thành công</h2>
     
-//     <a href="./admin.php?tmuc=Thể loại">Danh sách thể loại</a>
+//     <a href="./supplier.php?tmuc=Thể loại">Danh sách thể loại</a>
 // </div>');
 // }
 // if (isset($_GET['act'])&&isset($_GET['dk'])) {
@@ -81,7 +81,7 @@ if (isset($_GET['act'])) {
 //     echo ('<div id="error-notify" class="box-content">
 //     <h2>Thất bại</h2>
     
-//     <a href="./admin.php?tmuc=Thể loại">Danh sách thể loại</a>
+//     <a href="./supplier.php?tmuc=Thể loại">Danh sách thể loại</a>
 // </div>');
 // }
 // if (isset($_GET['act'])) {
@@ -170,7 +170,7 @@ if (isset($_GET['act'])) {
     echo ('<div id="error-notify" class="box-content">
     <h2>Thành công</h2>
     
-    <a href="./admin.php?tmuc=Hóa đơn">Danh sách hóa đơn</a>
+    <a href="./supplier.php?tmuc=Hóa đơn">Danh sách hóa đơn</a>
 </div>');
 }
 if (isset($_GET['act'])) {
@@ -178,7 +178,7 @@ if (isset($_GET['act'])) {
     echo ('<div id="error-notify" class="box-content">
     <h2>Thất bại</h2>
     
-    <a href="./admin.php?tmuc=Hóa đơn">Danh sách hóa đơn</a>
+    <a href="./supplier.php?tmuc=Hóa đơn">Danh sách hóa đơn</a>
 </div>');
 }
 if (isset($_GET['act'])) {
@@ -186,7 +186,7 @@ if (isset($_GET['act'])) {
     echo ('<div id="error-notify" class="box-content">
     <h2>Thành công</h2>
     
-    <a href="./admin.php?tmuc=Khách hàng">Danh sách khách hàng</a>
+    <a href="./supplier.php?tmuc=Khách hàng">Danh sách khách hàng</a>
 </div>');
 }
 if (isset($_GET['act'])) {
@@ -194,7 +194,7 @@ if (isset($_GET['act'])) {
     echo ('<div id="error-notify" class="box-content">
     <h2>Thành công</h2>
     
-    <a href="./admin.php?tmuc=Thể loại">Danh sách thể loại</a>
+    <a href="./supplier.php?tmuc=Thể loại">Danh sách thể loại</a>
 </div>');
 }
 if (isset($_GET['act'])) {
@@ -210,7 +210,7 @@ if (isset($_GET['act'])) {
     echo ('<div id="error-notify" class="box-content">
     <h2>Thành công</h2>
     
-    <a href="./admin.php?tmuc=Tài khoản">Danh sách Tài khoản</a>
+    <a href="./supplier.php?tmuc=Tài khoản">Danh sách Tài khoản</a>
 </div>');
 }
 if (isset($_GET['act'])) {
@@ -226,7 +226,7 @@ if (isset($_GET['act'])) {
     echo ('<div id="error-notify" class="box-content">
     <h2>Thành công</h2>
     
-    <a href="./admin.php?tmuc=Tài khoản">Danh sách Tài khoản</a>
+    <a href="./supplier.php?tmuc=Tài khoản">Danh sách Tài khoản</a>
 </div>');
 }
 if (isset($_GET['act'])) {
@@ -234,7 +234,7 @@ if (isset($_GET['act'])) {
     echo ('<div id="error-notify" class="box-content">
     <h2>Thất bại</h2>
     
-    <a href="./admin.php?tmuc=Tài khoản">Danh sách Tài khoản</a>
+    <a href="./supplier.php?tmuc=Tài khoản">Danh sách Tài khoản</a>
 </div>');
 }
 if (isset($_GET['act'])) {
@@ -242,7 +242,7 @@ if (isset($_GET['act'])) {
     echo ('<div id="error-notify" class="box-content">
     <h2>Thành công</h2>
     
-    <a href="./admin.php?tmuc=Danh mục">Danh sách Danh mục</a>
+    <a href="./supplier.php?tmuc=Danh mục">Danh sách Danh mục</a>
 </div>');
 }
 if (isset($_GET['act'])) {
@@ -250,7 +250,7 @@ if (isset($_GET['act'])) {
     echo ('<div id="error-notify" class="box-content">
     <h2>Thành công</h2>
     
-    <a href="./admin.php?tmuc=Nhà cung cấp">Danh sách Nhà cung cấp</a>
+    <a href="./supplier.php?tmuc=Nhà cung cấp">Danh sách Nhà cung cấp</a>
 </div>');
 }
 if (isset($_GET['act'])) {
@@ -266,7 +266,7 @@ if (isset($_GET['act'])) {
     echo ('<div id="error-notify" class="box-content">
     <h2>Thành công</h2>
     
-    <a href="./admin.php?tmuc=Nhân viên">Danh sách Nhân viên</a>
+    <a href="./supplier.php?tmuc=Nhân viên">Danh sách Nhân viên</a>
 </div>');
 }
 if (isset($_GET['act'])) {
@@ -282,7 +282,7 @@ if (isset($_GET['act'])) {
     echo ('<div id="error-notify" class="box-content">
     <h2>Thành công</h2>
     
-    <a href="./admin.php?tmuc=Nhân viên">Danh sách Nhân viên</a>
+    <a href="./supplier.php?tmuc=Nhân viên">Danh sách Nhân viên</a>
 </div>');
 }
 if (isset($_GET['act'])) {
@@ -298,7 +298,7 @@ if (isset($_GET['act'])) {
     echo ('<div id="error-notify" class="box-content">
     <h2>Thành công</h2>
     
-    <a href="./admin.php?tmuc=Đổi mật khẩu">Danh sách Đổi mật khẩu</a>
+    <a href="./supplier.php?tmuc=Đổi mật khẩu">Danh sách Đổi mật khẩu</a>
 </div>');
 }
 if (isset($_GET['act'])) {
@@ -306,14 +306,14 @@ if (isset($_GET['act'])) {
     echo ('<div id="error-notify" class="box-content">
     <h2>Thất bại</h2>
     
-    <a href="./admin.php?tmuc=Đổi mật khẩu">Danh sách Đổi mật khẩu</a>
+    <a href="./supplier.php?tmuc=Đổi mật khẩu">Danh sách Đổi mật khẩu</a>
 </div>');
 }
 if (isset($_GET['act'])) {
     if (($_GET['act'] == 'addsptc')&&($_GET['dk'] == 'yes'))
     echo ('<div id="error-notify" class="box-content">
     <h2>Thành công</h2>
-    <a href="./admin.php?tmuc=Sản phẩm">Danh sách Sản phẩm</a>
+    <a href="./supplier.php?tmuc=Sản phẩm">Danh sách Sản phẩm</a>
 </div>');
 }
 if (isset($_GET['act'])) {
@@ -329,7 +329,7 @@ if (isset($_GET['act'])) {
     echo ('<div id="error-notify" class="box-content">
     <h2>Thành công</h2>
     
-    <a href="./admin.php?tmuc=Sản phẩm">Danh sách Sản phẩm</a>
+    <a href="./supplier.php?tmuc=Sản phẩm">Danh sách Sản phẩm</a>
 </div>');
 }
 if (isset($_GET['act'])) {
@@ -345,7 +345,7 @@ if (isset($_GET['act'])) {
     echo ('<div id="error-notify" class="box-content">
     <h2>Thành công</h2>
     
-    <a href="./admin.php?tmuc=Danh mục">Danh sách Danh mục</a>
+    <a href="./supplier.php?tmuc=Danh mục">Danh sách Danh mục</a>
 </div>');
 }
 if (isset($_GET['act'])) {
@@ -361,7 +361,7 @@ if (isset($_GET['act'])) {
     echo ('<div id="error-notify" class="box-content">
     <h2>Thành công</h2>
     
-    <a href="./admin.php?tmuc=Danh mục">Danh sách Danh mục</a>
+    <a href="./supplier.php?tmuc=Danh mục">Danh sách Danh mục</a>
 </div>');
 }
 if (isset($_GET['act'])) {
@@ -369,7 +369,7 @@ if (isset($_GET['act'])) {
     echo ('<div id="error-notify" class="box-content">
     <h2>Thất bại!!</h2>
     
-    <a href="./admin.php?tmuc=Danh mục">Danh sách Danh mục</a>
+    <a href="./supplier.php?tmuc=Danh mục">Danh sách Danh mục</a>
 </div>');
 }
 ?>

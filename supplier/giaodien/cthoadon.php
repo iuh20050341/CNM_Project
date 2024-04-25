@@ -10,7 +10,7 @@
         $cthoadon = mysqli_query($con, "SELECT `id_hoadon`, `id_sanpham`, `cthoadon`.`so_luong`,`sanpham`.`id`,`ten_sp`,`don_gia`  FROM `cthoadon`,`sanpham` WHERE `id_sanpham`=`sanpham`.`id` AND `id_hoadon`=" .$_GET['id']. " ORDER BY `cthoadon`.`id_hoadon` ASC LIMIT " . $item_per_page . " OFFSET " . $offset);
         mysqli_close($con);
     ?>
-<button ><a href="./admin.php?muc=1&tmuc=Hóa%20đơn"><-- Lùi</a></button>
+<button ><a href="./supplier.php?muc=1&tmuc=Hóa%20đơn"><-- Lùi</a></button>
 <div class="clear-both"></div>
 <div class="main-content">
             <h1>Chi tiết hóa đơn</h1>

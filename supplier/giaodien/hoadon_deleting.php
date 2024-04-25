@@ -19,12 +19,12 @@ if (isset($_SESSION['ten_dangnhap']) && !empty($_SESSION['ten_dangnhap'])) {
                     <div id="error-notify" class="box-content">
                         <h2>Quay lại</h2>
                         
-                        <a href="./admin.php?tmuc=Hóa đơn">Danh sách hóa đơn</a>
+                        <a href="./supplier.php?tmuc=Hóa đơn">Danh sách hóa đơn</a>
                     </div>
         <?php } else { ?>
                     <div id="success-notify" class="box-content">
                         <h2>Xóa hóa đơn thành công</h2>
-                        <a href="./admin.php?tmuc=Hóa đơn">Danh sách hóa đơn</a>
+                        <a href="./supplier.php?tmuc=Hóa đơn">Danh sách hóa đơn</a>
                     </div>
                 <?php } ?>
     <?php } ?>

@@ -2,7 +2,7 @@
 if(isset($_SESSION['ten_dangnhap']) && !empty($_SESSION['ten_dangnhap'])){
 if (!empty($_GET['id'])) {
     // $result = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `sanpham`.`id`=".$_GET['id']."");
-    $result = mysqli_query($con, "SELECT `sanpham`.`id`, `ten_sp`, `don_gia`, `hinh_anh`, `noi_dung`, `id_the_loai`, `id_nha_cc`, `so_luong`, `sl_da_ban`, `sanpham`.`ngay_tao`, `sanpham`.`ngay_sua`, `trangthai`,`theloai`.`id`,`theloai`.`ten_tl`,`nhacungcap`.`id`,`nhacungcap`.`ten_ncc` FROM `sanpham`,`theloai`,`nhacungcap` WHERE `sanpham`.`id`=".$_GET['id']." AND `sanpham`.`id_the_loai`=`theloai`.`id` AND `sanpham`.`id_nha_cc`=`nhacungcap`.`id`");
+    $result = mysqli_query($con, "SELECT `sanpham`.`id`, `ten_sp`, `don_gia`, `hinh_anh`, `noi_dung`, `id_the_loai`, `id_nha_cc`, `so_luong`, `sl_da_ban`, `sanpham`.`ngay_tao`, `sanpham`.`ngay_sua`, `trangthai`,`theloai`.`id`,`theloai`.`ten_tl` FROM `sanpham`,`theloai`,`nhacungcap` WHERE `sanpham`.`id`=".$_GET['id']." AND `sanpham`.`id_the_loai`=`theloai`.`id`");
     $product = $result->fetch_assoc();
     $gallery = mysqli_query($con, "SELECT * FROM `hinhanhsp` WHERE `id_sp` = " . $_GET['id']);
     if (!empty($gallery) && !empty($gallery->num_rows)) {
@@ -54,7 +54,7 @@ if (!empty($_GET['id'])) {
                             if($image['path']!='') {?>
                         <li>
                             <img style="width: 250px;height: 200px;" src="../img/<?= $image['path'] ?>" />
-                            <a href="./admin.php?act=gallery_delete&id=<?= $image['id'] ?>">Xóa</a>
+                            <a href="./supplier.php?act=gallery_delete&id=<?= $image['id'] ?>">Xóa</a>
                         </li>
                     <?php } }?>
                 </ul>
@@ -74,8 +74,8 @@ if (!empty($_GET['id'])) {
         <div class="clear-both"></div>
     </div>
     <div class="wrap-field">
-        <label>ID nhà cung cấp: </label>
-        <select name="idncc"><option value="<?=$product['id_nha_cc']?>">ID hiện tại: <?=$product['id_nha_cc']?> - <?=$product['ten_ncc']?></option><?php while($row=mysqli_fetch_array($nhacungcap)){?><option value="<?=$row['id']?>"><?= $row['id']?> - <?=$row['ten_ncc']?></option><?php } ?></select>
+        <label>Số lượng: </label>
+        <input type="number" name="quantity" value="<?=(!empty($product) ? $product['so_luong'] : "")?>" />
         <div class="clear-both"></div>
     </div>
     <div class="wrap-field">

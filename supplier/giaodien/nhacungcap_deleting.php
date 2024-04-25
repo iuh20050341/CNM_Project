@@ -19,12 +19,12 @@ if (!empty($_SESSION['nguoidung'])) {
                     <div id="error-notify" class="box-content">
                         <h2>Quay lại</h2>
                         
-                        <a href="./admin.php?tmuc=Nhà cung cấp">Danh sách nhà cung cấp</a>
+                        <a href="./supplier.php?tmuc=Nhà cung cấp">Danh sách nhà cung cấp</a>
                     </div>
         <?php } else { ?>
                     <div id="success-notify" class="box-content">
                         <h2>Xóa nhà cung cấp thành công</h2>
-                        <a href="./admin.php?tmuc=Nhà cung cấp">Danh sách nhà cung cấp</a>
+                        <a href="./supplier.php?tmuc=Nhà cung cấp">Danh sách nhà cung cấp</a>
                     </div>
                 <?php } ?>
     <?php } ?>

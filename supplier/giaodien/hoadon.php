@@ -116,7 +116,7 @@
 
 <div class="main-content">
     <h1>Hóa đơn</h1>
-    <form action="./admin.php?muc=1&tmuc=Hóa%20đơn" method="POST">
+    <form action="./supplier.php?muc=1&tmuc=Hóa%20đơn" method="POST">
         <label for="timebd">Ngày bắt đầu:</label>
         <input type="date" id="timebd" name="timebd" required>
         <label for="timekt">Ngày kết thúc:</label>
@@ -151,12 +151,12 @@
                             <td><?= $row['tong_tien'] ?></td>
                             <td><?= $row['ngay_tao'] ?></td>
                             <td><?php if($row['trang_thai']=="1")echo "Đã xác nhận"; else echo "Chưa xác nhận";?></td>
-                            <td><a href="./admin.php?act=cthoadon&id=<?=$row['idhoadon']?>">Xem chi tiết</a></td>
+                            <td><a href="./supplier.php?act=cthoadon&id=<?=$row['idhoadon']?>">Xem chi tiết</a></td>
                             <td><a
                                     href="./xulythem.php?act=xnhd&id=<?=$row['idhoadon']?>&cuser=<?=$row['ten_nv']?>&iduser=<?=$_SESSION['idnhanvien']?>">Xác
                                     nhận</a></td>
                             <td><?php if($row['trang_thai']=="0"){ ?><a
-                                    href="./admin.php?act=xoahd&id=<?= $row['idhoadon'] ?>"
+                                    href="./supplier.php?act=xoahd&id=<?= $row['idhoadon'] ?>"
                                     onclick="return confirm('Are you sure you want to delete this item?');">Xóa</a><?php } ?>
                             </td>
                             <div class="clear-both"></div>

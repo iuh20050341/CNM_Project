@@ -45,17 +45,17 @@
             <h1>Danh sách sản phẩm</h1>
             <div class="product-items">
                 <div class="buttons">
-                    <a href="admin.php?act=add">Thêm sản phẩm</a>
+                    <a href="supplier.php?act=add">Thêm sản phẩm</a>
                 </div>
                 <div class="table-responsive-sm ">
                     <table class="table table-bordered table-striped table-hover">
                         <thead >
                             <tr>
-                                <th style="text-align:center">ID<a href="./admin.php?muc=4&tmuc=Sản%20phẩm&sapxep=idgiam"></a><a href="./admin.php?muc=4&tmuc=Sản%20phẩm&sapxep=idtang"></i></a></th>
+                                <th style="text-align:center">ID<a href="./supplier.php?muc=4&tmuc=Sản%20phẩm&sapxep=idgiam"></a><a href="./supplier.php?muc=4&tmuc=Sản%20phẩm&sapxep=idtang"></i></a></th>
                                 <th style="text-align:center">Ảnh </th>
-                                <th style="text-align:center">Tên sản phẩm<a href="./admin.php?muc=4&tmuc=Sản%20phẩm&sapxep=tengiam"></i></a><a href="./admin.php?muc=4&tmuc=Sản%20phẩm&sapxep=tentang"></i></a></th>
-                                <th style="text-align:center">Số lượng tồn<a href="./admin.php?muc=4&tmuc=Sản%20phẩm&sapxep=tongiam"></i></a><a href="./admin.php?muc=4&tmuc=Sản%20phẩm&sapxep=tontang"></i></a></th>
-                                <th style="text-align:center">Số lượng bán<a href="./admin.php?muc=4&tmuc=Sản%20phẩm&sapxep=bangiam"></i></a><a href="./admin.php?muc=4&tmuc=Sản%20phẩm&sapxep=bantang"></i></a></th>
+                                <th style="text-align:center">Tên sản phẩm<a href="./supplier.php?muc=4&tmuc=Sản%20phẩm&sapxep=tengiam"></i></a><a href="./supplier.php?muc=4&tmuc=Sản%20phẩm&sapxep=tentang"></i></a></th>
+                                <th style="text-align:center">Số lượng tồn<a href="./supplier.php?muc=4&tmuc=Sản%20phẩm&sapxep=tongiam"></i></a><a href="./supplier.php?muc=4&tmuc=Sản%20phẩm&sapxep=tontang"></i></a></th>
+                                <th style="text-align:center">Số lượng bán<a href="./supplier.php?muc=4&tmuc=Sản%20phẩm&sapxep=bangiam"></i></a><a href="./supplier.php?muc=4&tmuc=Sản%20phẩm&sapxep=bantang"></i></a></th>
                                 <th style="text-align:center">Trạng thái</th>
                                 <th style="text-align:center">Quản lý</th>
                             </tr>
@@ -72,8 +72,8 @@
                                     </td>
                                     <td style="text-align:center; padding-top: 50px"><?= $row['sl_da_ban'] ?></td>
                                     <td style="text-align:center; padding-top: 50px"><?php if($row['trangthai']=='0')echo "Hiển thị";else echo "Bị ẩn" ?></td>
-                                    <td style="text-align:center; padding-top: 50px"><a href="admin.php?act=sua&id=<?= $row['id'] ?>">Sửa</a></td>
-                                    <td style="text-align:center; padding-top: 50px"><?php if($row['trangthai']=='0'){?><a href="admin.php?act=xoa&id=<?= $row['id'] ?>" onclick="return confirm('Are you sure you want to delete this item?');">Xóa</a><?php }?></td>                                  
+                                    <td style="text-align:center; padding-top: 50px"><a href="supplier.php?act=sua&id=<?= $row['id'] ?>">Sửa</a></td>
+                                    <td style="text-align:center; padding-top: 50px"><?php if($row['trangthai']=='0'){?><a href="supplier.php?act=xoa&id=<?= $row['id'] ?>" onclick="return confirm('Are you sure you want to delete this item?');">Xóa</a><?php }?></td>                                  
                                     <div class="clear-both"></div>
                                 </tr><?php } ?>
                         </tbody>

@@ -125,7 +125,7 @@
 								<!-- /Menu Toogle -->
 							</div>
 							<div class="my-store" style="margin-top:30px; color:green; padding-top:25px">
-								<a href="./supplier/admin.php">
+								<a href="./supplier/supplier.php">
 										<i class="fa-solid fa-store"></i>
 										<span>My Store</span>
 									</a>

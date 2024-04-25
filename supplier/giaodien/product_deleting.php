@@ -24,12 +24,12 @@ if (isset($_SESSION['ten_dangnhap']) && !empty($_SESSION['ten_dangnhap'])) {
                     ?>
                     <div id="error-notify" class="box-content">
                         <h2>Thất bại</h2>
-                        <a href="./admin.php?tmuc=Sản phẩm">Danh sách sản phẩm</a>
+                        <a href="./supplier.php?tmuc=Sản phẩm">Danh sách sản phẩm</a>
                     </div>
         <?php } else { ?>
                     <div id="success-notify" class="box-content">
                         <h2>Xóa sản phẩm thành công</h2>
-                        <a href="./admin.php?tmuc=Sản phẩm">Danh sách sản phẩm</a>
+                        <a href="./supplier.php?tmuc=Sản phẩm">Danh sách sản phẩm</a>
                     </div>
                 <?php } ?>
     <?php } ?>

@@ -14,7 +14,7 @@
             <h1>Nhà cung cấp</h1>
             <div class="product-items">
             <div class="buttons">
-            <form name="nhacungcap-formdat" method="POST" action="./admin.php?act=ncccartlist&idncc=<?= $_GET['id']?>" enctype="multipart/form-data">
+            <form name="nhacungcap-formdat" method="POST" action="./supplier.php?act=ncccartlist&idncc=<?= $_GET['id']?>" enctype="multipart/form-data">
             <input name="btnnccdat" type="submit" title="Lưu nhà cung cấp" value="Giỏ hàng" /></a>
                 </div>
                 <div class="table-responsive-sm ">
@@ -38,7 +38,7 @@
                                     <td><?= $row['don_gia'] ?></td>
                                     <td><?= $row['so_luong'] ?></td>
                                     <td>
-                                        <a href="./admin.php?act=ncccart&id=<?= $row['id']?>&idncc=<?= $_GET['id']?>">Thêm vào giỏ</a>
+                                        <a href="./supplier.php?act=ncccart&id=<?= $row['id']?>&idncc=<?= $_GET['id']?>">Thêm vào giỏ</a>
                                     <div class="clear-both"></div>
                                 </tr>
                                 <?php } ?>
