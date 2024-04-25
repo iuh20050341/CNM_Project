@@ -138,6 +138,27 @@
 								<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
 								<li><a href="#"><i class="fa fa-envelope"></i></a></li>
 							</ul>
+							<?php
+								echo'<h5 style="margin-top:10px;"><i>Quét để truy xuất nguồn gốc</i></h5>';
+								require_once './QRcode/phpqrcode/qrlib.php';
+								$path = './QRcode/images/';
+								$qrcode = $path.time().".png";
+								$sql='select ten_sp, ten_tl,id_nhaban, xuatsu,phanbon, chatluong, baoquan, vanchuyen, theloai.id as id_tl from sanpham, theloai where sanpham.id='.$id.' and theloai.id=sanpham.id_the_loai';
+								$listcate_pro=executeSingleResult($sql);
+								$xuatsu = $listcate_pro['xuatsu'];
+								$phanbon = $listcate_pro['phanbon'];								
+								$chatluong = $listcate_pro['chatluong'];								
+								$baoquan = $listcate_pro['baoquan'];								
+								$vanchuyen = $listcate_pro['vanchuyen'];
+								$noidung = "$xuatsu
+$phanbon 
+$chatluong 
+$baoquan 
+$vanchuyen";								
+
+								QRcode::png($noidung, $qrcode, 1.9, 1.9);
+								echo "<img src='".$qrcode."'>";
+							?>
 
 						</div>
 					</div>
