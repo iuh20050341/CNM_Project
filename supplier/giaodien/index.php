@@ -15,7 +15,6 @@
         padding: 0;
     }
     header {
-        background-color: #5fa533;
         color: #fff;
         padding: 10px;
     }
@@ -52,9 +51,6 @@
         border: 1px solid #ddd;
         padding: 8px;
         text-align: left;
-    }
-    th {
-        background-color: #5fa533;
     }
     .hidden {
         display: none;

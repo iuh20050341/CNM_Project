@@ -141,10 +141,10 @@ if (isset($_GET['act'])) {
     if ($_GET['act'] == 'xoahd')
         include('hoadon_deleting.php');
 }
-// if (isset($_GET['act'])) {
-//     if ($_GET['act'] == 'gallery_delete')
-//         include('gallery_delete.php');
-// }
+if (isset($_GET['act'])) {
+    if ($_GET['act'] == 'gallery_delete')
+        include('gallery_delete.php');
+}
 // if (isset($_GET['act'])) {
 //     if ($_GET['act'] == 'xoatk')
 //         include('taikhoan_deleting.php');

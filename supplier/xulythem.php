@@ -42,6 +42,16 @@
                             if ($_POST['idtl'] != '') {
                                 if (isset($_POST['quantity']))
                                     if ($_POST['quantity'] != '') {
+                                        if (isset($_POST['xuatsu']))
+                                        if ($_POST['xuatsu'] != '') {
+                                            if (isset($_POST['phanbon']))
+                                            if ($_POST['phanbon'] != '') {
+                                                if (isset($_POST['chatluong']))
+                                                if ($_POST['chatluong'] != '') {
+                                                    if (isset($_POST['baoquan']))
+                                                    if ($_POST['baoquan'] != '') {
+                                                        if (isset($_POST['vanchuyen']))
+                                                    if ($_POST['vanchuyen'] != '') {
                                         if (isset($_POST['content']))
                                             if ($_POST['content'] != '') {
                                                 $conn = mysqli_connect("localhost", "root", "", "bannuocdb");
@@ -51,6 +61,11 @@
                                                 $idtl = $_POST['idtl'];
                                                 $sl = $_POST['quantity'];
                                                 $idnb = $_POST['idnb'];
+                                                $qr1 = $_POST['xuatsu'];
+                                                $qr2 = $_POST['phanbon'];
+                                                $qr3 = $_POST['chatluong'];
+                                                $qr4 = $_POST['baoquan'];
+                                                $qr5 = $_POST['vanchuyen'];
                                                 $content = $_POST['content'];
                                                 if ($_FILES['image']['name'] != NULL) {
                                                     // Kiểm tra file up lên có phải là ảnh không
@@ -65,8 +80,8 @@
                                                         move_uploaded_file($tmp_name, $path2 . $name);
                                                         $image_url = $path1 . $name; // Đường dẫn ảnh lưu vào cơ sở dữ liệu
                                                         // Insert ảnh vào cơ sở dữ liệu
-                                                        $sql1 = "INSERT INTO `sanpham` (`ten_sp`, `hinh_anh`, `don_gia`, `noi_dung`,`so_luong`,`id_the_loai`,`id_nha_cc`,`trangthai`,`id_nhaban`) 
-                                                        VALUES ('$namei','$image_url', " . str_replace('.', '', $price) . ", '$content','$sl','$idtl','$ncc',0,'$idnb');";
+                                                        $sql1 = "INSERT INTO `sanpham` (`ten_sp`, `hinh_anh`, `don_gia`, `noi_dung`,`so_luong`,`id_the_loai`,`trangthai`,`id_nhaban`,`xuatsu`,`phanbon`,`chatluong`,`baoquan`,`vanchuyen`) 
+                                                        VALUES ('$namei','$image_url', " . str_replace('.', '', $price) . ", '$content','$sl','$idtl',0,'$idnb','$qr1','$qr2','$qr3','$qr4','$qr5');";
                                                         $result1 = mysqli_query($conn, $sql1);
                                                         if (isset($_FILES['gallery']))
                                                             if ($_FILES['gallery'] != '') {
@@ -98,6 +113,11 @@
                                                         } else header("location:./supplier.php?act=addsptc&dk=no");
                                                     }
                                                 }
+                                                                } else header("location:./supplier.php?act=addsptc&dk=no");
+                                                            } else header("location:./supplier.php?act=addsptc&dk=no");
+                                                        } else header("location:./supplier.php?act=addsptc&dk=no");
+                                                    } else header("location:./supplier.php?act=addsptc&dk=no");
+                                                } else header("location:./supplier.php?act=addsptc&dk=no");
                                             } else header("location:./supplier.php?act=addsptc&dk=no");
                                         } else header("location:./supplier.php?act=addsptc&dk=no");
                             } else header("location:./supplier.php?act=addsptc&dk=no");
@@ -113,6 +133,16 @@
                         if ($_POST['quantity'] != '') {
                             if (isset($_POST['idtl']))
                                 if ($_POST['idtl'] != '') {
+                                    if (isset($_POST['xuatsu']))
+                                        if ($_POST['xuatsu'] != '') {
+                                            if (isset($_POST['phanbon']))
+                                            if ($_POST['phanbon'] != '') {
+                                                if (isset($_POST['chatluong']))
+                                                if ($_POST['chatluong'] != '') {
+                                                    if (isset($_POST['baoquan']))
+                                                    if ($_POST['baoquan'] != '') {
+                                                        if (isset($_POST['vanchuyen']))
+                                                    if ($_POST['vanchuyen'] != '') {
                                             if (isset($_POST['content']))
                                                 if ($_POST['content'] != '') {
                                                     if (isset($_POST['trangthai']) == "on") $trangthai = 0;
@@ -147,7 +177,7 @@
                                                             // Insert ảnh vào cơ sở dữ liệu
                                                         }
                                                     }
-                                                    $result1 = mysqli_query($con, "UPDATE `sanpham` SET `ten_sp` = '" . $_POST['name'] . "',`hinh_anh` =  '$image_url', `don_gia` = " . str_replace('.', '', $_POST['price']) . ", `noi_dung` = '" . $_POST['content'] . "', `ngay_sua` = " . time() . ",`id_the_loai` =" . $_POST['idtl'] . ", `so_luong` = ".$_POST['quantity'] .",`trangthai`=" . $trangthai . " WHERE `sanpham`.`id` = " . $_GET['id']);
+                                                    $result1 = mysqli_query($con, "UPDATE `sanpham` SET `xuatsu` = '" . $_POST['xuatsu'] . "', `phanbon` = '" . $_POST['phanbon'] . "', `chatluong` = '" . $_POST['chatluong'] . "', `baoquan` = '" . $_POST['baoquan'] . "', `vanchuyen` = '" . $_POST['vanchuyen'] . "', `ten_sp` = '" . $_POST['name'] . "',`hinh_anh` =  '$image_url', `don_gia` = " . str_replace('.', '', $_POST['price']) . ", `noi_dung` = '" . $_POST['content'] . "', `ngay_sua` = " . time() . ",`id_the_loai` =" . $_POST['idtl'] . ", `so_luong` = ".$_POST['quantity'] .",`trangthai`=" . $trangthai . " WHERE `sanpham`.`id` = " . $_GET['id']);
                                                     if (!empty($galleryImages)) {
                                                         $product_id = ($_GET['act'] == 'sua' && !empty($_GET['id'])) ? $_GET['id'] : $con->insert_id;
                                                         $insertValues = "";
@@ -173,6 +203,11 @@
                                                         // else header("location:./supplier.php?act=suasptc&dk=no"); 
                                                     } else header("location:./supplier.php?act=suasptc&dk=no");
                                                 } else header("location:./supplier.php?act=suasptc&dk=no");
+                                            } else header("location:./supplier.php?act=suasptc&dk=no");
+                                        } else header("location:./supplier.php?act=suasptc&dk=no");
+                                    } else header("location:./supplier.php?act=suasptc&dk=no");
+                                } else header("location:./supplier.php?act=suasptc&dk=no");
+                            } else header("location:./supplier.php?act=suasptc&dk=no");
                             } else header("location:./supplier.php?act=suasptc&dk=no");
                         } else header("location:./supplier.php?act=suasptc&dk=no");
                     } else header("location:./supplier.php?act=suasptc&dk=no");
