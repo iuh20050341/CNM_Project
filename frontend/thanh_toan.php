@@ -2,6 +2,12 @@
 session_start();
     include('../db/dbhelper.php');
     if(isset($_SESSION['ten_dangnhap'])){
+        if (isset($_POST['shippingMethod']) && isset($_POST['price'])) {
+            $selectedName = $_POST['shippingMethod'];
+            $gia = $_POST['price'];
+        }else{
+            $gia = 0;
+        }
         $ten_dangnhap=$_SESSION['ten_dangnhap'];
         $sql='select * from khachhang where ten_dangnhap="'.$ten_dangnhap.'"';
        
@@ -15,7 +21,7 @@ session_start();
             $totalPrice = $value['qty'] * $value['price'];
             $totalPriceArr[] = ['name' => $value['name'], 'price' => $totalPrice]; // Lưu tổng giá cho mỗi mặt hàng trong mảng
         }
-        $totalPriceAll = 0;
+        $totalPriceAll = $gia;
         foreach ($cart as $item) {
         $totalPriceAll += $item['qty'] * $item['price'];
         }
@@ -170,8 +176,33 @@ form {
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> -->
     <script type="text/javascript" src="../js/popper.min.js"></script>
 </head>
-
+<?php
+    $sql = "SELECT * FROM `phuongthucvanchuyen`";
+    $result = executeResult($sql);
+?>
 <body>
+<script>
+        function updatePrice() {
+            // Lấy giá trị price từ tùy chọn được chọn
+            var select = document.getElementById("shippingMethod");
+            var price = select.options[select.selectedIndex].getAttribute('data-price');
+            
+            // Cập nhật giá trị của price vào biến gia
+            document.getElementById("price").value = price;
+
+            // Kiểm tra giá trị cập nhật trong console
+            console.log('Selected price: ' + price);
+        }
+
+        function validateForm() {
+            var price = document.getElementById("price").value;
+            if (!price) {
+                alert("Vui lòng chọn phương thức vận chuyển.");
+                return false;
+            }
+            return true;
+        }
+</script>
 
     <div class="header">
         <div class="title">
@@ -186,6 +217,7 @@ form {
                 <th>Số lượng</th>
                 <th>Đơn giá</th>
                 <th>Thành tiền</th>
+                <th>Phí vận chuyển</th>
             </tr>
         </thead>
         <tbody>
@@ -204,8 +236,10 @@ form {
                 }
             }
             echo '<td>' . number_format($totalPrice, 0, ',', '.') . '</td>'; ?>
+            <td><p id="giaTien"></p><?php echo "$gia";?></td>
             </tr>
-            <?php } ?>
+            <?php
+            } ?>
             <tr>
                 <td colspan="3"></td>
                 <td><strong>Tổng tiền:</strong></td>
@@ -213,6 +247,32 @@ form {
             </tr>
         </tbody>
     </table>
+    <h2>Phương thức vận chuyển</h2>
+    <form method="post" action="" onsubmit="return validateForm()">
+        <label for="shippingMethod">Chọn phương thức vận chuyển:</label>
+        <select id="shippingMethod" name="shippingMethod" onchange="updatePrice()">
+            <option value="">--Chọn--</option>
+            <?php
+            foreach ($result as $row) {
+                echo '<option value="' . $row['name'] . '" data-price="' . $row['price'] . '">' . $row['name'] . '</option>';
+            }
+            ?>
+        </select>
+        <br>
+        <input type="hidden" id="price" name="price" readonly>
+        <input type="submit" value="Xác nhận phương thức vận chuyển">
+    </form>
+
+<script>
+    function showPrice(price) {
+        var giaTienElement = document.getElementById("giaTien");
+        var formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+        giaTienDisplay = formattedPrice; // Gán giá tiền hiển thị vào biến
+
+        giaTienElement.textContent = formattedPrice;
+    }
+</script>
+
     <h2>Phương thức thanh toán</h2>
     <?php
 $totalPrice = 0;
@@ -235,4 +295,6 @@ echo '<form method="POST" action="xulythanhtoanmomo.php" class="form-group">';
     echo '</form>';
 
 ?>
+
+
 </body>

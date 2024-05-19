@@ -187,6 +187,21 @@
                 else header("location:./admin.php?act=addtltc&dk=no");
             } else header("location:./admin.php?act=addtltc&dk=no");
     }
+    if (isset($_POST['btnvcadd'])) {
+        if (isset($_POST['name']))
+            if ($_POST['name'] != '') {
+                if (isset($_POST['price']))
+                    if ($_POST['price'] != '') {
+                $name = $_POST['name'];
+                $price = $_POST['price'];
+                $sql = "INSERT INTO `phuongthucvanchuyen`(`name`,`price`) VALUES ('$name','$price')";
+                $result = mysqli_query($con, $sql);
+                if ($result)
+                    header("location:./admin.php?act=addvctc&dk=yes");
+                else header("location:./admin.php?act=addvctc&dk=no");
+            } else header("location:./admin.php?act=addvctc&dk=no");
+        } else header("location:./admin.php?act=addvctc&dk=no");
+    }
     if (isset($_POST['btntlsua'])) {
         if (isset($_POST['name']))
             if ($_POST['name'] != '') {
@@ -196,6 +211,20 @@
                     header("location:./admin.php?act=suatltc&dk=yes");
                 else header("location:./admin.php?act=suatltc&dk=no");
             } else header("location:./admin.php?act=suatltc&dk=no");
+    }
+    if (isset($_POST['btnvcsua'])) {
+        if (isset($_POST['name']))
+            if ($_POST['name'] != '') {
+                if (isset($_POST['price']))
+                if ($_POST['price'] != '') {
+                $con = mysqli_connect("localhost", "root", "", "bannuocdb");
+                $result1 = mysqli_query($con, "UPDATE `phuongthucvanchuyen` SET `name` = '" . $_POST['name'] . "', `price` = '" . $_POST['price'] . "'WHERE `phuongthucvanchuyen`.`id` = " . $_GET['id'] . " ");
+                if ($result1)
+                    header("location:./admin.php?act=suavctc&dk=yes");
+                else header("location:./admin.php?act=suavctc&dk=no");
+            } else header("location:./admin.php?act=suavctc&dk=no");
+        } else header("location:./admin.php?act=suavctc&dk=no");
+
     }
     if (isset($_POST['btnnccadd'])) {
         if (isset($_POST['name']))

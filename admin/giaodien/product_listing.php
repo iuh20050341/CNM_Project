@@ -71,7 +71,7 @@
                                     </td>
                                     <td style="text-align:center; padding-top: 50px"><?= $row['sl_da_ban'] ?></td>
                                     <td style="text-align:center; padding-top: 50px"><?php if($row['trangthai']=='0')echo "Hiển thị";else echo "Bị ẩn" ?></td>
-                                    <td style="text-align:center; padding-top: 50px"><a href="admin.php?act=sua&id=<?= $row['id'] ?>">Sửa</a></td>
+                                    <td style="text-align:center; padding-top: 50px"><a href="admin.php?act=sua&id=<?= $row['id'] ?>">Xem</a></td>
                                     <td style="text-align:center; padding-top: 50px"><?php if($row['trangthai']=='1'){?><a href="admin.php?act=xoa&id=<?= $row['id'] ?>" onclick="return confirm('Are you sure you want to delete this item?');">Xóa</a><?php }?></td>                                  
                                     <div class="clear-both"></div>
                                 </tr><?php } ?>

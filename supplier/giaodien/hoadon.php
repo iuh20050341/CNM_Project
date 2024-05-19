@@ -2,6 +2,7 @@
     include_once("./connect_db.php");
     if (isset($_SESSION['ten_dangnhap']) && !empty($_SESSION['ten_dangnhap'])) {
         $user_id = $_SESSION['user_id'];
+        $user_name = $_SESSION['ten_dangnhap'];
         $item_per_page = (!empty($_GET['per_page'])) ? $_GET['per_page'] : 10;
         $current_page = (!empty($_GET['page'])) ? $_GET['page'] : 1;
         $offset = ($current_page - 1) * $item_per_page;
@@ -153,7 +154,7 @@
                             <td><?php if($row['trang_thai']=="1")echo "Đã xác nhận"; else echo "Chưa xác nhận";?></td>
                             <td><a href="./supplier.php?act=cthoadon&id=<?=$row['idhoadon']?>">Xem chi tiết</a></td>
                             <td><a
-                                    href="./xulythem.php?act=xnhd&id=<?=$row['idhoadon']?>&cuser=<?=$row['ten_nv']?>&iduser=<?=$_SESSION['idnhanvien']?>">Xác
+                                    href="./xulythem.php?act=xnhd&id=<?=$row['idhoadon']?>&cuser=<?=$user_name?>&iduser=<?=$user_id?>">Xác
                                     nhận</a></td>
                             <td><?php if($row['trang_thai']=="0"){ ?><a
                                     href="./supplier.php?act=xoahd&id=<?= $row['idhoadon'] ?>"

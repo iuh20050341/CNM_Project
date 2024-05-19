@@ -356,13 +356,13 @@
     if (isset($_GET['act'])) {
         if ($_GET['act'] == 'xnhd') {
             if (isset($_GET['cuser']))
-                if ($_GET['cuser'] == '') {
+                if ($_GET['cuser'] != '') {
                     $conn = mysqli_connect("localhost", "root", "", "bannuocdb");
                     //$sql="SELECT `hoadon`.`id`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`, `trangthai`, `ten_dangnhap`, `ten_nv`,`nhanvien`.`id` AS `idnv` FROM (`hoadon` LEFT JOIN `nhanvien` ON `nhanvien`.`id`=`id_nhanvien` ) WHERE `hoadon`.`id` = " . $_GET['id'] . "";
-                    $taikhoan = mysqli_query($conn, "SELECT `id`, `ten_dangnhap` FROM `nhanvien` WHERE `id`='" . $_GET['iduser'] . "'");
+                    $taikhoan = mysqli_query($conn, "SELECT `id`, `ten_dangnhap` FROM `khachhang` WHERE `id`='" . $_GET['iduser'] . "'");
                     // $hoadon=mysqli_query($conn,$sql);var_dump($hoadon);
                     $row = mysqli_fetch_array($taikhoan);
-                    $result1 = mysqli_query($conn, "UPDATE `hoadon` SET `trang_thai` = '1' ,`id_nhanvien` = '" . $row['id'] . "',`ngay_tao`=`ngay_tao` WHERE `id` = '" . $_GET['id'] . "'");
+                    $result1 = mysqli_query($conn, "UPDATE `hoadon` SET `trang_thai` = '1' ,`id_nhanvien` = '" . $row['id'] . "',`id_nhaban` = '" . $row['id'] . "',`ngay_tao`=`ngay_tao` WHERE `id` = '" . $_GET['id'] . "'");
                     if ($result1)
                         header("location:./supplier.php?act=xnhdtc&dk=yes");
                     else header("location:./supplier.php?act=xnhdtc&dk=no");
