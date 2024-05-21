@@ -153,9 +153,10 @@
                             <td><?= $row['ngay_tao'] ?></td>
                             <td><?php if($row['trang_thai']=="1")echo "Đã xác nhận"; else echo "Chưa xác nhận";?></td>
                             <td><a href="./supplier.php?act=cthoadon&id=<?=$row['idhoadon']?>">Xem chi tiết</a></td>
-                            <td><a
+                            <td><?php if($row['trang_thai']=="0"){?>
+                                <a
                                     href="./xulythem.php?act=xnhd&id=<?=$row['idhoadon']?>&cuser=<?=$user_name?>&iduser=<?=$user_id?>">Xác
-                                    nhận</a></td>
+                                    nhận</a><?php } ?></td>
                             <td><?php if($row['trang_thai']=="0"){ ?><a
                                     href="./supplier.php?act=xoahd&id=<?= $row['idhoadon'] ?>"
                                     onclick="return confirm('Are you sure you want to delete this item?');">Xóa</a><?php } ?>

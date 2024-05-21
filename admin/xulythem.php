@@ -322,7 +322,7 @@
                     if ($_POST['matkhau'] != '') {
                         if (isset($_POST['name']))
                             if ($_POST['name'] != '') {
-                                $sql2 = "INSERT INTO `taikhoang`(`id_quyen`,`username`,`pass`,`fullname`) VALUES (3,'" . $_POST['tendangnhap'] . "','" . $_POST['matkhau'] . "','" . $_POST['name'] . "')";
+                                $sql2 = "INSERT INTO `taikhoang`(`id_quyen`,`username`,`pass`,`fullname`) VALUES (1,'" . $_POST['tendangnhap'] . "','" . $_POST['matkhau'] . "','" . $_POST['name'] . "')";
                                 $result1 = mysqli_query($con, $sql2);
                                 if ($result1)
                                     header("location:./admin.php?act=addtktc&dk=yes");
