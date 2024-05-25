@@ -202,6 +202,17 @@
             } else header("location:./admin.php?act=addvctc&dk=no");
         } else header("location:./admin.php?act=addvctc&dk=no");
     }
+    if (isset($_POST['btnttadd'])) {
+        if (isset($_POST['name']))
+            if ($_POST['name'] != '') {
+                $name = $_POST['name'];
+                $sql = "INSERT INTO `phuongthucthanhtoan`(`name`) VALUES ('$name')";
+                $result = mysqli_query($con, $sql);
+                if ($result)
+                    header("location:./admin.php?act=addtttc&dk=yes");
+                else header("location:./admin.php?act=addtttc&dk=no");
+        } else header("location:./admin.php?act=addtttc&dk=no");
+    }
     if (isset($_POST['btntlsua'])) {
         if (isset($_POST['name']))
             if ($_POST['name'] != '') {
@@ -224,6 +235,17 @@
                 else header("location:./admin.php?act=suavctc&dk=no");
             } else header("location:./admin.php?act=suavctc&dk=no");
         } else header("location:./admin.php?act=suavctc&dk=no");
+
+    }
+    if (isset($_POST['btnttsua'])) {
+        if (isset($_POST['name']))
+            if ($_POST['name'] != '') {
+                $con = mysqli_connect("localhost", "root", "", "bannuocdb");
+                $result1 = mysqli_query($con, "UPDATE `phuongthucthanhtoan` SET `name` = '" . $_POST['name'] . "' WHERE `phuongthucthanhtoan`.`id` = " . $_GET['id'] . " ");
+                if ($result1)
+                    header("location:./admin.php?act=suatttc&dk=yes");
+                else header("location:./admin.php?act=suatttc&dk=no");
+        } else header("location:./admin.php?act=suatttc&dk=no");
 
     }
     if (isset($_POST['btnnccadd'])) {
