@@ -7,6 +7,7 @@ session_start();
             $gia = $_POST['price'];
         }else{
             $gia = 0;
+            $selectedName = '--Chọn--';
         }
         $ten_dangnhap=$_SESSION['ten_dangnhap'];
         $sql='select * from khachhang where ten_dangnhap="'.$ten_dangnhap.'"';
@@ -39,7 +40,7 @@ session_start();
             $sl=executeSingleResult('SELECT so_luong FROM sanpham WHERE id='.$key)['so_luong'];
             $sldabancu=executeSingleResult('SELECT sl_da_ban FROM sanpham WHERE id='.$key)['sl_da_ban'];
             execute('UPDATE sanpham SET so_luong="'.($sl-$value['qty']).'", sl_da_ban="'.($value['qty']+$sldabancu).'" WHERE id='.$key);
-            execute('INSERT INTO cthoadon (id_hoadon, id_sanpham, so_luong) VALUE ("'.$id_hoadon.'", "'.$key.'", "'.$value['qty'].'")');
+            execute('INSERT INTO cthoadon (id_hoadon, id_sanpham, so_luong,ptvc) VALUE ("'.$id_hoadon.'", "'.$key.'", "'.$value['qty'].'","'.$selectedName.'")');
 
         }
 
