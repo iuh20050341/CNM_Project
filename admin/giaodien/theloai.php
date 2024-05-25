@@ -12,10 +12,10 @@
         mysqli_close($con);
     ?>
 <div class="main-content">
-            <h1 style="color: #cebd79">Thể loại</h1>
+            <h1 style="color: white">Thể loại</h1>
             <div class="product-items">
                 <div class="buttons" >
-                    <a style="color: #cebd79" href="admin.php?act=addtl">Thêm</a>
+                    <a style="color: white; background-color:darkgreen;" href="admin.php?act=addtl">Thêm</a>
                 </div>
                 <div class="table-responsive-sm ">
                     <table class="table table-bordered table-striped table-hover" style="text-align: center;">
@@ -36,8 +36,8 @@
                                     <td><?= $row['id'] ?></td>            
                                     <td><?= $row['ten_tl'] ?></td>
                                     <td><?= $row['tong_sp'] ?></td>
-                                    <td class="buttons" style="text-align: center"><a style="color: #cebd79" href="admin.php?act=suatl&id=<?= $row['id'] ?>" >Sửa</a></td>
-                                    <td class="buttons" style="text-align: center"><a style="color: #cebd79" href="admin.php?act=xoatl&id=<?= $row['id'] ?>" onclick="return confirm('Are you sure you want to delete this item?');">Xóa</a></td>                                  
+                                    <td class="buttons" style="text-align: center"><a style="color: white; background-color:darkgreen;" href="admin.php?act=suatl&id=<?= $row['id'] ?>" >Sửa</a></td>
+                                    <td class="buttons" style="text-align: center"><a style="color: white; background-color:darkgreen;" href="admin.php?act=xoatl&id=<?= $row['id'] ?>" onclick="return confirm('Are you sure you want to delete this item?');">Xóa</a></td>                                  
                                     <div class="clear-both"></div>
                                 </tr>
                                 <?php } ?>

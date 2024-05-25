@@ -121,17 +121,19 @@ form {
 
 #ttmomo,
 #tt {
-    background-color: red;
+    background-color: darkgreen;
     color: white;
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    width: 200px;
 }
 
 #ttmomo:hover,
 #tt:hover {
-    background-color: #f44336;
+    background-color: forestgreen;
+    
 }
 </style>
 
@@ -192,6 +194,8 @@ form {
 
             // Kiểm tra giá trị cập nhật trong console
             console.log('Selected price: ' + price);
+
+            document.getElementById('shippingForm').submit();
         }
 
         function validateForm() {
@@ -236,7 +240,7 @@ form {
                 }
             }
             echo '<td>' . number_format($totalPrice, 0, ',', '.') . '</td>'; ?>
-            <td><p id="giaTien"></p><?php echo "$gia";?></td>
+            <td><p id="phiVC"></p><?php echo number_format($gia, 0, ',', '.') ?></td>
             </tr>
             <?php
             } ?>
@@ -248,10 +252,17 @@ form {
         </tbody>
     </table>
     <h2>Phương thức vận chuyển</h2>
-    <form method="post" action="" onsubmit="return validateForm()">
+    <form id= "shippingForm" method="post" action="" onsubmit="return validateForm()">
         <label for="shippingMethod">Chọn phương thức vận chuyển:</label>
         <select id="shippingMethod" name="shippingMethod" onchange="updatePrice()">
-            <option value="">--Chọn--</option>
+            <option value=""><?php 
+                if(isset($selectedName)){
+                echo "$selectedName";
+                }else{
+                ?>--Chọn PTVC--
+                <?php }?> 
+            
+            </option>
             <?php
             foreach ($result as $row) {
                 echo '<option value="' . $row['name'] . '" data-price="' . $row['price'] . '">' . $row['name'] . '</option>';
@@ -260,7 +271,6 @@ form {
         </select>
         <br>
         <input type="hidden" id="price" name="price" readonly>
-        <input type="submit" value="Xác nhận phương thức vận chuyển">
     </form>
 
 <script>
@@ -274,6 +284,12 @@ form {
 </script>
 
     <h2>Phương thức thanh toán</h2>
+    <label for="paymentMethod">Chọn phương thức thanh toán:</label>
+        <select id="paymentMethod" name="paymentMethod">
+            <option value="">
+                Thanh toán khi nhận hàng
+            </option>
+        </select>
     <?php
 $totalPrice = 0;
 foreach ($cart as $item) {
@@ -286,12 +302,12 @@ echo '<form method="POST" action="xulythanhtoanmomo.php" class="form-group">';
     echo '<div><input type="hidden" name="amount" value="' . $totalPrice . '">';
 
     // Thêm button submit momo
-    echo '<button id="ttmomo" type="submit">Thanh toán MOMO</button></div>';
+    // echo '<button id="ttmomo" type="submit">Thanh toán MOMO</button></div>';
     // Đóng form
 
     echo '</form>';	
     echo '<form action="create_order.php" method="post" class="form-group">';
-    echo '<div><input id="tt" type="submit" value="Thanh toán trực tiếp" onclick="createOrder();"></div>';
+    echo '<div><input id="tt" type="submit" value="ĐẶT HÀNG" onclick="createOrder();"></div>';
     echo '</form>';
 
 ?>

@@ -55,6 +55,10 @@ margin-bottom: 20px;
 .form-tt input::placeholder {
 color: #fff;
 }
+.form-tt textarea::placeholder {
+color: #fff;
+}
+
 .checkbox {
 display: block;
 }
@@ -128,6 +132,8 @@ color: #fff;
         </div>
         <div class="form-group">
         <div class="radio_option">
+          <label style="color:white" for="">Giới tính</label>
+          <br>
         <input type="radio" name="radiogroup1" id="rd1"><label for="rd1" style="color: #fff;">Nam</label>
         <input type="radio" name="radiogroup1" id="rd2"><label for="rd2" style="color: #fff;">Nữ</label>
         </div>
