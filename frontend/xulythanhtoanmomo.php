@@ -27,17 +27,17 @@ $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
 $partnerCode = 'MOMOBKUN20180529';
 $accessKey = 'klm05TvNBzhg7h7j';
 $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
-$orderInfo = "Thanh toán qua mã QR MoMo";
+$orderInfo = "Thanh toán qua MoMo ATM";
 
 $amount = floatval($_POST['amount']);
 
 $orderId = time() ."";
-$redirectUrl = "http://localhost/TH2N4-master/frontend/thanh_toan.php";
-$ipnUrl = "http://localhost/TH2N4-master/frontend/thanh_toan.php";
+$redirectUrl = "http://localhost:88/CNM_Project/frontend/thanh_toan.php";
+$ipnUrl = "http://localhost:88/CNM_Project/frontend/thanh_toan.php";
 $extraData = "";
 
 $requestId = time() . "";
-$requestType = "captureWallet";
+$requestType = "payWithATM";
 //$extraData = ($_POST["extraData"] ? $_POST["extraData"] : "");
     //before sign HMAC SHA256 signature
 $rawHash = "accessKey=" . $accessKey . "&amount=" . $amount . "&extraData=" . $extraData . 
@@ -60,7 +60,7 @@ $data = array('partnerCode' => $partnerCode,
         'signature' => $signature);
 $result = execPostRequest($endpoint, json_encode($data));
 $jsonResult = json_decode($result, true);  // decode json
-$jsonResult = json_decode($result, true);
+//$jsonResult = json_decode($result, true);
 
 if (isset($jsonResult['payUrl'])) {
   header('Location: ' . $jsonResult['payUrl']);
