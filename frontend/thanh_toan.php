@@ -292,18 +292,22 @@ form {
             </option>
         </select>
     <?php
-$totalPrice = 0;
-foreach ($cart as $item) {
-$totalPrice += $item['qty'] * $item['price'];
-}
+    $totalPrice = 0;
+    foreach ($cart as $item) {
+    $totalPrice += $item['qty'] * $item['price'];
+    }
 // Tạo form submit
-echo '<form method="POST" action="xulythanhtoanmomo.php" class="form-group">';
+    echo '<form name = "payUrl" method="POST" action="xulythanhtoanmomo.php" class="form-group">';
 
     // Thêm input hidden
     echo '<div><input type="hidden" name="amount" value="' . $totalPrice . '">';
 
     // Thêm button submit momo
+<<<<<<< HEAD
     // echo '<button id="ttmomo" type="submit">Thanh toán MOMO</button></div>';
+=======
+    echo '<div><input id="tt" type="submit" value="Thanh toán MoMo" onclick="createOrder();"></div>';
+>>>>>>> feature/phuc-branch
     // Đóng form
 
     echo '</form>';	
