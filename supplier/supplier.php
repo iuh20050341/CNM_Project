@@ -33,7 +33,7 @@
         if(isset($_SESSION['ten_dangnhap']) && !empty($_SESSION['ten_dangnhap'])){
     ?>
     <div id="wrapper">
-        <div style="background: #5fa533;"    id="header2">
+        <div style="background: #5fa533;" id="header2">
             <?php require_once('giaodien/header.php'); ?>
         </div>
         <div id="body">

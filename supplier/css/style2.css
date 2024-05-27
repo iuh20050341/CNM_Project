@@ -3,7 +3,7 @@
 }
 #body #leftmenu {
   width: 20%;
-  background-color: #3498db;
+  background-color: green;
   border: none;
   height: 100vh;
 }
@@ -18,7 +18,7 @@
   transition: 0.3s;
 }
 #body #leftmenu .input-select2 li.item:hover {
-  background-color: #2980b9;
+  background-color: green;
   cursor: pointer;
 }
 #body #leftmenu .input-select2 li.item:hover a {

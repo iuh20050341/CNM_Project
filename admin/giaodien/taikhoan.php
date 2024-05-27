@@ -14,7 +14,7 @@
 
     ?>
 <div class="main-content">
-            <h1>Tài khoản</h1>
+            <h1>Tài khoản ADMIN</h1>
             <div class="product-items">
             <div class="buttons">
                     <a href="admin.php?act=addtk">Thêm tài khoản</a>

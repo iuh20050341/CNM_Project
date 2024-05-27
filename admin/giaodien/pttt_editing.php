@@ -1,20 +1,21 @@
 <div class="main-content">
-    <h1 style="color: #cebd79">Thêm PTVC</h1>
-    <form name="ptvc-formadd" method="POST" action="./xulythem.php" enctype="multipart/form-data">
+    <?php
+    if (!empty($_GET['id'])) {
+        $result = mysqli_query($con, "SELECT * FROM `phuongthucthanhtoan` WHERE `id` = " . $_GET['id']);
+        $phuongthucthanhtoan = $result->fetch_assoc();
+    }
+    ?>
+    <h1 style="color: #cebd79">Sửa PTTT</h1>
+    <form name="ptvc-formsua" method="POST" action="./xulythem.php?id=<?= $_GET['id'] ?>" enctype="multipart/form-data">
         <div class="clear-both"></div>
         <div class="box-content">
-            <label for="name">Tên PTVC:</label>
-            <input type="text" id="name" name="name" value="" />
-            <br>
-            <label for="price">Giá PTVC:</label>
-            <input type="number" step="any" id="price" name="price" />
-            <input name="btnvcadd" type="submit" title="Lưu" value="Lưu" />
+            <label for="name">Tên PTTT:</label>
+            <input type="text" id="name" name="name" value="<?= (!empty($phuongthucthanhtoan) ? $phuongthucthanhtoan['name'] : "") ?>"/>
+            <input name="btnttsua" type="submit" title="Lưu" value="Lưu" />
             <div class="clear-both"></div>
         </div>
-
     </form>
-</div>
-<style>
+</div><style>
     .box-content {
     margin: 10px;
     padding: 10px;

@@ -3,28 +3,28 @@
 if (!empty($_SESSION['nguoidung'])) {
     ?>
     <div class="main-content">
-        <h1>Xóa thể loại</h1>
+        <h1>Xóa PTTT</h1>
         <div id="content-box">
             <?php
             $error = false;
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 include_once './connect_db.php';
                 include_once './function.php';
-                $result = execute("DELETE FROM `theloai` WHERE `id` = " . $_GET['id']."");
+                $result = execute("DELETE FROM `phuongthucthanhtoan` WHERE `id` = " . $_GET['id']."");
                 if (!$result) {
-                    $error = "Không thể xóa thể loại.";
+                    $error = "Không thể xóa PTTT.";
                 }
                 if ($error != false) {
                     ?>
                     <div id="error-notify" class="box-content">
                         <h2>Thành công</h2>
                         
-                        <a href="./admin.php?tmuc=Thể loại">Danh sách thể loại</a>
+                        <a href="./admin.php?tmuc=Phương thức thanh toán">Danh sách Phương thức thanh toán</a>
                     </div>
         <?php } else { ?>
                     <div id="success-notify" class="box-content">
-                        <h2>Xóa thể loại thành công</h2>
-                        <a href="./admin.php?tmuc=Thể loại">Danh sách thể loại</a>
+                        <h2>Xóa Phương thức thanh toán thành công</h2>
+                        <a href="./admin.php?tmuc=Phương thức thanh toán">Danh sách Phương thức thanh toán</a>
                     </div>
                 <?php } ?>
     <?php } ?>

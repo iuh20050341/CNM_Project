@@ -1,14 +1,11 @@
 <div class="main-content">
-    <h1 style="color: #cebd79">Thêm PTVC</h1>
+    <h1 style="color: #cebd79">Thêm thể loại</h1>
     <form name="ptvc-formadd" method="POST" action="./xulythem.php" enctype="multipart/form-data">
         <div class="clear-both"></div>
         <div class="box-content">
-            <label for="name">Tên PTVC:</label>
+            <label for="name">Tên PTTT:</label>
             <input type="text" id="name" name="name" value="" />
-            <br>
-            <label for="price">Giá PTVC:</label>
-            <input type="number" step="any" id="price" name="price" />
-            <input name="btnvcadd" type="submit" title="Lưu" value="Lưu" />
+            <input name="btnttadd" type="submit" title="Lưu" value="Lưu" />
             <div class="clear-both"></div>
         </div>
 

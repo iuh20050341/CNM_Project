@@ -77,10 +77,6 @@
 								?>
                     </div>
                     <div class="order-col">
-                        <div>PHÍ GIAO HÀNG</div>
-                        <div><strong>FREE</strong></div>
-                    </div>
-                    <div class="order-col">
                         <div><strong>TỔNG TIỀN</strong></div>
                         <div><strong class="order-total"><?=currency_format($total)?></strong></div>
                     </div>

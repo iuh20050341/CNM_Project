@@ -8,13 +8,13 @@
         $offset = ($current_page - 1) * $item_per_page;
         if(isset($_POST['timebd'])&&isset($_POST['timekt']))
         {if(($_POST['timebd']=='')&&($_POST['timekt']==''))
-        $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` )");
+        $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` JOIN cthoadon ON hoadon.id = cthoadon.id_hoadon JOIN sanpham ON cthoadon.id_sanpham = sanpham.id) WHERE sanpham.id_nhaban = '$user_id'");
         if(($_POST['timebd']=='')&&(!empty($_POST['timekt'])))
-        $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`ngay_tao` <= DATE_ADD('".$_POST['timekt']."',INTERVAL '1' DAY)");
+        $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` JOIN cthoadon ON hoadon.id = cthoadon.id_hoadon JOIN sanpham ON cthoadon.id_sanpham = sanpham.id) WHERE sanpham.id_nhaban = '$user_id' AND `hoadon`.`ngay_tao` <= DATE_ADD('".$_POST['timekt']."',INTERVAL '1' DAY)");
         if(($_POST['timekt']=='')&&(!empty($_POST['timebd'])))
-        $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`ngay_tao` >= '".$_POST['timebd']."'");
+        $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` JOIN cthoadon ON hoadon.id = cthoadon.id_hoadon JOIN sanpham ON cthoadon.id_sanpham = sanpham.id) WHERE sanpham.id_nhaban = '$user_id' AND `hoadon`.`ngay_tao` >= '".$_POST['timebd']."'");
         if(!empty($_POST['timebd'])&&(!empty($_POST['timekt'])))
-        $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`ngay_tao` <= DATE_ADD('".$_POST['timekt']."',INTERVAL '1' DAY) AND `hoadon`.`ngay_tao` >= '".$_POST['timebd']."'");
+        $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` JOIN cthoadon ON hoadon.id = cthoadon.id_hoadon JOIN sanpham ON cthoadon.id_sanpham = sanpham.id) WHERE sanpham.id_nhaban = '$user_id' AND `hoadon`.`ngay_tao` <= DATE_ADD('".$_POST['timekt']."',INTERVAL '1' DAY) AND `hoadon`.`ngay_tao` >= '".$_POST['timebd']."'");
         }
         else $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` )");
         $totalRecords = $totalRecords->num_rows;
@@ -121,6 +121,7 @@
         <label for="timebd">Ngày bắt đầu:</label>
         <input type="date" id="timebd" name="timebd" required>
         <label for="timekt">Ngày kết thúc:</label>
+        <input type="date" id="timekt" name="timekt" required>
         <input type="submit" value="Lọc">
         <div class="product-items">
             <div class="table-responsive-sm ">

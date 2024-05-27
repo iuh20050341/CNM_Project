@@ -51,6 +51,13 @@
                                                 $idtl = $_POST['idtl'];
                                                 $idncc = $_POST['idncc'];
                                                 $content = $_POST['content'];
+                                                $check_sql = "SELECT * FROM `sanpham` WHERE `ten_sp` = '$namei'";
+                                                $check_result = mysqli_query($conn, $check_sql);
+                        
+                                                if (mysqli_num_rows($check_result) > 0) {
+                                                    // Tên đã tồn tại
+                                                    header("location:./admin.php?act=addsptc&dk=no");
+                                                } else {
                                                 if ($_FILES['image']['name'] != NULL) {
                                                     // Kiểm tra file up lên có phải là ảnh không
                                                     if ($_FILES['image']['type'] == "image/jpeg" || $_FILES['image']['type'] == "image/png" || $_FILES['image']['type'] == "image/gif") {
@@ -96,6 +103,7 @@
                                                         } else header("location:./admin.php?act=addsptc&dk=no");
                                                     }
                                                 }
+                                            }
                                             } else header("location:./admin.php?act=addsptc&dk=no");
                                     } else header("location:./admin.php?act=addsptc&dk=no");
                             } else header("location:./admin.php?act=addsptc&dk=no");
@@ -177,53 +185,134 @@
             } else header("location:./admin.php?act=suasptc&dk=no");
     }
     if (isset($_POST['btntladd'])) {
-        if (isset($_POST['name']))
-            if ($_POST['name'] != '') {
-                $namei = $_POST['name'];
+        if (isset($_POST['name']) && !empty($_POST['name'])) {
+            $namei = mysqli_real_escape_string($con, $_POST['name']);
+            
+            // Kiểm tra xem tên thể loại đã tồn tại chưa
+            $check_sql = "SELECT * FROM `theloai` WHERE `ten_tl` = '$namei'";
+            $check_result = mysqli_query($con, $check_sql);
+            
+            if (mysqli_num_rows($check_result) > 0) {
+                // Tên đã tồn tại
+                header("Location: ./admin.php?act=addtltc&dk=trung");
+            } else {
+                // Tên chưa tồn tại, tiếp tục thêm mới
                 $sql = "INSERT INTO `theloai`(`ten_tl`) VALUES ('$namei')";
                 $result = mysqli_query($con, $sql);
-                if ($result)
-                    header("location:./admin.php?act=addtltc&dk=yes");
-                else header("location:./admin.php?act=addtltc&dk=no");
-            } else header("location:./admin.php?act=addtltc&dk=no");
+                
+                if ($result) {
+                    header("Location: ./admin.php?act=addtltc&dk=yes");
+                } else {
+                    header("Location: ./admin.php?act=addtltc&dk=no");
+                }
+            }
+        } else {
+            header("Location: ./admin.php?act=addtltc&dk=no");
+        }
     }
+    
     if (isset($_POST['btnvcadd'])) {
+        if (isset($_POST['name']) && !empty($_POST['name']) && isset($_POST['price']) && !empty($_POST['price'])) {
+            $name = mysqli_real_escape_string($con, $_POST['name']);
+            $price = mysqli_real_escape_string($con, $_POST['price']);
+            
+            // Kiểm tra xem tên phương thức vận chuyển đã tồn tại chưa
+            $check_sql = "SELECT * FROM `phuongthucvanchuyen` WHERE `name` = '$name'";
+            $check_result = mysqli_query($con, $check_sql);
+            
+            if (mysqli_num_rows($check_result) > 0) {
+                // Tên đã tồn tại
+                header("Location: ./admin.php?act=addvctc&dk=trung");
+            } else {
+                // Tên chưa tồn tại, tiếp tục thêm mới
+                $sql = "INSERT INTO `phuongthucvanchuyen`(`name`, `price`) VALUES ('$name', '$price')";
+                $result = mysqli_query($con, $sql);
+                
+                if ($result) {
+                    header("Location: ./admin.php?act=addvctc&dk=yes");
+                } else {
+                    header("Location: ./admin.php?act=addvctc&dk=no");
+                }
+            }
+        } else {
+            header("Location: ./admin.php?act=addvctc&dk=no");
+        }
+    }
+    
+    if (isset($_POST['btnttadd'])) {
         if (isset($_POST['name']))
             if ($_POST['name'] != '') {
-                if (isset($_POST['price']))
-                    if ($_POST['price'] != '') {
                 $name = $_POST['name'];
-                $price = $_POST['price'];
-                $sql = "INSERT INTO `phuongthucvanchuyen`(`name`,`price`) VALUES ('$name','$price')";
+                $sql = "INSERT INTO `phuongthucthanhtoan`(`name`) VALUES ('$name')";
                 $result = mysqli_query($con, $sql);
                 if ($result)
-                    header("location:./admin.php?act=addvctc&dk=yes");
-                else header("location:./admin.php?act=addvctc&dk=no");
-            } else header("location:./admin.php?act=addvctc&dk=no");
-        } else header("location:./admin.php?act=addvctc&dk=no");
+                    header("location:./admin.php?act=addtttc&dk=yes");
+                else header("location:./admin.php?act=addtttc&dk=no");
+        } else header("location:./admin.php?act=addtttc&dk=no");
     }
     if (isset($_POST['btntlsua'])) {
-        if (isset($_POST['name']))
-            if ($_POST['name'] != '') {
-                $con = mysqli_connect("localhost", "root", "", "bannuocdb");
-                $result1 = mysqli_query($con, "UPDATE `theloai` SET `ten_tl` = '" . $_POST['name'] . "'WHERE `theloai`.`id` = " . $_GET['id'] . " ");
-                if ($result1)
-                    header("location:./admin.php?act=suatltc&dk=yes");
-                else header("location:./admin.php?act=suatltc&dk=no");
-            } else header("location:./admin.php?act=suatltc&dk=no");
+        if (isset($_POST['name']) && !empty($_POST['name'])) {
+            $name = mysqli_real_escape_string($con, $_POST['name']);
+            $id = isset($_GET['id']) ? (int)$_GET['id'] : 0; // Kiểm tra và ép kiểu id thành số nguyên để an toàn hơn
+    
+            if ($id > 0) {
+                // Kiểm tra xem tên thể loại đã tồn tại chưa
+                $check_sql = "SELECT * FROM `theloai` WHERE `ten_tl` = '$name'";
+                $check_result = mysqli_query($con, $check_sql);
+    
+                if (mysqli_num_rows($check_result) > 0) {
+                    // Tên đã tồn tại
+                    header("location:./admin.php?act=suatltc&dk=trung");
+                } else {
+                    // Tên chưa tồn tại, tiếp tục cập nhật
+                    $update_sql = "UPDATE `theloai` SET `ten_tl` = '$name' WHERE `id` = $id";
+                    $result1 = mysqli_query($con, $update_sql);
+    
+                    if ($result1) {
+                        header("location:./admin.php?act=suatltc&dk=yes");
+                    } else {
+                        header("location:./admin.php?act=suatltc&dk=no");
+                    }
+                }
+            } else {
+                header("location:./admin.php?act=suatltc&dk=no");
+            }
+        } else {
+            header("location:./admin.php?act=suatltc&dk=no");
+        }
     }
+    
     if (isset($_POST['btnvcsua'])) {
         if (isset($_POST['name']))
             if ($_POST['name'] != '') {
                 if (isset($_POST['price']))
                 if ($_POST['price'] != '') {
+                $check_sql = "SELECT * FROM `phuongthucvanchuyen` WHERE `name` = '" . $_POST['name'] . "'";
+                $check_result = mysqli_query($con, $check_sql);
+    
+                if (mysqli_num_rows($check_result) > 0) {
+                    // Tên đã tồn tại
+                    header("location:./admin.php?act=suavctc&dk=trung");
+                } else {
                 $con = mysqli_connect("localhost", "root", "", "bannuocdb");
                 $result1 = mysqli_query($con, "UPDATE `phuongthucvanchuyen` SET `name` = '" . $_POST['name'] . "', `price` = '" . $_POST['price'] . "'WHERE `phuongthucvanchuyen`.`id` = " . $_GET['id'] . " ");
                 if ($result1)
                     header("location:./admin.php?act=suavctc&dk=yes");
                 else header("location:./admin.php?act=suavctc&dk=no");
+                }
             } else header("location:./admin.php?act=suavctc&dk=no");
         } else header("location:./admin.php?act=suavctc&dk=no");
+
+    }
+    if (isset($_POST['btnttsua'])) {
+        if (isset($_POST['name']))
+            if ($_POST['name'] != '') {
+                $con = mysqli_connect("localhost", "root", "", "bannuocdb");
+                $result1 = mysqli_query($con, "UPDATE `phuongthucthanhtoan` SET `name` = '" . $_POST['name'] . "' WHERE `phuongthucthanhtoan`.`id` = " . $_GET['id'] . " ");
+                if ($result1)
+                    header("location:./admin.php?act=suatttc&dk=yes");
+                else header("location:./admin.php?act=suatttc&dk=no");
+        } else header("location:./admin.php?act=suatttc&dk=no");
 
     }
     if (isset($_POST['btnnccadd'])) {

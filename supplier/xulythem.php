@@ -67,6 +67,13 @@
                                                 $qr4 = $_POST['baoquan'];
                                                 $qr5 = $_POST['vanchuyen'];
                                                 $content = $_POST['content'];
+                                                $check_sql = "SELECT * FROM `sanpham` WHERE `ten_sp` = '$namei'";
+                                                $check_result = mysqli_query($conn, $check_sql);
+                        
+                                                if (mysqli_num_rows($check_result) > 0) {
+                                                    // Tên đã tồn tại
+                                                    header("location:./supplier.php?act=addsptc&dk=trung");
+                                                } else {
                                                 if ($_FILES['image']['name'] != NULL) {
                                                     // Kiểm tra file up lên có phải là ảnh không
                                                     if ($_FILES['image']['type'] == "image/jpeg" || $_FILES['image']['type'] == "image/png" || $_FILES['image']['type'] == "image/gif") {
@@ -113,6 +120,7 @@
                                                         } else header("location:./supplier.php?act=addsptc&dk=no");
                                                     }
                                                 }
+                                            }
                                                                 } else header("location:./supplier.php?act=addsptc&dk=no");
                                                             } else header("location:./supplier.php?act=addsptc&dk=no");
                                                         } else header("location:./supplier.php?act=addsptc&dk=no");
@@ -177,6 +185,13 @@
                                                             // Insert ảnh vào cơ sở dữ liệu
                                                         }
                                                     }
+                                                    $check_sql = "SELECT * FROM `sanpham` WHERE `ten_sp` = '".$_POST['name']."'";
+                                                    $check_result = mysqli_query($con, $check_sql);
+                            
+                                                    if (mysqli_num_rows($check_result) > 0) {
+                                                        // Tên đã tồn tại
+                                                        header("location:./supplier.php?act=suasptc&dk=trung");
+                                                    } else {
                                                     $result1 = mysqli_query($con, "UPDATE `sanpham` SET `xuatsu` = '" . $_POST['xuatsu'] . "', `phanbon` = '" . $_POST['phanbon'] . "', `chatluong` = '" . $_POST['chatluong'] . "', `baoquan` = '" . $_POST['baoquan'] . "', `vanchuyen` = '" . $_POST['vanchuyen'] . "', `ten_sp` = '" . $_POST['name'] . "',`hinh_anh` =  '$image_url', `don_gia` = " . str_replace('.', '', $_POST['price']) . ", `noi_dung` = '" . $_POST['content'] . "', `ngay_sua` = " . time() . ",`id_the_loai` =" . $_POST['idtl'] . ", `so_luong` = ".$_POST['quantity'] .",`trangthai`=" . $trangthai . " WHERE `sanpham`.`id` = " . $_GET['id']);
                                                     if (!empty($galleryImages)) {
                                                         $product_id = ($_GET['act'] == 'sua' && !empty($_GET['id'])) ? $_GET['id'] : $con->insert_id;
@@ -202,6 +217,7 @@
                                                         header("location:./supplier.php?act=suasptc&dk=yes");
                                                         // else header("location:./supplier.php?act=suasptc&dk=no"); 
                                                     } else header("location:./supplier.php?act=suasptc&dk=no");
+                                                }
                                                 } else header("location:./supplier.php?act=suasptc&dk=no");
                                             } else header("location:./supplier.php?act=suasptc&dk=no");
                                         } else header("location:./supplier.php?act=suasptc&dk=no");
