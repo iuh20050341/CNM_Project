@@ -23,7 +23,7 @@
                             <tr>
                                 <th style="text-align: center;">Id</th>
                                 <th style="text-align: center;">Tên thể loại</th>
-                                <th style="text-align: center;">Số lượng sản phẩm sản phẩm</th>
+                                <th style="text-align: center;">Số lượng sản phẩm</th>
                                 <th style="text-align: center;">Sửa</th>
                                 <th style="text-align: center;">Xóa</th>
                             </tr>

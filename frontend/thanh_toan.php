@@ -128,7 +128,7 @@ form {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    width: 200px;
+    width: 400px;
 }
 
 #ttmomo:hover,
@@ -294,21 +294,21 @@ form {
     $totalPrice += $item['qty'] * $item['price'];
     }
 // Tạo form submit
-
-    echo '<form name = "payUrl" method="POST" action="xulythanhtoanmomo.php" class="form-group">';
-
-    // Thêm input hidden
-    echo '<div><input type="hidden" name="amount" value="' .$totalPriceAll. '">';
-
-    // Thêm button submit momo
-    // echo '<button id="ttmomo" type="submit">Thanh toán MOMO</button></div>';
-    echo '<div><input id="tt" type="submit" value="Thanh toán bằng MOMO" onclick="createOrder();"></div>';
-    // Đóng form
-
-    echo '</form>';	
-    echo '<form action="create_order.php" method="post" class="form-group">';
-    echo '<div><input id="tt" type="submit" value="Thanh toán " onclick="createOrder();"></div>';
-    echo '</form>';
+    echo '<table>
+    <tr>
+        <td>
+            <form name = "payUrl" method="POST" action="xulythanhtoanmomo.php" class="form-group">
+            <div><input type="hidden" name="amount" value="' .$totalPriceAll. '">
+            <button id="ttmomo" type="submit">Thanh toán MOMO</button></div>
+            </form>
+            <form action="create_order.php" method="post" class="form-group">
+            <div><input id="tt" type="submit" value="Thanh toán khi nhận hàng" onclick="createOrder();"></div>
+            </form>
+            </td>
+        <td>
+        </td>
+    </tr>
+</table>';
 
 ?>
 

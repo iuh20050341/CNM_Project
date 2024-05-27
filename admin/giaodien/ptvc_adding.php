@@ -1,5 +1,5 @@
 <div class="main-content">
-    <h1 style="color: #cebd79">Thêm thể loại</h1>
+    <h1 style="color: #cebd79">Thêm PTVC</h1>
     <form name="ptvc-formadd" method="POST" action="./xulythem.php" enctype="multipart/form-data">
         <div class="clear-both"></div>
         <div class="box-content">

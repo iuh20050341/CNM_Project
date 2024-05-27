@@ -17,7 +17,7 @@ if (!empty($_SESSION['nguoidung'])) {
                 if ($error != false) {
                     ?>
                     <div id="error-notify" class="box-content">
-                        <h2>Thất bại</h2>
+                        <h2>Thành công</h2>
                         
                         <a href="./admin.php?tmuc=Thể loại">Danh sách thể loại</a>
                     </div>

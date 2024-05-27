@@ -64,34 +64,34 @@ if (isset($_GET['act'])) {
     if ($_GET['act'] == 'sua')
         include('product_editing.php');
 }
-// if (isset($_GET['act'])) {
-//     if ($_GET['act'] == 'addtl')
-//         include('theloai_adding.php');
-// }
-// if (isset($_GET['act'])&&isset($_GET['dk'])) {
-//     if (($_GET['act'] == 'addtltc')&&($_GET['dk'] == 'yes'))
-//     echo ('<div id="error-notify" class="box-content">
-//     <h2>Thành công</h2>
+if (isset($_GET['act'])) {
+    if ($_GET['act'] == 'addtl')
+        include('theloai_adding.php');
+}
+if (isset($_GET['act'])&&isset($_GET['dk'])) {
+    if (($_GET['act'] == 'addtltc')&&($_GET['dk'] == 'yes'))
+    echo ('<div id="error-notify" class="box-content">
+    <h2>Thành công</h2>
     
-//     <a href="./supplier.php?tmuc=Thể loại">Danh sách thể loại</a>
-// </div>');
-// }
-// if (isset($_GET['act'])&&isset($_GET['dk'])) {
-//     if (($_GET['act'] == 'addtltc')&&($_GET['dk'] == 'no'))
-//     echo ('<div id="error-notify" class="box-content">
-//     <h2>Thất bại</h2>
+    <a href="./supplier.php?tmuc=Thể loại">Danh sách thể loại</a>
+</div>');
+}
+if (isset($_GET['act'])&&isset($_GET['dk'])) {
+    if (($_GET['act'] == 'addtltc')&&($_GET['dk'] == 'no'))
+    echo ('<div id="error-notify" class="box-content">
+    <h2>Thất bại</h2>
     
-//     <a href="./supplier.php?tmuc=Thể loại">Danh sách thể loại</a>
-// </div>');
-// }
-// if (isset($_GET['act'])) {
-//     if ($_GET['act'] == 'suatl')
-//         include('theloai_editing.php');
-// }
-// if (isset($_GET['act'])) {
-//     if ($_GET['act'] == 'xoatl')
-//         include('theloai_deleting.php');
-// }
+    <a href="./supplier.php?tmuc=Thể loại">Danh sách thể loại</a>
+</div>');
+}
+if (isset($_GET['act'])) {
+    if ($_GET['act'] == 'suatl')
+        include('theloai_editing.php');
+}
+if (isset($_GET['act'])) {
+    if ($_GET['act'] == 'xoatl')
+        include('theloai_deleting.php');
+}
 // if (isset($_GET['act'])) {
 //     if ($_GET['act'] == 'addncc')
 //         include('nhacungcap_adding.php');
@@ -325,6 +325,14 @@ if (isset($_GET['act'])) {
 </div>');
 }
 if (isset($_GET['act'])) {
+    if (($_GET['act'] == 'addsptc')&&($_GET['dk'] == 'trung'))
+    echo ('<div id="error-notify" class="box-content">
+    <h2>Tên sản phẩm không được trùng!!</h2>
+    
+    <a href="javascript:window.history.go(-1)">Quay lại</a>
+</div>');
+}
+if (isset($_GET['act'])) {
     if (($_GET['act'] == 'suasptc')&&($_GET['dk'] == 'yes'))
     echo ('<div id="error-notify" class="box-content">
     <h2>Thành công</h2>
@@ -336,6 +344,14 @@ if (isset($_GET['act'])) {
     if (($_GET['act'] == 'suasptc')&&($_GET['dk'] == 'no'))
     echo ('<div id="error-notify" class="box-content">
     <h2>Vui lòng nhập đủ thông tin!!</h2>
+    
+    <a href="javascript:window.history.go(-1)">Quay lại</a>
+</div>');
+}
+if (isset($_GET['act'])) {
+    if (($_GET['act'] == 'suasptc')&&($_GET['dk'] == 'trung'))
+    echo ('<div id="error-notify" class="box-content">
+    <h2>Tên sản phẩm không được trùng!!!!</h2>
     
     <a href="javascript:window.history.go(-1)">Quay lại</a>
 </div>');

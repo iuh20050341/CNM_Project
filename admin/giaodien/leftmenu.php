@@ -18,3 +18,9 @@
         ?>
     </ul>
 </div>
+<style>
+.input-select2 li.item:hover {
+  background-color: green;
+  cursor: pointer;
+}
+</style>

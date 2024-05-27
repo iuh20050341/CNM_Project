@@ -92,6 +92,14 @@ if (isset($_GET['act'])&&isset($_GET['dk'])) {
     <a href="./admin.php?tmuc=Thể loại">Danh sách thể loại</a>
 </div>');
 }
+if (isset($_GET['act'])&&isset($_GET['dk'])) {
+    if (($_GET['act'] == 'addtltc')&&($_GET['dk'] == 'trung'))
+    echo ('<div id="error-notify" class="box-content">
+    <h2>Tên thể loại đã bị trùng</h2>
+    
+    <a href="./admin.php?tmuc=Thể loại">Danh sách thể loại</a>
+</div>');
+}
 ####PTVC
 if (isset($_GET['act'])) {
     if ($_GET['act'] == 'addvc')
@@ -109,6 +117,14 @@ if (isset($_GET['act'])&&isset($_GET['dk'])) {
     if (($_GET['act'] == 'addvctc')&&($_GET['dk'] == 'no'))
     echo ('<div id="error-notify" class="box-content">
     <h2>Thất bại</h2>
+    
+    <a href="./admin.php?tmuc=Phương thức vận chuyển">Danh sách PTVC</a>
+</div>');
+}
+if (isset($_GET['act'])&&isset($_GET['dk'])) {
+    if (($_GET['act'] == 'addvctc')&&($_GET['dk'] == 'trung'))
+    echo ('<div id="error-notify" class="box-content">
+    <h2>Tên PTVC không được trùng!</h2>
     
     <a href="./admin.php?tmuc=Phương thức vận chuyển">Danh sách PTVC</a>
 </div>');
@@ -138,8 +154,12 @@ if (isset($_GET['act'])) {
         include('theloai_editing.php');
 }
 if (isset($_GET['act'])) {
+    if ($_GET['act'] == 'xoatl')
+        include('theloai_deleting.php');
+}
+if (isset($_GET['act'])) {
     if ($_GET['act'] == 'suavc')
-        include('pttt_editing.php');
+        include('ptvc_editing.php');
 }
 if (isset($_GET['act'])) {
     if ($_GET['act'] == 'xoavc')
@@ -262,6 +282,14 @@ if (isset($_GET['act'])) {
     <a href="javascript:window.history.go(-1)">Quay lại</a>
 </div>');
 }
+if (isset($_GET['act'])) {
+    if (($_GET['act'] == 'suavctc')&&($_GET['dk'] == 'trung'))
+    echo ('<div id="error-notify" class="box-content">
+    <h2>Tên PTVC không được trùng!!</h2>
+    
+    <a href="javascript:window.history.go(-1)">Quay lại</a>
+</div>');
+}
 
 if (isset($_GET['act'])) {
     if (($_GET['act'] == 'suatttc')&&($_GET['dk'] == 'yes'))
@@ -275,6 +303,30 @@ if (isset($_GET['act'])) {
     if (($_GET['act'] == 'suatttc')&&($_GET['dk'] == 'no'))
     echo ('<div id="error-notify" class="box-content">
     <h2>Vui lòng nhập thông tin đầy đủ!!</h2>
+    
+    <a href="javascript:window.history.go(-1)">Quay lại</a>
+</div>');
+}
+if (isset($_GET['act'])) {
+    if (($_GET['act'] == 'suatltc')&&($_GET['dk'] == 'yes'))
+    echo ('<div id="error-notify" class="box-content">
+    <h2>Thành công</h2>
+    
+    <a href="./admin.php?tmuc=Thể loại">Danh sách thể loại</a>
+</div>');
+}
+if (isset($_GET['act'])) {
+    if (($_GET['act'] == 'suatltc')&&($_GET['dk'] == 'no'))
+    echo ('<div id="error-notify" class="box-content">
+    <h2>Vui lòng nhập thông tin đầy đủ!!</h2>
+    
+    <a href="javascript:window.history.go(-1)">Quay lại</a>
+</div>');
+}
+if (isset($_GET['act'])) {
+    if (($_GET['act'] == 'suatltc')&&($_GET['dk'] == 'trung'))
+    echo ('<div id="error-notify" class="box-content">
+    <h2>Tên Thể loại không được trùng!!</h2>
     
     <a href="javascript:window.history.go(-1)">Quay lại</a>
 </div>');
