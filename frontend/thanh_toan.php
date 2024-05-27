@@ -285,12 +285,12 @@ form {
 </script>
 
     <h2>Phương thức thanh toán</h2>
-    <label for="paymentMethod">Chọn phương thức thanh toán:</label>
+    <!-- <label for="paymentMethod">Chọn phương thức thanh toán:</label>
         <select id="paymentMethod" name="paymentMethod">
             <option value="">
                 Thanh toán khi nhận hàng
             </option>
-        </select>
+        </select> -->
     <?php
     $totalPrice = 0;
     foreach ($cart as $item) {
@@ -303,11 +303,8 @@ form {
     echo '<div><input type="hidden" name="amount" value="' . $totalPrice . '">';
 
     // Thêm button submit momo
-<<<<<<< HEAD
     // echo '<button id="ttmomo" type="submit">Thanh toán MOMO</button></div>';
-=======
     echo '<div><input id="tt" type="submit" value="Thanh toán MoMo" onclick="createOrder();"></div>';
->>>>>>> feature/phuc-branch
     // Đóng form
 
     echo '</form>';	
