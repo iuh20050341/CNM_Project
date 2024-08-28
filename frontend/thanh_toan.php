@@ -182,8 +182,8 @@ form {
 <?php
     $sql = "SELECT * FROM `phuongthucvanchuyen`";
     $result = executeResult($sql);
-    $sqltt = "SELECT * FROM `phuongthucthanhtoan`";
-    $resulttt = executeResult($sqltt);
+    // $sqltt = "SELECT * FROM `phuongthucthanhtoan`";
+    // $resulttt = executeResult($sqltt);
 
 ?>
 <body>
@@ -288,37 +288,21 @@ form {
 </script>
 
     <h2>Phương thức thanh toán</h2>
-<<<<<<< HEAD
+
     <!-- <label for="paymentMethod">Chọn phương thức thanh toán:</label>
         <select id="paymentMethod" name="paymentMethod">
             <option value="">
                 Thanh toán khi nhận hàng
             </option>
         </select> -->
-=======
->>>>>>> master
+
+
     <?php
     $totalPrice = 0;
     foreach ($cart as $item) {
     $totalPrice += $item['qty'] * $item['price'];
     }
-// Tạo form submit
-<<<<<<< HEAD
-    echo '<form name = "payUrl" method="POST" action="xulythanhtoanmomo.php" class="form-group">';
 
-    // Thêm input hidden
-    echo '<div><input type="hidden" name="amount" value="' . $totalPrice . '">';
-
-    // Thêm button submit momo
-    // echo '<button id="ttmomo" type="submit">Thanh toán MOMO</button></div>';
-    echo '<div><input id="tt" type="submit" value="Thanh toán MoMo" onclick="createOrder();"></div>';
-    // Đóng form
-
-    echo '</form>';	
-    echo '<form action="create_order.php" method="post" class="form-group">';
-    echo '<div><input id="tt" type="submit" value="ĐẶT HÀNG" onclick="createOrder();"></div>';
-    echo '</form>';
-=======
     echo '<table>
     <tr>
         <td>
@@ -334,7 +318,6 @@ form {
         </td>
     </tr>
 </table>';
->>>>>>> master
 
 ?>
 
