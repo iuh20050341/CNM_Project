@@ -32,8 +32,8 @@ $orderInfo = "Thanh toán qua MoMo ATM";
 $amount = floatval($_POST['amount']);
 
 $orderId = time() ."";
-$redirectUrl = "http://localhost:88/CNM_Project/frontend/thanh_toan.php";
-$ipnUrl = "http://localhost:88/CNM_Project/frontend/thanh_toan.php";
+$redirectUrl = "http://localhost:8088/CNM_Project/frontend/thanh_toan.php";
+$ipnUrl = "http://localhost:8088/CNM_Project/frontend/thanh_toan.php";
 $extraData = "";
 
 $requestId = time() . "";

@@ -10,7 +10,7 @@
     </div>
     <div class="wrap-field">
         <label>Mật khẩu: </label>
-        <input type="text" name="matkhau" value="" />
+        <input type="password" name="matkhau" value="" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$" required title="Mật khẩu phải chứa từ 8 - 15 ký tự, bao gồm ít nhất một chữ thường, một chữ in hoa, một số và một ký tự đặc biệt"/><br>
         <div class="clear-both"></div>
     </div>
     <div class="wrap-field">
