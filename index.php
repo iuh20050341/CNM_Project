@@ -252,6 +252,14 @@ if ($search != '') {
                     location.reload();
                 })
         }
+        function nhandonhang(id) {
+            $.post('frontend/delete_bill.php', {
+                'id_hoadon': id
+            },
+                function data() {
+                    location.reload();
+                })
+        }
 
         //tim kiem bang giong
         const APP_ID = 'cf26e7b2c25b5acd18ed5c3e836fb235';
