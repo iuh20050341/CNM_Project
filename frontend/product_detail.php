@@ -1,43 +1,43 @@
 <!-- Lấy tên thể loại khi biết id sản phẩm -->
 <?php
-	$sql='select ten_sp, ten_tl,id_nhaban, theloai.id as id_tl from sanpham, theloai where sanpham.id='.$id.' and theloai.id=sanpham.id_the_loai';
-	$listcate_pro=executeSingleResult($sql);
-	$id_nhaban = $listcate_pro['id_nhaban'];
-	$sql1= 'select ten_kh from khachhang where id = '.$id_nhaban.'';
-	$nhaban = executeSingleResult($sql1);
-	$ten_nhaban = $nhaban['ten_kh'];
+$sql = 'select ten_sp, ten_tl,id_nhaban, theloai.id as id_tl from sanpham, theloai where sanpham.id=' . $id . ' and theloai.id=sanpham.id_the_loai';
+$listcate_pro = executeSingleResult($sql);
+$id_nhaban = $listcate_pro['id_nhaban'];
+$sql1 = 'select ten_kh from khachhang where id = ' . $id_nhaban . '';
+$nhaban = executeSingleResult($sql1);
+$ten_nhaban = $nhaban['ten_kh'];
 
 ?>
 <!-- /Lấy tên thể loại khi biết id sản phẩm -->
 
 <!-- Lấy thông tin chi tiết của sản phẩm -->
 <?php
-	$sql='select * from sanpham where id='.$id;
-	$detailproduct=executeSingleResult($sql);
+$sql = 'select * from sanpham where id=' . $id;
+$detailproduct = executeSingleResult($sql);
 ?>
 
 <!-- /Lấy thông tin chi tiết của sản phẩm -->
 
 <!-- BREADCRUMB -->
 <div id="breadcrumb" class="section">
-			<!-- container -->
-			<div class="container">
-				<!-- row -->
-				<div class="row">
-					<div class="col-md-12">
-						<ul class="breadcrumb-tree">
-							<li><a href="index.php">Trang Chủ</a></li>
-							<li><a href="?act=category">Danh Mục Sản Phẩm</a></li>
-							<li><a href="?act=category&id=<?=$listcate_pro['id_tl']?>"><?=$listcate_pro['ten_tl']?></a></li>
-							<li class="active"><?=$listcate_pro['ten_sp']?></li>
-						</ul>
-					</div>
-				</div>
-				<!-- /row -->
+	<!-- container -->
+	<div class="container">
+		<!-- row -->
+		<div class="row">
+			<div class="col-md-12">
+				<ul class="breadcrumb-tree">
+					<li><a href="index.php">Trang Chủ</a></li>
+					<li><a href="?act=category">Danh Mục Sản Phẩm</a></li>
+					<li><a href="?act=category&id=<?= $listcate_pro['id_tl'] ?>"><?= $listcate_pro['ten_tl'] ?></a></li>
+					<li class="active"><?= $listcate_pro['ten_sp'] ?></li>
+				</ul>
 			</div>
-			<!-- /container -->
 		</div>
-		<!-- /BREADCRUMB -->
+		<!-- /row -->
+	</div>
+	<!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
 
 		<!-- SECTION -->
 		<div class="section">
@@ -225,16 +225,16 @@ $phantichvisinhvat";
 								echo '<div class="col-md-4 col-xs-6">
 								<div class="product">
 									<div class="product-img" style="height:250px">
-										<img src="./img/'.$item['hinh_anh'].'" alt="" style="height:100%">
+										<img src="./img/' . $item['hinh_anh'] . '" alt="" style="height:100%">
 										<div class="product-label">
 											
 											<span class="new">HẾT HÀNG</span>
 										</div>
 									</div>
 									<div class="product-body">
-										<p class="product-category"><small>'.$item['sl_da_ban'].' đã bán</small></p>
-										<h3 class="product-name"><a href="index.php?act=product&id='.$item['id'].'">'.$item['ten_sp'].'</a></h3>
-										<h4 class="product-price">'.currency_format($item['don_gia']).'</h4>
+										<p class="product-category"><small>' . $item['sl_da_ban'] . ' đã bán</small></p>
+										<h3 class="product-name"><a href="index.php?act=product&id=' . $item['id'] . '">' . $item['ten_sp'] . '</a></h3>
+										<h4 class="product-price">' . currency_format($item['don_gia']) . '</h4>
 										<div class="product-rating">
 											<i class="fa fa-star"></i>
 											<i class="fa fa-star"></i>
@@ -253,7 +253,7 @@ $phantichvisinhvat";
 							echo'<div class="col-md-3 col-xs-6">
 							<div class="product" >
 								<div class="product-img">
-									<img src="./img/'.$item['hinh_anh'].'" alt="" style="height:250px" onclick="location=\'index.php?act=product&id='.$item['id'].'\'">
+									<img src="./img/' . $item['hinh_anh'] . '" alt="" style="height:250px" onclick="location=\'index.php?act=product&id=' . $item['id'] . '\'">
 									<div class="product-label">
 										
 										<span class="new">NEW</span>
@@ -261,8 +261,8 @@ $phantichvisinhvat";
 								</div>
 								<div class="product-body">
 									<p class="product-category">sản phẩm</p>
-									<h3 class="product-name"><a href="?act=product&id='.$item['id'].'">'.$item['ten_sp'].'</a></h3>
-									<h4 class="product-price">'.currency_format($item['don_gia']).' </h4>
+									<h3 class="product-name"><a href="?act=product&id=' . $item['id'] . '">' . $item['ten_sp'] . '</a></h3>
+									<h4 class="product-price">' . currency_format($item['don_gia']) . ' </h4>
 									<div class="product-rating">
 										<i class="fa fa-star"></i>
 										<i class="fa fa-star"></i>
@@ -273,19 +273,19 @@ $phantichvisinhvat";
 									
 								</div>
 								<div class="add-to-cart">
-									<button class="add-to-cart-btn" onclick="addCart('.$item['id'].',1); themThanhCong('.$item['id'].'); "><i class="fa fa-shopping-cart"></i> <span id="messAddCart'.$item['id'].'">thêm vào giỏ</span></button>
+									<button class="add-to-cart-btn" onclick="addCart(' . $item['id'] . ',1); themThanhCong(' . $item['id'] . '); "><i class="fa fa-shopping-cart"></i> <span id="messAddCart' . $item['id'] . '">thêm vào giỏ</span></button>
 								</div>
 							</div>
 						</div>';
-						}
-					?>
-					<!-- /product -->
+			}
+			?>
+			<!-- /product -->
 
-					
 
-				</div>
-				<!-- /row -->
-			</div>
-			<!-- /container -->
+
 		</div>
-		<!-- /Section -->
+		<!-- /row -->
+	</div>
+	<!-- /container -->
+</div>
+<!-- /Section -->

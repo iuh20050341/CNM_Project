@@ -41,7 +41,9 @@
 							<div class="header-search">
 								<form method="get">
 									
-									<input style ="width: 400px" class="input" name="search" id="search-input" placeholder="Tên sản phẩm......" required>
+								<input value="<?php echo isset($search) ? $search : ''; ?>" required style="width: 400px" class="input" name="search" id="search-input" 
+       							placeholder="Tên sản phẩm......">
+
 						                        <span class="microphone">
 						                            <i class="fa fa-microphone"></i>
 						                            <span class="recording-icon"></span>
