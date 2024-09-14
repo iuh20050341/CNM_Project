@@ -1,4 +1,4 @@
-<?php session_start()?>
+<?php session_start() ?>
 <html lang="en">
 
 <head>
@@ -28,30 +28,32 @@
     <link rel="stylesheet" type="text/css" href="css/admin_style.css">
 
 </head>
+
 <body>
     <?php
-        if(isset($_SESSION['ten_dangnhap']) && !empty($_SESSION['ten_dangnhap'])){
-    ?>
-    <div id="wrapper">
-        <div style="background: #5fa533;" id="header2">
-            <?php require_once('giaodien/header.php'); ?>
-        </div>
-        <div id="body">
-            <div style="background:darkgreen;" id="leftmenu">
-                <?php require_once('giaodien/leftmenu.php'); ?>
+    if (isset($_SESSION['ten_dangnhap']) && !empty($_SESSION['ten_dangnhap'])) {
+        ?>
+        <div id="wrapper">
+            <div style="background: #5fa533;" id="header2">
+                <?php require_once('giaodien/header.php'); ?>
             </div>
-            <div id="content">
-                <?php require_once('giaodien/content.php'); ?>
+            <div id="body">
+                <div style="background:darkgreen; height: auto; border-bottom-right-radius: 10px ;" id="leftmenu">
+                    <?php require_once('giaodien/leftmenu.php'); ?>
+                </div>
+                <div id="content" style="margin-left:10px">
+                    <?php require_once('giaodien/content.php'); ?>
+                </div>
             </div>
-        </div>
 
-        <div id="footer"></div>
-    </div>
-    <?php
-        }else{
-            echo "<script type='text/javascript'>alert('Vui lòng đăng nhập!');window.location='../index.php?act=login';</script>";
-        }
+            <div id="footer"></div>
+        </div>
+        <?php
+    } else {
+        echo "<script type='text/javascript'>alert('Vui lòng đăng nhập!');window.location='../index.php?act=login';</script>";
+    }
     ?>
 </body>
-    <script src="js/style.js"></script>
+<script src="js/style.js"></script>
+
 </html>

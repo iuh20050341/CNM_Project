@@ -1,4 +1,4 @@
-<?php session_start()?>
+<?php session_start() ?>
 <html lang="en">
 
 <head>
@@ -28,25 +28,27 @@
     <link rel="stylesheet" type="text/css" href="css/admin_style.css">
 
 </head>
-<?php if (!empty($_SESSION['nguoidung'])){?>
-<body>
-    <div id="wrapper">
-        <div style="background: #5fa533;" id="header2">
-        <?php require_once('giaodien/header.php'); ?>
+<?php if (!empty($_SESSION['nguoidung'])) { ?>
 
-        </div>
-        <div id="body">
-            <div style="background:darkgreen;" id="leftmenu">
-                <?php require_once('giaodien/leftmenu.php'); ?>
-            </div>
-            <div id="content">
-                <?php require_once('giaodien/content.php'); ?>
-            </div>
-        </div>
+    <body>
+        <div id="wrapper">
+            <div style="background: #5fa533;" id="header2">
+                <?php require_once('giaodien/header.php'); ?>
 
-        <div id="footer"></div>
-    </div>
-</body>
-<?php }?>
-    <script src="js/style.js"></script>
+            </div>
+            <div id="body">
+                <div style="background:darkgreen; height: auto; border-bottom-right-radius: 10px ;" id="leftmenu">
+                    <?php require_once('giaodien/leftmenu.php'); ?>
+                </div>
+                <div id="content" style="margin-left:10px">
+                    <?php require_once('giaodien/content.php'); ?>
+                </div>
+            </div>
+
+            <div id="footer"></div>
+        </div>
+    </body>
+<?php } ?>
+<script src="js/style.js"></script>
+
 </html>
