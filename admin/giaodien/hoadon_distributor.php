@@ -151,11 +151,11 @@ if (!empty($_SESSION['nguoidung'])) {
                                     <td><?= $row['ngay_tao'] ?></td>
                                     <td><?php
                                     if ($row['deliveryStatus'] == "1")
-                                        echo "Chờ lấy hàng";
+                                        echo "<p style='color:orange'>Chờ lấy hàng</p>";
                                     if ($row['deliveryStatus'] == "2")
-                                        echo "Đang vận chuyển";
+                                        echo "<p style='color:green'>Đang vận chuyển</p>";
                                     if ($row['deliveryStatus'] == "3")
-                                        echo "Giao hàng thành công";
+                                        echo "<p style='color:darkgreen'>Giao hàng thành công</p>";
                                     if ($row['deliveryStatus'] == "4")
                                         echo "Giao hàng thất bại";
                                     ?>

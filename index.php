@@ -253,7 +253,7 @@ if ($search != '') {
                 })
         }
         function nhandonhang(id) {
-            $.post('frontend/delete_bill.php', {
+            $.post('frontend/nhanhang_bill.php', {
                 'id_hoadon': id
             },
                 function data() {

@@ -83,11 +83,11 @@ ini_set('display_errors', 0);
                         echo '<td align=center style="color:orange">Chờ lấy hàng</td>';
                     }
                     if ($value['deliveryStatus'] == 2) {
-                        echo '<td align=center style="color:greendark">Đang vận chuyển</td>
-                            <td align:right; ><a onclick="nhandonhang(' . $value['id'] . ')" style="color:green"><u>Xác nhận đã nhận hàng</u></a></td>';
+                        echo '<td align=center style="color:green">Đang vận chuyển</td>
+                            <td align:right; ><button onclick="nhandonhang(' . $value['id'] . ')" style="color:green; border-radius: 5px"><b>Xác nhận đã nhận hàng</b></button></td>';
                     }
                     if ($value['deliveryStatus'] == 3) {
-                        echo '<td align=center style="color:greendark">Giao thành công</td>';
+                        echo '<td align=center style="color:darkgreen;">Giao thành công</td>';
                     }
 
 
