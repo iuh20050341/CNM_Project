@@ -45,7 +45,7 @@ if (isset($_GET['tmuc'])) {
 }
 if (isset($_GET['tmuc'])) {
     if ($_GET['tmuc'] == 'Hóa đơn')
-        include('hoadon.php');
+        include('hoadon_qtv.php');
 }
 if (isset($_GET['tmuc'])) {
     if ($_GET['tmuc'] == 'Danh mục')

@@ -6,28 +6,28 @@ if (!empty($_SESSION['nguoidung'])) {
     $offset = ($current_page - 1) * $item_per_page;
     if (isset($_POST['timebd']) && isset($_POST['timekt'])) {
         if (($_POST['timebd'] == '') && ($_POST['timekt'] == ''))
-            $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0");
+            $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` )");
         if (($_POST['timebd'] == '') && (!empty($_POST['timekt'])))
-            $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "',INTERVAL '1' DAY)");
+            $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "',INTERVAL '1' DAY)");
         if (($_POST['timekt'] == '') && (!empty($_POST['timebd'])))
-            $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "'");
+            $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "'");
         if (!empty($_POST['timebd']) && (!empty($_POST['timekt'])))
-            $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "',INTERVAL '1' DAY) AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "'");
+            $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "',INTERVAL '1' DAY) AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "'");
     } else
-        $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0");
+        $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` )");
     $totalRecords = $totalRecords->num_rows;
     $totalPages = ceil($totalRecords / $item_per_page);
     if (isset($_POST['timebd']) && isset($_POST['timekt'])) {
         if (($_POST['timebd'] == '') && ($_POST['timekt'] == ''))
-            $hoadon = mysqli_query($con, "SELECT `hoadon`.`id` AS `idhoadon`, `deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
+            $hoadon = mysqli_query($con, "SELECT `hoadon`.`id` AS `idhoadon`, `deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
         if (($_POST['timebd'] == '') && (!empty($_POST['timekt'])))
-            $hoadon = mysqli_query($con, "SELECT `hoadon`.`id` AS `idhoadon`, `deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "',INTERVAL '1' DAY) ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
+            $hoadon = mysqli_query($con, "SELECT `hoadon`.`id` AS `idhoadon`,`deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "',INTERVAL '1' DAY) ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
         if (($_POST['timekt'] == '') && (!empty($_POST['timebd'])))
-            $hoadon = mysqli_query($con, "SELECT `hoadon`.`id` AS `idhoadon`, `deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "' ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
+            $hoadon = mysqli_query($con, "SELECT `hoadon`.`id` AS `idhoadon`,`deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "' ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
         if (!empty($_POST['timebd']) && (!empty($_POST['timekt'])))
-            $hoadon = mysqli_query($con, "SELECT `hoadon`.`id` AS `idhoadon`, `deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "',INTERVAL '1' DAY) AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "' ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
+            $hoadon = mysqli_query($con, "SELECT `hoadon`.`id` AS `idhoadon`,`deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "',INTERVAL '1' DAY) AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "' ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
     } else
-        $hoadon = mysqli_query($con, "SELECT `hoadon`.`id` AS `idhoadon`, `deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
+        $hoadon = mysqli_query($con, "SELECT `hoadon`.`id` AS `idhoadon`,`deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
     mysqli_close($con);
     ?>
     <style>
@@ -114,8 +114,8 @@ if (!empty($_SESSION['nguoidung'])) {
     </style>
 
     <div class="main-content">
-        <h1>Vận chuyển đơn hàng</h1>
-        <form action="./admin.php?muc=1&tmuc=Hóa%20đơn" method="POST">
+        <h1>Hóa đơn</h1>
+        <form action="./supplier.php?muc=1&tmuc=Hóa%20đơn" method="POST">
             <div style="margin: 10px;">
                 <label for="timebd">Ngày bắt đầu:</label>
                 <input type="date" id="timebd" name="timebd" required>
@@ -132,15 +132,15 @@ if (!empty($_SESSION['nguoidung'])) {
                                 <th>Mã khách hàng</th>
                                 <th>Tổng tiền</th>
                                 <th>Ngày tạo</th>
-                                <th>Trạng thái vận chuyển</th>
+                                <th>Trạng thái</th>
                                 <th>Xem chi tiết</th>
-                                <th>Thao tác</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
                             while ($row = mysqli_fetch_array($hoadon)) {
-                                if ($row['trang_thai'] == 1) {
+                                if ($row['deliveryStatus'] == 1) {
                                     echo '<tr class="hoadon-daxacnhan">';
                                 } else {
                                     echo '<tr class="hoadon-chuaxacnhan">';
@@ -151,24 +151,27 @@ if (!empty($_SESSION['nguoidung'])) {
                                     <td><?= $row['id_khachhang'] ?></td>
                                     <td><?= $row['tong_tien'] ?></td>
                                     <td><?= $row['ngay_tao'] ?></td>
-                                    <td><?php
-                                    if ($row['deliveryStatus'] == "1")
-                                        echo "<p style='color:orange'>Chờ lấy hàng</p>";
-                                    if ($row['deliveryStatus'] == "2")
-                                        echo "<p style='color:green'>Đang vận chuyển</p>";
-                                    if ($row['deliveryStatus'] == "3")
-                                        echo "<p style='color:darkgreen'>Giao hàng thành công</p>";
-                                    if ($row['deliveryStatus'] == "4")
-                                        echo "Giao hàng thất bại";
-                                    ?>
-                                    </td>
+                                    <td><?php if ($row['deliveryStatus'] == "1")
+                                        echo "Đã xác nhận - chờ vận chuyển";
+                                    elseif ($row['deliveryStatus'] == "0")
+                                        echo "Chưa xác nhận";
+                                    elseif ($row['deliveryStatus'] == "2")
+                                        echo "Đang vận chuyển";
+                                    elseif ($row['deliveryStatus'] == "3")
+                                        echo "Giao hàng thành công";
+                                    elseif ($row['deliveryStatus'] == "4")
+                                        echo "Giao hàng thất bại"; ?></td>
                                     <td><a href="./admin.php?act=cthoadon&id=<?= $row['idhoadon'] ?>">Xem chi tiết</a></td>
-                                    <td><?php if ($row['deliveryStatus'] == "1") { ?>
+                                    <td><?php if ($row['deliveryStatus'] == "0") { ?>
                                             <a
-                                                href="./xulythem.php?act=xnhdvc&type=2&id=<?= $row['idhoadon'] ?>&cuser=<?= $row['ten_nv'] ?>&iduser=<?= $_SESSION['idnhanvien'] ?>">Lấy
-                                                hàng</a>
-                                        <?php } ?>
-                                        <div class="clear-both"></div>
+                                                href="./xulythem.php?act=xnhd&id=<?= $row['idhoadon'] ?>&cuser=<?= $row['ten_nv'] ?>&iduser=<?= $_SESSION['idnhanvien'] ?>">Xác
+                                                nhận</a><?php } ?>
+                                        <?php if ($row['deliveryStatus'] == "0") { ?><a
+                                                href="./supplier.php?act=xoahd&id=<?= $row['idhoadon'] ?>"
+                                                onclick="return confirm('Are you sure you want to reject this item?');">Từ
+                                                chối</a><?php } ?>
+                                    </td>
+                                    <div class="clear-both"></div>
                                 </tr>
                             <?php } ?>
                         </tbody>
