@@ -143,18 +143,24 @@
 								require_once './QRcode/phpqrcode/qrlib.php';
 								$path = './QRcode/images/';
 								$qrcode = $path.time().".png";
-								$sql='select ten_sp, ten_tl,id_nhaban, xuatsu,phanbon, chatluong, baoquan, vanchuyen, theloai.id as id_tl from sanpham, theloai where sanpham.id='.$id.' and theloai.id=sanpham.id_the_loai';
+								$sql='select ten_sp, ten_tl,id_nhaban, xuatsu,phanbon, chatluong, dotuoi, antoanthucpham, tinhhopphapnguongoc, dieukienbaoquan, phantichvisinhvat, theloai.id as id_tl from sanpham, theloai where sanpham.id='.$id.' and theloai.id=sanpham.id_the_loai';
 								$listcate_pro=executeSingleResult($sql);
 								$xuatsu = $listcate_pro['xuatsu'];
 								$phanbon = $listcate_pro['phanbon'];								
-								$chatluong = $listcate_pro['chatluong'];								
-								$baoquan = $listcate_pro['baoquan'];								
-								$vanchuyen = $listcate_pro['vanchuyen'];
+								$chatluong = $listcate_pro['chatluong'];
+								$dotuoi = $listcate_pro['dotuoi'];
+								$antoanthucpham = $listcate_pro['antoanthucpham'];
+								$tinhhopphapnguongoc = $listcate_pro['tinhhopphapnguongoc'];								
+								$dieukienbaoquan = $listcate_pro['dieukienbaoquan'];								
+								$phantichvisinhvat = $listcate_pro['phantichvisinhvat'];
 								$noidung = "$xuatsu
 $phanbon 
-$chatluong 
-$baoquan 
-$vanchuyen";								
+$chatluong
+$dotuoi
+$antoanthucpham
+$tinhhopphapnguongoc 
+$dieukienbaoquan 
+$phantichvisinhvat";								
 
 								QRcode::png($noidung, $qrcode, 1.9, 1.9);
 								echo "<img src='".$qrcode."'>";
@@ -215,7 +221,7 @@ $vanchuyen";
 						$sql='select * from sanpham where id_the_loai='.$listcate_pro['id_tl'].' limit 2, 4';
 						$list=executeResult($sql);
 						foreach($list as $item){
-							if($item['so_luong']==0 && $item['trangthai']==0){
+							if($item['so_luong']==0 && $item['trangthai']==4){
 								echo '<div class="col-md-4 col-xs-6">
 								<div class="product">
 									<div class="product-img" style="height:250px">
@@ -243,7 +249,7 @@ $vanchuyen";
 									</div>
 								</div>
 							</div>';
-							}else if($item['trangthai']==0)
+							}else if($item['trangthai']==4)
 							echo'<div class="col-md-3 col-xs-6">
 							<div class="product" >
 								<div class="product-img">

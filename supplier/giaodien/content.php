@@ -5,6 +5,14 @@ if (isset($_GET['tmuc'])) {
     if ($_GET['tmuc'] == 'Sản phẩm')
         include('product_listing.php');
 }
+if (isset($_GET['tmuc'])) {
+    if ($_GET['tmuc'] == 'SP chưa duyệt')
+        include('product_list_check.php');
+}
+if (isset($_GET['tmuc'])) {
+    if ($_GET['tmuc'] == 'SP đã duyệt')
+        include('product_list_qr.php');
+}
 // if (isset($_GET['tmuc'])) {
 //     if ($_GET['tmuc'] == 'Thể loại')
 //         include('theloai.php');
@@ -84,6 +92,41 @@ if (isset($_GET['act'])&&isset($_GET['dk'])) {
     <a href="./supplier.php?tmuc=Thể loại">Danh sách thể loại</a>
 </div>');
 }
+
+if (isset($_GET['act'])&&isset($_GET['dk'])) {
+    if (($_GET['act'] == 'dang')&&($_GET['dk'] == 'yes'))
+    echo ('<div id="error-notify" class="box-content">
+    <h2>Thành công</h2>
+    
+    <a href="./supplier.php?tmuc=SP đã duyệt">Trở về</a>
+</div>');
+}
+if (isset($_GET['act'])&&isset($_GET['dk'])) {
+    if (($_GET['act'] == 'dang')&&($_GET['dk'] == 'no'))
+    echo ('<div id="error-notify" class="box-content">
+    <h2>Thất bại</h2>
+    
+    <a href="./supplier.php?tmuc=SP chưa duyệt"></a>
+</div>');
+}
+
+if (isset($_GET['act'])&&isset($_GET['dk'])) {
+    if (($_GET['act'] == 'gui')&&($_GET['dk'] == 'yes'))
+    echo ('<div id="error-notify" class="box-content">
+    <h2>Thành công</h2>
+    
+    <a href="./supplier.php?tmuc=SP chưa duyệt">Trở về</a>
+</div>');
+}
+if (isset($_GET['act'])&&isset($_GET['dk'])) {
+    if (($_GET['act'] == 'gui')&&($_GET['dk'] == 'no'))
+    echo ('<div id="error-notify" class="box-content">
+    <h2>Thất bại</h2>
+    
+    <a href="./supplier.php?tmuc=SP chưa duyệt"></a>
+</div>');
+}
+
 if (isset($_GET['act'])) {
     if ($_GET['act'] == 'suatl')
         include('theloai_editing.php');

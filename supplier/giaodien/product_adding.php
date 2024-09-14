@@ -1,7 +1,7 @@
 <!-- if (isset($_POST['name']) && !empty($_POST['name']) && isset($_POST['price']) && !empty($_POST['price']) && isset($_POST['idtl']) && !empty($_POST['idtl']) && isset($_POST['idncc']) && !empty($_POST['idncc'])) {
 $sql = "INSERT INTO `sanpham` (`id`, `ten_sp`, `hinh_anh`, `don_gia`, `noi_dung`, `ngay_tao`, `ngay_sua`,`so_luong`,`id_the_loai`,`id_nha_cc`) VALUES (NULL, '" . $_POST['name'] . "','" . $image . "', " . str_replace('.', '', $_POST['price']) . ", '" . $_POST['content'] . "', " . time() . ", " . time() . ",0,'" . $_POST['idtl'] . "','" . $_POST['idncc'] . "');";
                     -->
-<?php 
+                    <?php 
     $theloai=mysqli_query($con,"SELECT * FROM `theloai`");
     $nhacungcap=mysqli_query($con,"SELECT * FROM `nhacungcap`");
     $user_id = $_SESSION['user_id']; 
@@ -143,36 +143,6 @@ input[type="submit"]:hover {
         <textarea name="content" id="product-content"></textarea>
         <div class="clear-both"></div>
     </div>
-
-    <div class="wrap-field">
-            <label id="toggle-qrcode-label" class="toggle-button">Nội dung QRCode</label>
-            <div class="qr-content-modal" id="qr-modal">
-                <div class="modal-content">
-                    <span class="close" id="modal-close">&times;</span>
-                    <div class="qr-field">
-                        <label>Xuất xứ:</label>
-                        <input type="text" name="xuatsu" />
-                    </div>
-                    <div class="qr-field">
-                        <label>Phân bón:</label>
-                        <input type="text" name="phanbon" />
-                    </div>
-                    <div class="qr-field">
-                        <label>Chất lượng:</label>
-                        <input type="text" name="chatluong" />
-                    </div>
-                    <div class="qr-field">
-                        <label>Bảo quản:</label>
-                        <input type="text" name="baoquan" />
-                    </div>
-                    <div class="qr-field">
-                        <label>Vận chuyển:</label>
-                        <input type="text" name="vanchuyen" />
-                    </div>
-                </div>
-            </div>
-            <div class="clear-both"></div>
-        </div>
     
     <input name="btnadd" type="submit" title="Lưu sản phẩm" value="Lưu" />
 </form>

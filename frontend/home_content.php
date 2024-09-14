@@ -91,7 +91,7 @@
                                         $sql='select * from sanpham where 1 limit 9, 10';
                                         $list=executeResult($sql);
                                         foreach($list as $item){
-											if($item['so_luong']==0 && $item['trangthai']==0){ // Hết hàng 
+											if($item['so_luong']==0 && $item['trangthai']==4){ // Hết hàng 
 												echo '
 												<div class="product">
 												<div class="product-img" style="height:250px">
@@ -114,7 +114,7 @@
 													<button class="add-to-cart-btn" >SẢN PHẨM ĐÃ HẾT</button>
 												</div>
 											</div>';
-											}else if($item['trangthai']==0)// Còn hàng
+											}else if($item['trangthai']==4)// Còn hàng
                                             echo '<div class="product" >
 											<div class="product-img" style="height:250px" onclick="location=\'index.php?act=product&id='.$item['id'].'\'">
 												<img src="./img/'.$item['hinh_anh'].'" alt="" style="height:100%">
@@ -175,7 +175,7 @@
                                         $sql='select * from sanpham where 1 limit 4, 5';
                                         $list=executeResult($sql);
                                         foreach($list as $item){
-											if($item['so_luong']==0 && $item['trangthai']==0){ // Hết hàng 
+											if($item['so_luong']==0 && $item['trangthai']==4){ // Hết hàng 
 												echo '
 												<div class="product">
 												<div class="product-img" style="height:250px">
@@ -198,7 +198,7 @@
 													<button class="add-to-cart-btn" >SẢN PHẨM ĐÃ HẾT</button>
 												</div>
 											</div>';
-											}else if($item['trangthai']==0)// Còn hàng
+											}else if($item['trangthai']==4)// Còn hàng
                                             echo '<div class="product" >
 											<div class="product-img" style="height:250px" onclick="location=\'index.php?act=product&id='.$item['id'].'\'">
 												<img src="./img/'.$item['hinh_anh'].'" alt="" style="height:100%">
@@ -257,7 +257,7 @@
                                         $sql='select * from sanpham where 1 limit 20, 30';
                                         $list=executeResult($sql);
                                         foreach($list as $item){
-											if($item['so_luong']==0 && $item['trangthai']==0){ // Hết hàng 
+											if($item['so_luong']==0 && $item['trangthai']==4){ // Hết hàng 
 												echo '
 												<div class="product">
 												<div class="product-img" style="height:250px">
@@ -280,7 +280,7 @@
 													<button class="add-to-cart-btn" >SẢN PHẨM ĐÃ HẾT</button>
 												</div>
 											</div>';
-											}else if($item['trangthai']==0)// Còn hàng
+											}else if($item['trangthai']==4)// Còn hàng
                                             echo '<div class="product" >
 											<div class="product-img" style="height:250px" onclick="location=\'index.php?act=product&id='.$item['id'].'\'">
 												<img src="./img/'.$item['hinh_anh'].'" alt="" style="height:100%">

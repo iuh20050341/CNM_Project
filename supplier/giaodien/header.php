@@ -4,7 +4,7 @@
 			<h2 style="color: white;
 					font-weight: 700;
 					margin: 0 0 10px;
-					display: inline-block;	">TRANG NHÀ BÁN
+					display: inline-block;	">TRANG NÔNG DÂN
 			</h2>
 		</div>
 

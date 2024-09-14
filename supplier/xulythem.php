@@ -33,105 +33,89 @@
     <?php
     include_once('function.php');
     include_once('connect_db.php');
-    if (isset($_POST['btnadd'])) {
-        if (isset($_POST['name']))
-            if ($_POST['name'] != '') {
-                if (isset($_POST['price']))
-                    if ($_POST['price'] != '') {
-                        if (isset($_POST['idtl']))
-                            if ($_POST['idtl'] != '') {
-                                if (isset($_POST['quantity']))
-                                    if ($_POST['quantity'] != '') {
-                                        if (isset($_POST['xuatsu']))
-                                        if ($_POST['xuatsu'] != '') {
-                                            if (isset($_POST['phanbon']))
-                                            if ($_POST['phanbon'] != '') {
-                                                if (isset($_POST['chatluong']))
-                                                if ($_POST['chatluong'] != '') {
-                                                    if (isset($_POST['baoquan']))
-                                                    if ($_POST['baoquan'] != '') {
-                                                        if (isset($_POST['vanchuyen']))
-                                                    if ($_POST['vanchuyen'] != '') {
-                                        if (isset($_POST['content']))
-                                            if ($_POST['content'] != '') {
-                                                $conn = mysqli_connect("localhost", "root", "", "bannuocdb");
-                                                $namei = $_POST['name'];
-                                                $price = $_POST['price'];
-                                                // $image=$_FILES['image'];
-                                                $idtl = $_POST['idtl'];
-                                                $sl = $_POST['quantity'];
-                                                $idnb = $_POST['idnb'];
-                                                $qr1 = $_POST['xuatsu'];
-                                                $qr2 = $_POST['phanbon'];
-                                                $qr3 = $_POST['chatluong'];
-                                                $qr4 = $_POST['baoquan'];
-                                                $qr5 = $_POST['vanchuyen'];
-                                                $content = $_POST['content'];
-                                                $check_sql = "SELECT * FROM `sanpham` WHERE `ten_sp` = '$namei'";
-                                                $check_result = mysqli_query($conn, $check_sql);
-                        
-                                                if (mysqli_num_rows($check_result) > 0) {
-                                                    // Tên đã tồn tại
-                                                    header("location:./supplier.php?act=addsptc&dk=trung");
-                                                } else {
-                                                if ($_FILES['image']['name'] != NULL) {
-                                                    // Kiểm tra file up lên có phải là ảnh không
-                                                    if ($_FILES['image']['type'] == "image/jpeg" || $_FILES['image']['type'] == "image/png" || $_FILES['image']['type'] == "image/gif") {
 
-                                                        // Nếu là ảnh tiến hành code upload
-                                                        $path1 = ""; // Ảnh sẽ lưu vào thư mục images
-                                                        $path2 = "../img/";
-                                                        $tmp_name = $_FILES['image']['tmp_name'];
-                                                        $name = $_FILES['image']['name'];
-                                                        // Upload ảnh vào thư mục images
-                                                        move_uploaded_file($tmp_name, $path2 . $name);
-                                                        $image_url = $path1 . $name; // Đường dẫn ảnh lưu vào cơ sở dữ liệu
-                                                        // Insert ảnh vào cơ sở dữ liệu
-                                                        $sql1 = "INSERT INTO `sanpham` (`ten_sp`, `hinh_anh`, `don_gia`, `noi_dung`,`so_luong`,`id_the_loai`,`trangthai`,`id_nhaban`,`xuatsu`,`phanbon`,`chatluong`,`baoquan`,`vanchuyen`) 
-                                                        VALUES ('$namei','$image_url', " . str_replace('.', '', $price) . ", '$content','$sl','$idtl',0,'$idnb','$qr1','$qr2','$qr3','$qr4','$qr5');";
-                                                        $result1 = mysqli_query($conn, $sql1);
-                                                        if (isset($_FILES['gallery']))
-                                                            if ($_FILES['gallery'] != '') {
-                                                                $uploadedFiles = $_FILES['gallery'];
-                                                                @$result = uploadFiles($uploadedFiles);
-                                                                if ($result) {
-                                                                    $galleryImages = $result['uploaded_files'];
-                                                                    if (!empty($galleryImages)) {
-                                                                        $product_id = $conn->insert_id;
-                                                                        $insertValues = "";
-                                                                        foreach ($galleryImages as $path) {
-                                                                            if (empty($insertValues)) {
-                                                                                $insertValues = "( " . $product_id . ", '" . $path . "')";
-                                                                            } else {
-                                                                                $insertValues .= ",( " . $product_id . ", '" . $path . "')";
-                                                                            }
-                                                                        }
-                                                                        $result = mysqli_query($conn, "INSERT INTO `hinhanhsp` ( `id_sp`, `hinh_anh`) VALUES " . $insertValues . ";");
-                                                                    }
-                                                                } else "ko them duoc";
-                                                            }
-                                                        if ($result1) {
-                                                            // $result2 = mysqli_query($conn,"SELECT COUNT(`id_the_loai`) AS cid_the_loai FROM `sanpham` WHERE `id_the_loai`='$idtl'");
-                                                            // $r=mysqli_fetch_array($result2);
-                                                            // $result3 = mysqli_query($conn,"UPDATE `theloai` SET `tong_sp`=".$r['cid_the_loai']." WHERE `id`=$idtl");
-                                                            // if ($result3) { 
-                                                            header('location:supplier.php?act=addsptc&dk=yes');
-                                                            // }else header("location:./supplier.php?act=addsptc&dk=no");
-                                                        } else header("location:./supplier.php?act=addsptc&dk=no");
+    if (isset($_POST['btnadd'])) {
+        if (isset($_POST['name']) && $_POST['name'] != '') {
+            if (isset($_POST['price']) && $_POST['price'] != '') {
+                if (isset($_POST['idtl']) && $_POST['idtl'] != '') {
+                    if (isset($_POST['quantity']) && $_POST['quantity'] != '') {
+                        if (isset($_POST['content']) && $_POST['content'] != '') {
+                            $conn = mysqli_connect("localhost", "root", "", "bannuocdb");
+                            $namei = $_POST['name'];
+                            $price = $_POST['price'];
+                            $idtl = $_POST['idtl'];
+                            $sl = $_POST['quantity'];
+                            $idnb = $_POST['idnb'];
+                            $content = $_POST['content'];
+    
+                            $check_sql = "SELECT * FROM `sanpham` WHERE `ten_sp` = '$namei'";
+                            $check_result = mysqli_query($conn, $check_sql);
+    
+                            if (mysqli_num_rows($check_result) > 0) {
+                                // Tên đã tồn tại
+                                header("location:./supplier.php?act=addsptc&dk=trung");
+                            } else {
+                                if ($_FILES['image']['name'] != NULL) {
+                                    // Kiểm tra file up lên có phải là ảnh không
+                                    if ($_FILES['image']['type'] == "image/jpeg" || $_FILES['image']['type'] == "image/png" || $_FILES['image']['type'] == "image/gif") {
+                                        // Nếu là ảnh tiến hành code upload
+                                        $path1 = ""; // Ảnh sẽ lưu vào thư mục images
+                                        $path2 = "../img/";
+                                        $tmp_name = $_FILES['image']['tmp_name'];
+                                        $name = $_FILES['image']['name'];
+                                        // Upload ảnh vào thư mục images
+                                        move_uploaded_file($tmp_name, $path2 . $name);
+                                        $image_url = $path1 . $name; // Đường dẫn ảnh lưu vào cơ sở dữ liệu
+                                        // Insert ảnh vào cơ sở dữ liệu
+                                        $sql1 = "INSERT INTO `sanpham` (`ten_sp`, `hinh_anh`, `don_gia`, `noi_dung`,`so_luong`,`id_the_loai`,`trangthai`,`id_nhaban`) 
+                                        VALUES ('$namei','$image_url', " . str_replace('.', '', $price) . ", '$content','$sl','$idtl',0,'$idnb');";
+                                        $result1 = mysqli_query($conn, $sql1);
+    
+                                        if (isset($_FILES['gallery']) && $_FILES['gallery'] != '') {
+                                            $uploadedFiles = $_FILES['gallery'];
+                                            @$result = uploadFiles($uploadedFiles);
+                                            if ($result) {
+                                                $galleryImages = $result['uploaded_files'];
+                                                if (!empty($galleryImages)) {
+                                                    $product_id = $conn->insert_id;
+                                                    $insertValues = "";
+                                                    foreach ($galleryImages as $path) {
+                                                        if (empty($insertValues)) {
+                                                            $insertValues = "( " . $product_id . ", '" . $path . "')";
+                                                        } else {
+                                                            $insertValues .= ",( " . $product_id . ", '" . $path . "')";
+                                                        }
                                                     }
+                                                    $result = mysqli_query($conn, "INSERT INTO `hinhanhsp` ( `id_sp`, `hinh_anh`) VALUES " . $insertValues . ";");
                                                 }
                                             }
-                                                                } else header("location:./supplier.php?act=addsptc&dk=no");
-                                                            } else header("location:./supplier.php?act=addsptc&dk=no");
-                                                        } else header("location:./supplier.php?act=addsptc&dk=no");
-                                                    } else header("location:./supplier.php?act=addsptc&dk=no");
-                                                } else header("location:./supplier.php?act=addsptc&dk=no");
-                                            } else header("location:./supplier.php?act=addsptc&dk=no");
-                                        } else header("location:./supplier.php?act=addsptc&dk=no");
-                            } else header("location:./supplier.php?act=addsptc&dk=no");
-                    } else header("location:./supplier.php?act=addsptc&dk=no");
-            } else header("location:./supplier.php?act=addsptc&dk=no");
+                                        }
+    
+                                        if ($result1) {
+                                            header('location:supplier.php?act=addsptc&dk=yes');
+                                        } else {
+                                            header("location:./supplier.php?act=addsptc&dk=no");
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            header("location:./supplier.php?act=addsptc&dk=no");
+                        }
+                    } else {
+                        header("location:./supplier.php?act=addsptc&dk=no");
+                    }
+                } else {
+                    header("location:./supplier.php?act=addsptc&dk=no");
+                }
+            } else {
+                header("location:./supplier.php?act=addsptc&dk=no");
+            }
+        } else {
+            header("location:./supplier.php?act=addsptc&dk=no");
+        }
     }
+    
     if (isset($_POST['btnsua'])) {
         if (isset($_POST['name']))
             if ($_POST['name'] != '') {
@@ -229,6 +213,7 @@
                     } else header("location:./supplier.php?act=suasptc&dk=no");
             } else header("location:./supplier.php?act=suasptc&dk=no");
     }
+    
     if (isset($_POST['btntladd'])) {
         if (isset($_POST['name']))
             if ($_POST['name'] != '') {
@@ -474,6 +459,72 @@
         }else header("location:./supplier.php?act=btndmsuatc&dk=no");
         }else header("location:./supplier.php?act=btndmsuatc&dk=no");
         
+    }
+
+    if (isset($_POST['btndang'])) {
+        // Kết nối cơ sở dữ liệu bằng MySQLi theo kiểu đối tượng
+        $conn = new mysqli("localhost", "root", "", "bannuocdb");
+
+        // Kiểm tra kết nối
+        if ($conn->connect_error) {
+            die("Kết nối thất bại: " . $conn->connect_error);
+        }
+
+        // Lấy id sản phẩm từ form
+        $id = $_POST['id'];
+
+        // Câu lệnh SQL để cập nhật trạng thái sản phẩm
+        $sql = "UPDATE sanpham SET trangthai = 4 WHERE id = ?";
+
+        // Chuẩn bị và thực thi câu lệnh
+        $stmt = $conn->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("i", $id);
+
+            // Kiểm tra xem câu lệnh có thực thi thành công không
+            if ($stmt->execute()) {
+                // Chuyển hướng sau khi thành công
+                header("Location: ./supplier.php?act=dang&dk=yes");
+                exit();
+            } else {
+                // Nếu có lỗi trong quá trình thực thi
+                header("Location: ./supplier.php?act=dang&dk=no");
+                exit();
+            }
+        }
+    }
+
+    if (isset($_POST['btngui'])) {
+        // Kết nối cơ sở dữ liệu bằng MySQLi theo kiểu đối tượng
+        $conn = new mysqli("localhost", "root", "", "bannuocdb");
+
+        // Kiểm tra kết nối
+        if ($conn->connect_error) {
+            die("Kết nối thất bại: " . $conn->connect_error);
+        }
+
+        // Lấy id sản phẩm từ form
+        $id = $_POST['id'];
+
+        // Câu lệnh SQL để cập nhật trạng thái sản phẩm
+        $sql = "UPDATE sanpham SET trangthai = 1 WHERE id = ?";
+
+        // Chuẩn bị và thực thi câu lệnh
+        $stmt = $conn->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("i", $id);
+
+            // Kiểm tra xem câu lệnh có thực thi thành công không
+            if ($stmt->execute()) {
+                // Chuyển hướng sau khi thành công
+                header("Location: ./supplier.php?act=gui&dk=yes");
+                exit();
+            } else {
+                // Nếu có lỗi trong quá trình thực thi
+                header("Location: ./supplier.php?act=gui&dk=no");
+                exit();
+            }
+        }
     }
     ?>
 </body>
