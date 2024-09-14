@@ -63,7 +63,7 @@
             <h1>Danh sách sản phẩm cần kiểm định</h1>
             <div class="product-items">
                 <div class="buttons">
-                    <a href="nvkiemdinh.php?tmuc=SP_QR">Sản phẩm cần tạo QR</a>
+                    <a href="nvkiemdinh.php?tmuc=SP_QRCode">Sản phẩm cần tạo QR</a>
                 </div>
                 <div class="table-responsive-sm ">
                     <table class="table table-bordered table-striped table-hover">

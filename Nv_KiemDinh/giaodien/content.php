@@ -6,7 +6,7 @@ if (isset($_GET['tmuc'])) {
         include('product_listing.php');
 }
 if (isset($_GET['tmuc'])) {
-    if ($_GET['tmuc'] == 'SP_QR')
+    if ($_GET['tmuc'] == 'SP_QRCode')
         include('product_list_qr.php');
 }
 // if (isset($_GET['tmuc'])) {
