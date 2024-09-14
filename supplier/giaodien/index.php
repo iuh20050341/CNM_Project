@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="./css/bootstrap-5.1.3-dist/css/bootstrap.min.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <script>src="./css/bootstrap-5.1.3-dist/js/bootstrap.min.js"</script>
-<title>Trang nhà bán</title>
+<title>Trang nông dân</title>
 
 <style>
     body {
@@ -65,7 +65,7 @@
             <a href="../../index.php"><img style="width:125px;" src="../../img/logo2.png" alt=""></a>
         </div>
         <div class="col-md-9">
-            <h1>TRANG NHÀ BÁN </h1>
+            <h1>TRANG NÔNG DÂN</h1>
         </div>
 
     </div>
@@ -75,7 +75,6 @@
 <div class="left-menu">
     <ul>
         <li><a href="#" onclick="showContent('product')">Quản lý sản phẩm</a></li>
-        <li><a href="#" onclick="showContent('order')">Quản lý đơn hàng</a></li>
     </ul>
 </div>
 
@@ -98,22 +97,7 @@
     </table>
 </div>
 
-<div id="order" class="content hidden">
-    <h2>Quản lý đơn hàng</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Khách hàng</th>
-                <th>Tổng tiền</th>
-                <th>Trạng thái</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Thêm các hàng dữ liệu ở đây -->
-        </tbody>
-    </table>
-</div>
+
 
 <script>
     function showContent(contentId) {

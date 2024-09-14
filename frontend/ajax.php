@@ -72,7 +72,7 @@ if($act=='category'){
 $list=executeResult($sql);
 if(empty($list))echo '<h3>0 sản phẩm được tìm thấy.</h3>';
 foreach($list as $item){
-    if($item['so_luong']==0 && $item['trangthai']==0){
+    if($item['so_luong']==0 && $item['trangthai']==4){
         echo '<div class="col-md-4 col-xs-6">
         <div class="product">
             <div class="product-img" style="height:250px">
@@ -100,7 +100,7 @@ foreach($list as $item){
             </div>
         </div>
     </div>';
-    }else if($item['trangthai']==0)
+    }else if($item['trangthai']==4)
     echo'<div class="col-md-4 col-xs-6">
     <div class="product" >
         <div class="product-img" style="height:250px" onclick="location=\'index.php?act=product&id='.$item['id'].'\'">

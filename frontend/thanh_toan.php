@@ -182,8 +182,8 @@ form {
 <?php
     $sql = "SELECT * FROM `phuongthucvanchuyen`";
     $result = executeResult($sql);
-    $sqltt = "SELECT * FROM `phuongthucthanhtoan`";
-    $resulttt = executeResult($sqltt);
+    // $sqltt = "SELECT * FROM `phuongthucthanhtoan`";
+    // $resulttt = executeResult($sqltt);
 
 ?>
 <body>
@@ -288,12 +288,21 @@ form {
 </script>
 
     <h2>Phương thức thanh toán</h2>
+
+    <!-- <label for="paymentMethod">Chọn phương thức thanh toán:</label>
+        <select id="paymentMethod" name="paymentMethod">
+            <option value="">
+                Thanh toán khi nhận hàng
+            </option>
+        </select> -->
+
+
     <?php
     $totalPrice = 0;
     foreach ($cart as $item) {
     $totalPrice += $item['qty'] * $item['price'];
     }
-// Tạo form submit
+
     echo '<table>
     <tr>
         <td>

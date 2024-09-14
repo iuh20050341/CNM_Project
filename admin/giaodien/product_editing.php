@@ -190,12 +190,24 @@ if (!empty($_GET['id'])) {
                         <input readonly type="text" name="chatluong" value="<?= (!empty($product) ? $product['chatluong'] : "") ?>"/>
                     </div>
                     <div class="qr-field">
+                        <label>Chất lượng:</label>
+                        <input readonly type="text" name="dotuoi" value="<?= (!empty($product) ? $product['dotuoi'] : "") ?>"/>
+                    </div>
+                    <div class="qr-field">
+                        <label>Chất lượng:</label>
+                        <input readonly type="text" name="antoanthucpham" value="<?= (!empty($product) ? $product['antoanthucpham'] : "") ?>"/>
+                    </div>
+                    <div class="qr-field">
+                        <label>Chất lượng:</label>
+                        <input readonly type="text" name="tinhhopphapnguongoc" value="<?= (!empty($product) ? $product['tinhhopphapnguongoc'] : "") ?>"/>
+                    </div>
+                    <div class="qr-field">
                         <label>Bảo quản:</label>
-                        <input readonly type="text" name="baoquan" value="<?= (!empty($product) ? $product['baoquan'] : "") ?>"/>
+                        <input readonly type="text" name="dieukienbaoquan" value="<?= (!empty($product) ? $product['dieukienbaoquan'] : "") ?>"/>
                     </div>
                     <div class="qr-field">
                         <label>Vận chuyển:</label>
-                        <input readonly type="text" name="vanchuyen" value="<?= (!empty($product) ? $product['vanchuyen'] : "") ?>"/>
+                        <input readonly type="text" name="phantichvisinhvat" value="<?= (!empty($product) ? $product['phantichvisinhvat'] : "") ?>"/>
                     </div>
                 </div>
             </div>

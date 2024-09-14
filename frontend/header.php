@@ -83,7 +83,7 @@
 								<!-- Cài đặt -->
 								<div class="dropdown">
 									<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-									<i class="fa-solid fa-gear" style="color: green"></i>										
+									<i class="fa-solid fa-right-to-bracket" style="color: green"></i>								
 									<span style="color: black">Cài Đặt</span>
 										
 									</a>
