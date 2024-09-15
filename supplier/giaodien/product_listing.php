@@ -67,6 +67,7 @@
             <div class="buttons">
                 <a href="supplier.php?tmuc=SP chưa duyệt">Sản phẩm chưa kiểm định</a>
                 <a href="supplier.php?tmuc=SP đã duyệt">Sản phẩm đã kiểm định</a>
+                <a href="supplier.php?tmuc=SP chưa đạt">Sản phẩm kiểm định không đạt</a>
             </div>
             <div class="table-responsive-sm">
                 <table class="table table-bordered table-striped table-hover">
