@@ -260,6 +260,14 @@ if ($search != '') {
                     location.reload();
                 })
         }
+        function capnhatdiachi(diachivuon) {
+            $.post('supplier/capnhatdiachi.php', {
+                'diachivuon': diachivuon
+            },
+                function data() {
+                    location.reload();
+                })
+        }
 
         //tim kiem bang giong
         const APP_ID = 'cf26e7b2c25b5acd18ed5c3e836fb235';
