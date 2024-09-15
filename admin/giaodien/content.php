@@ -8,6 +8,14 @@ if (isset($_GET['tmuc'])) {
         include('product_listing.php');
 }
 if (isset($_GET['tmuc'])) {
+    if ($_GET['tmuc'] == 'Kiểm định nông sản')
+        include('product_listing_kd.php');
+}
+if (isset($_GET['tmuc'])) {
+    if ($_GET['tmuc'] == 'SP_QRCode')
+        include('product_list_qr.php');
+}
+if (isset($_GET['tmuc'])) {
     if ($_GET['tmuc'] == 'Thể loại')
         include('theloai.php');
 }
@@ -73,6 +81,10 @@ if (isset($_GET['act'])) {
 if (isset($_GET['act'])) {
     if ($_GET['act'] == 'sua')
         include('product_editing.php');
+}
+if (isset($_GET['act'])) {
+    if ($_GET['act'] == 'suakd')
+        include('product_editing_kd.php');
 }
 if (isset($_GET['act'])) {
     if ($_GET['act'] == 'addtl')
@@ -516,5 +528,35 @@ if (isset($_GET['act'])) {
     
     <a href="./admin.php?tmuc=Danh mục">Danh sách Danh mục</a>
 </div>');
+}
+
+if (isset($_GET['act'])) {
+    if (($_GET['act'] == 'suaqr')&&($_GET['dk'] == 'yes'))
+    echo ('<div id="error-notify" class="box-content">
+    <h2>Thành công</h2>
+    
+    <a href="./admin.php?tmuc=Kiểm định nông sản">Danh sách Sản phẩm</a>
+</div>');
+}
+if (isset($_GET['act'])) {
+    if (($_GET['act'] == 'suaqr')&&($_GET['dk'] == 'no'))
+    echo ('<div id="error-notify" class="box-content">
+    <h2>Vui lòng nhập đủ thông tin!!</h2>
+    
+    <a href="javascript:window.history.go(-1)">Quay lại</a>
+</div>');
+}
+
+if (isset($_GET['act'])) {
+    if (($_GET['act'] == 'khtttc1')&&($_GET['dk'] == 'yes'))
+    echo ('<div id="error-notify" class="box-content">
+    <h2>Thành công</h2>
+    
+    <a href="./admin.php?tmuc=Kiểm định nông sản">Danh sách sản phẩm</a>
+</div>');
+}
+if (isset($_GET['act'])) {
+    if ($_GET['act'] == 'add_qr')
+        include('product_add_qr.php');
 }
 ?>

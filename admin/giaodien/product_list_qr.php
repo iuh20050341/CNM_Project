@@ -10,26 +10,51 @@
 </head>
 
 <body>
-    <?php
-    include_once("./connect_db.php");
+<?php
+   include_once("./connect_db.php");
+   if (!empty($_SESSION['nguoidung'])) {
+       $item_per_page = (!empty($_GET['per_page'])) ? $_GET['per_page'] : 6;
+       $current_page = (!empty($_GET['page'])) ? $_GET['page'] : 1;
+       $offset = ($current_page - 1) * $item_per_page;
 
-    if (isset($_SESSION['ten_dangnhap']) && !empty($_SESSION['ten_dangnhap']) && $_SESSION['user_id']) {
-        $user_id = $_SESSION['user_id'];
-        $item_per_page = (!empty($_GET['per_page'])) ? $_GET['per_page'] : 6;
-        $current_page = (!empty($_GET['page'])) ? $_GET['page'] : 1;
-        $offset = ($current_page - 1) * $item_per_page;
-        
-        // Tổng số bản ghi
-        $totalRecordsQuery = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 5";
-        $totalRecordsResult = mysqli_query($con, $totalRecordsQuery);
-        $totalRecords = $totalRecordsResult->num_rows;
-        $totalPages = ceil($totalRecords / $item_per_page);
-        
-        // Sản phẩm hiển thị theo trang
-        $query = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 5 LIMIT $item_per_page OFFSET $offset";
-        $products = mysqli_query($con, $query);
-        mysqli_close($con);
-    ?>
+       // Kiểm tra kết nối cơ sở dữ liệu
+       if ($con) {
+           // Lấy tổng số bản ghi với trangthai = 1
+           $totalRecordsQuery = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = 5");
+           
+           if ($totalRecordsQuery) {
+               $totalRecords = $totalRecordsQuery->num_rows;
+               $totalPages = ceil($totalRecords / $item_per_page);
+
+               // Truy vấn mặc định để lấy sản phẩm với trangthai = 1
+               $query = "SELECT sanpham.*, khachhang.diachivuon 
+                         FROM sanpham 
+                         JOIN khachhang ON sanpham.id_nhaban = khachhang.id 
+                         WHERE sanpham.trangthai = 5 
+                         ORDER BY sanpham.id ASC 
+                         LIMIT $item_per_page OFFSET $offset";
+
+               // Thực thi truy vấn
+               $products = mysqli_query($con, $query);
+
+               // Kiểm tra kết quả truy vấn
+               if (!$products) {
+                   echo "Lỗi truy vấn: " . mysqli_error($con);
+               }
+
+           } else {
+               echo "Lỗi truy vấn tổng số bản ghi: " . mysqli_error($con);
+           }
+       } else {
+           echo "Lỗi kết nối cơ sở dữ liệu: " . mysqli_connect_error();
+       }
+
+       // Đóng kết nối
+       mysqli_close($con);
+   } else {
+       echo "Bạn chưa đăng nhập.";
+   }
+?>
         <div class="main-content" style="color: green">
             <h1>Danh sách sản phẩm cần tạo mã QR</h1>
             <div class="product-items">
@@ -40,22 +65,20 @@
                                 <th style="text-align:center">ID</th>
                                 <th style="text-align:center">Ảnh</th>
                                 <th style="text-align:center">Tên sản phẩm</th>
-                                <th style="text-align:center">Số lượng tồn</th>
-                                <th style="text-align:center">Số lượng bán</th>
+                                <th style="text-align:center">Địa chỉ vườn</th>
                                 <th style="text-align:center">Trạng thái</th>
                                 <th style="text-align:center">Quản lý</th>
                             </tr>
                         </thead>
                         <tbody>
-                             <?php
-                             while ($row = mysqli_fetch_array($products)) {
-                             ?>
+                        <?php
+                                while ($row = mysqli_fetch_array($products)) {
+                                ?>
                                 <tr>         
                                     <td style="text-align:center; padding-top: 50px"><?= $row['id'] ?></td>                     
                                     <td><img style="width: 100px;height: 100px " src="../img/<?= $row['hinh_anh'] ?>"  /></td>
                                     <td style="text-align:center; padding-top: 50px"><?= $row['ten_sp'] ?></td>
-                                    <td style="text-align:center; padding-top: 50px"><?= $row['so_luong'] ?></td>
-                                    <td style="text-align:center; padding-top: 50px"><?= $row['sl_da_ban'] ?></td>
+                                    <td style="text-align:center; padding-top: 50px"><?= $row['diachivuon'] ?></td>
                                     <td style="text-align:center; padding-top: 50px">
                                         <?php 
                                             if($row['trangthai'] == '4') echo "Đã đăng"; 
@@ -67,9 +90,9 @@
                                             ?>
                                     </td>
                                     <td style="text-align:center; padding-top: 50px">
-                                        <a href="nvkiemdinh.php?act=add_qr&id=<?= $row['id'] ?>">Tạo mã QR</a>
+                                        <a href="admin.php?act=add_qr&id=<?= $row['id'] ?>">Tạo mã QR</a>
                                         <?php if ($row['trangthai'] == '4') { ?>
-                                            <a href="nvkiemdinh.php?act=xoa&id=<?= $row['id'] ?>" onclick="return confirm('Are you sure you want to delete this item?');">Xóa</a>
+                                            <a href="admin.php?act=xoa&id=<?= $row['id'] ?>" onclick="return confirm('Are you sure you want to delete this item?');">Xóa</a>
                                         <?php } ?>
                                     </td>
                                     <div class="clear-both"></div>
@@ -83,7 +106,6 @@
             <div class="clear-both"></div>
         </div>
     <?php
-    }
     ?>
 </body>
 

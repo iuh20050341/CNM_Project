@@ -13,6 +13,10 @@ if (isset($_GET['tmuc'])) {
     if ($_GET['tmuc'] == 'SP đã duyệt')
         include('product_list_qr.php');
 }
+if (isset($_GET['tmuc'])) {
+    if ($_GET['tmuc'] == 'SP chưa đạt')
+        include('product_list_kdkd.php');
+}
 // if (isset($_GET['tmuc'])) {
 //     if ($_GET['tmuc'] == 'Thể loại')
 //         include('theloai.php');
