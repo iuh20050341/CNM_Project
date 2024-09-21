@@ -531,16 +531,16 @@ if (isset($_GET['act'])) {
 }
 
 if (isset($_GET['act'])) {
-    if (($_GET['act'] == 'suaqr')&&($_GET['dk'] == 'yes'))
-    echo ('<div id="error-notify" class="box-content">
+    if (($_GET['act'] == 'suaqr') && ($_GET['dk'] == 'yes'))
+        echo ('<div id="error-notify" class="box-content">
     <h2>Thành công</h2>
     
     <a href="./admin.php?tmuc=Kiểm định nông sản">Danh sách Sản phẩm</a>
 </div>');
 }
 if (isset($_GET['act'])) {
-    if (($_GET['act'] == 'suaqr')&&($_GET['dk'] == 'no'))
-    echo ('<div id="error-notify" class="box-content">
+    if (($_GET['act'] == 'suaqr') && ($_GET['dk'] == 'no'))
+        echo ('<div id="error-notify" class="box-content">
     <h2>Vui lòng nhập đủ thông tin!!</h2>
     
     <a href="javascript:window.history.go(-1)">Quay lại</a>
@@ -548,8 +548,8 @@ if (isset($_GET['act'])) {
 }
 
 if (isset($_GET['act'])) {
-    if (($_GET['act'] == 'khtttc1')&&($_GET['dk'] == 'yes'))
-    echo ('<div id="error-notify" class="box-content">
+    if (($_GET['act'] == 'khtttc1') && ($_GET['dk'] == 'yes'))
+        echo ('<div id="error-notify" class="box-content">
     <h2>Thành công</h2>
     
     <a href="./admin.php?tmuc=Kiểm định nông sản">Danh sách sản phẩm</a>

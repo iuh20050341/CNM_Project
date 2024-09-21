@@ -1,31 +1,83 @@
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
 <?php
 include_once("./connect_db.php");
 if (!empty($_SESSION['nguoidung'])) {
     $item_per_page = (!empty($_GET['per_page'])) ? $_GET['per_page'] : 10;
     $current_page = (!empty($_GET['page'])) ? $_GET['page'] : 1;
     $offset = ($current_page - 1) * $item_per_page;
-    if (isset($_POST['timebd']) && isset($_POST['timekt'])) {
-        if (($_POST['timebd'] == '') && ($_POST['timekt'] == ''))
-            $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0");
-        if (($_POST['timebd'] == '') && (!empty($_POST['timekt'])))
-            $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "',INTERVAL '1' DAY)");
-        if (($_POST['timekt'] == '') && (!empty($_POST['timebd'])))
-            $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "'");
-        if (!empty($_POST['timebd']) && (!empty($_POST['timekt'])))
-            $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "',INTERVAL '1' DAY) AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "'");
-    } else
+    if (isset($_POST['search'])) {
+        $sql = "SELECT * FROM hoadon LEFT JOIN nhanvien ON `id_nhanvien`=`nhanvien`.`id` WHERE `hoadon`.`deliveryStatus` != 0";
+
+        if (!empty($_POST['timebd']) && !empty($_POST['timekt'])) {
+            $sql .= " AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "' AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "', INTERVAL '1' DAY)";
+        }
+
+        if (($_POST['timebd'] == '') && (!empty($_POST['timekt']))) {
+            $sql .= " AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "',INTERVAL '1' DAY)";
+        }
+        if (($_POST['timekt'] == '') && (!empty($_POST['timebd']))) {
+            $sql .= " AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "'";
+        }
+        if (!empty($_POST['status'])) {
+            $sql .= " AND `hoadon`.`deliveryStatus` = '" . $_POST['status'] . "'";
+        }
+
+        if (!empty($_POST['orderId'])) {
+            $sql .= " AND `hoadon`.`id` = '" . $_POST['orderId'] . "'";
+        }
+        // echo '' . $sql . '';
+
+        $totalRecords = mysqli_query($con, $sql);
+    }
+
+
+    // if (isset($_POST['timebd']) && isset($_POST['timekt'])) {
+    //     if (($_POST['timebd'] == '') && ($_POST['timekt'] == ''))
+    //         $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0");
+    //     if (($_POST['timebd'] == '') && (!empty($_POST['timekt'])))
+    //         $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "',INTERVAL '1' DAY)");
+    //     if (($_POST['timekt'] == '') && (!empty($_POST['timebd'])))
+    //         $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "'");
+    //     if (!empty($_POST['timebd']) && (!empty($_POST['timekt'])))
+    //         $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "',INTERVAL '1' DAY) AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "'");
+    // }
+    else
         $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0");
     $totalRecords = $totalRecords->num_rows;
     $totalPages = ceil($totalRecords / $item_per_page);
     if (isset($_POST['timebd']) && isset($_POST['timekt'])) {
-        if (($_POST['timebd'] == '') && ($_POST['timekt'] == ''))
-            $hoadon = mysqli_query($con, "SELECT `hoadon`.`id` AS `idhoadon`, `deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
-        if (($_POST['timebd'] == '') && (!empty($_POST['timekt'])))
-            $hoadon = mysqli_query($con, "SELECT `hoadon`.`id` AS `idhoadon`, `deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "',INTERVAL '1' DAY) ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
-        if (($_POST['timekt'] == '') && (!empty($_POST['timebd'])))
-            $hoadon = mysqli_query($con, "SELECT `hoadon`.`id` AS `idhoadon`, `deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "' ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
-        if (!empty($_POST['timebd']) && (!empty($_POST['timekt'])))
-            $hoadon = mysqli_query($con, "SELECT `hoadon`.`id` AS `idhoadon`, `deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "',INTERVAL '1' DAY) AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "' ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
+        $sql = "SELECT `hoadon`.`id` AS `idhoadon`, `deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0";
+        if (!empty($_POST['timebd']) && !empty($_POST['timekt'])) {
+            $sql .= " AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "',INTERVAL '1' DAY) AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "' ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset;
+        }
+
+        if (($_POST['timebd'] == '') && (!empty($_POST['timekt']))) {
+            $sql .= " AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "',INTERVAL '1' DAY) ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset;
+
+        }
+        if (($_POST['timekt'] == '') && (!empty($_POST['timebd']))) {
+            $sql .= " AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "' ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset;
+
+        }
+        if (!empty($_POST['status']) && $_POST['status'] != '99') {
+            $sql .= " AND `hoadon`.`deliveryStatus` = '" . $_POST['status'] . "'";
+        }
+
+        if (!empty($_POST['orderId'])) {
+            $sql .= " AND `hoadon`.`id` = '" . $_POST['orderId'] . "'";
+        }
+        // echo 'h' . $sql . '';
+        $hoadon = mysqli_query($con, $sql);
+
+        // if (($_POST['timebd'] == '') && ($_POST['timekt'] == ''))
+        //     $hoadon = mysqli_query($con, "SELECT `hoadon`.`id` AS `idhoadon`, `deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
+        // if (($_POST['timebd'] == '') && (!empty($_POST['timekt'])))
+        //     $hoadon = mysqli_query($con, "SELECT `hoadon`.`id` AS `idhoadon`, `deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "',INTERVAL '1' DAY) ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
+        // if (($_POST['timekt'] == '') && (!empty($_POST['timebd'])))
+        //     $hoadon = mysqli_query($con, "SELECT `hoadon`.`id` AS `idhoadon`, `deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "' ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
+        // if (!empty($_POST['timebd']) && (!empty($_POST['timekt'])))
+        //     $hoadon = mysqli_query($con, "SELECT `hoadon`.`id` AS `idhoadon`, `deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "',INTERVAL '1' DAY) AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "' ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
     } else
         $hoadon = mysqli_query($con, "SELECT `hoadon`.`id` AS `idhoadon`, `deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
     mysqli_close($con);
@@ -115,14 +167,33 @@ if (!empty($_SESSION['nguoidung'])) {
 
     <div class="main-content">
         <h1>Vận chuyển đơn hàng</h1>
-        <form action="./admin.php?muc=1&tmuc=Hóa%20đơn" method="POST">
-            <div style="margin: 10px;">
-                <label for="timebd">Ngày bắt đầu:</label>
-                <input type="date" id="timebd" name="timebd" required>
-                <label for="timekt">Ngày kết thúc:</label>
-                <input type="date" id="timekt" name="timekt" required>
-                <input type="submit" value="Lọc">
-            </div>
+        <form action="./admin.php?muc=1&tmuc=Quản%20lý%20vận%20chuyển" method="POST">
+            <form method="POST" action="./admin.php?muc=1&tmuc=Quản%20lý%20vận%20chuyển">
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="timebd">Ngày bắt đầu:</label>
+                        <input type="date" class="form-control" id="timebd" name="timebd">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="timekt">Ngày kết thúc:</label>
+                        <input type="date" class="form-control" id="timekt" name="timekt">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="status">Trạng thái:</label>
+                        <select id="status" name="status" class="form-control">
+                            <option value="99">Chọn trạng thái</option>
+                            <option value="1">Chờ lấy hàng</option>
+                            <option value="2">Đang vận chuyển</option>
+                            <option value="3">Giao hàng thành công</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="orderId">Mã đơn hàng:</label>
+                        <input type="text" class="form-control" id="orderId" name="orderId" placeholder="Nhập mã đơn hàng">
+                    </div>
+                </div>
+                <input name="search" type="submit" class="btn btn-primary" value="SEARCH">
+            </form>
             <div class="product-items">
                 <div class="table-responsive-sm ">
                     <table class="table table-bordered table-striped table-hover">
@@ -184,3 +255,5 @@ if (!empty($_SESSION['nguoidung'])) {
     <?php
 }
 ?>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>

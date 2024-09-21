@@ -1,3 +1,5 @@
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
 <html lang="en">
 
 <head>
@@ -18,20 +20,61 @@
         $item_per_page = (!empty($_GET['per_page'])) ? $_GET['per_page'] : 6;
         $current_page = (!empty($_GET['page'])) ? $_GET['page'] : 1;
         $offset = ($current_page - 1) * $item_per_page;
-        
-        // Tổng số bản ghi
-        $totalRecordsQuery = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 2";
-        $totalRecordsResult = mysqli_query($con, $totalRecordsQuery);
+
+        if (isset($_POST['search'])) {
+            $sql = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 2";
+
+            if (!empty($_POST['productId'])) {
+                $sql .= " AND `id` = '" . $_POST['productId'] . "'";
+            }
+            if (!empty($_POST['productName'])) {
+                $sql .= " AND `ten_sp` = '" . $_POST['productName'] . "'";
+            }
+            // echo '' . $sql . '';
+            $totalRecordsQuery = mysqli_query($con, $sql);
+        } else {
+            $totalRecordsQuery = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 2";
+            $totalRecordsResult = mysqli_query($con, $totalRecordsQuery);
+        }
+
         $totalRecords = $totalRecordsResult->num_rows;
         $totalPages = ceil($totalRecords / $item_per_page);
-        
-        // Sản phẩm hiển thị theo trang
-        $query = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 2 LIMIT $item_per_page OFFSET $offset";
-        $products = mysqli_query($con, $query);
+
+        if (isset($_POST['search'])) {
+            $sql = "SELECT * FROM `sanpham` WHERE id_nhaban =$user_id AND trangthai = 2";
+
+            if (!empty($_POST['productId'])) {
+                $sql .= " AND `sanpham`.`id` = '" . $_POST['productId'] . "'";
+            }
+            if (!empty($_POST['productName'])) {
+                $sql .= " AND `sanpham`.`ten_sp` LIKE '%" . $_POST['productName'] . "%'";
+            }
+            $products = mysqli_query($con, $sql);
+
+        } else {
+            $query = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 2 LIMIT $item_per_page OFFSET $offset";
+            $products = mysqli_query($con, $query);
+        }
+
         mysqli_close($con);
-    ?>
+        ?>
         <div class="main-content" style="color: green">
             <h1>Danh sách sản phẩm đã kiểm định</h1>
+            <form method="POST" action="./supplier.php?tmuc=SP%20đã%20duyệt">
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="orderId">Mã sản phẩm:</label>
+                        <input type="text" class="form-control" id="productId" name="productId"
+                            placeholder="Nhập Mã sản phẩm">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="orderId">Tên sản phẩm:</label>
+                        <input type="text" class="form-control" id="productName" name="productName"
+                            placeholder="Nhập Tên sản phẩm">
+                    </div>
+                </div>
+                <input name="search" type="submit" class="btn btn-primary" value="SEARCH">
+            </form>
             <div class="product-items">
                 <div class="table-responsive-sm ">
                     <table class="table table-bordered table-striped table-hover">
@@ -47,23 +90,28 @@
                             </tr>
                         </thead>
                         <tbody>
-                             <?php
-                             while ($row = mysqli_fetch_array($products)) {
-                             ?>
-                                <tr>         
-                                    <td style="text-align:center; padding-top: 50px"><?= $row['id'] ?></td>                     
-                                    <td><img style="width: 100px;height: 100px " src="../img/<?= $row['hinh_anh'] ?>"  /></td>
+                            <?php
+                            while ($row = mysqli_fetch_array($products)) {
+                                ?>
+                                <tr>
+                                    <td style="text-align:center; padding-top: 50px"><?= $row['id'] ?></td>
+                                    <td><img style="width: 100px;height: 100px " src="../img/<?= $row['hinh_anh'] ?>" /></td>
                                     <td style="text-align:center; padding-top: 50px"><?= $row['ten_sp'] ?></td>
                                     <td style="text-align:center; padding-top: 50px"><?= $row['so_luong'] ?></td>
                                     <td style="text-align:center; padding-top: 50px"><?= $row['sl_da_ban'] ?></td>
                                     <td style="text-align:center; padding-top: 50px">
-                                        <?php 
-                                            if($row['trangthai'] == '4') echo "Đã đăng"; 
-                                            elseif($row['trangthai'] == '3') echo "Kiểm định thất bại"; 
-                                            elseif($row['trangthai'] == '2') echo "Đã kiểm định thành công";
-                                            elseif($row['trangthai'] == '1') echo "Đang chờ kiểm định";
-                                            elseif($row['trangthai'] == '0') echo "Chưa kiểm định ";
-                                            ?>
+                                        <?php
+                                        if ($row['trangthai'] == '4')
+                                            echo "Đã đăng";
+                                        elseif ($row['trangthai'] == '3')
+                                            echo "Kiểm định thất bại";
+                                        elseif ($row['trangthai'] == '2')
+                                            echo "Đã kiểm định thành công";
+                                        elseif ($row['trangthai'] == '1')
+                                            echo "Đang chờ kiểm định";
+                                        elseif ($row['trangthai'] == '0')
+                                            echo "Chưa kiểm định ";
+                                        ?>
                                     </td>
                                     <td style="text-align:center; padding-top: 50px">
                                         <form method="POST" action="xulythem.php">
@@ -72,12 +120,14 @@
                                         </form>
 
                                         <?php if ($row['trangthai'] == '2') { ?>
-                                            <a href="supplier.php?act=xoa&id=<?= $row['id'] ?>" onclick="return confirm('Are you sure you want to delete this item?');"><button type="submit" name="btndang">Xóa</button></a>
+                                            <a href="supplier.php?act=xoa&id=<?= $row['id'] ?>"
+                                                onclick="return confirm('Are you sure you want to delete this item?');"><button
+                                                    type="submit" name="btndang">Xóa</button></a>
                                         <?php } ?>
                                     </td>
                                     <div class="clear-both"></div>
                                 </tr>
-                             <?php } ?>
+                            <?php } ?>
                         </tbody>
                     </table>
                 </div>
@@ -85,9 +135,11 @@
             <?php include './pagination.php'; ?>
             <div class="clear-both"></div>
         </div>
-    <?php
+        <?php
     }
     ?>
 </body>
 
 </html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
