@@ -21,9 +21,9 @@
         $offset = ($current_page - 1) * $item_per_page;
 
         // Add filter to exclude statuses 0, 1, 2, 3
-        $status_filter = "trangthai NOT IN (0, 1, 2, 3, 5)";
+        $status_filter = "trangthai NOT IN (0, 1, 2, 3,4, 5)";
         if (isset($_POST['search'])) {
-            $sql = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND $status_filter";
+            $sql = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND $status_filter AND `phancong` = '" . $_SESSION['user'] . "'";
 
             if (!empty($_POST['productId'])) {
                 $sql .= " AND `id` = '" . $_POST['productId'] . "'";
@@ -34,7 +34,7 @@
             // echo '' . $sql . '';
             $totalRecords = mysqli_query($con, $sql);
         } else {
-            $totalRecords = mysqli_query($con, "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND $status_filter");
+            $totalRecords = mysqli_query($con, "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND $status_filter AND `phancong` = '" . $_SESSION['user'] . "'");
 
         }
         $totalRecords = $totalRecords->num_rows;
@@ -73,7 +73,7 @@
             $order = "ORDER BY `id` ASC";
         }
         if (isset($_POST['search'])) {
-            $sql = "SELECT * FROM `sanpham` WHERE id_nhaban =$user_id AND $status_filter";
+            $sql = "SELECT * FROM `sanpham` WHERE id_nhaban =$user_id AND $status_filter AND `phancong` = '" . $_SESSION['user'] . "'";
 
             if (!empty($_POST['productId'])) {
                 $sql .= " AND `sanpham`.`id` = '" . $_POST['productId'] . "'";
@@ -84,7 +84,7 @@
             $products = mysqli_query($con, $sql);
 
         } else {
-            $products = mysqli_query($con, "SELECT * FROM `sanpham` WHERE id_nhaban =$user_id AND $status_filter $order LIMIT $item_per_page OFFSET $offset");
+            $products = mysqli_query($con, "SELECT * FROM `sanpham` WHERE id_nhaban =$user_id AND $status_filter AND `phancong` = '" . $_SESSION['user'] . "' LIMIT $item_per_page OFFSET $offset");
         }
         mysqli_close($con);
         ?>

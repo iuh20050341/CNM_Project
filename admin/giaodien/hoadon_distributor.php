@@ -2,12 +2,13 @@
 
 <?php
 include_once("./connect_db.php");
+
 if (!empty($_SESSION['nguoidung'])) {
-    $item_per_page = (!empty($_GET['per_page'])) ? $_GET['per_page'] : 10;
-    $current_page = (!empty($_GET['page'])) ? $_GET['page'] : 1;
+    $item_per_page = (!empty($_GET['per_page'])) ? intval($_GET['per_page']) : 10;
+    $current_page = (!empty($_GET['page'])) ? intval($_GET['page']) : 1;
     $offset = ($current_page - 1) * $item_per_page;
     if (isset($_POST['search'])) {
-        $sql = "SELECT * FROM hoadon LEFT JOIN nhanvien ON `id_nhanvien`=`nhanvien`.`id` WHERE `hoadon`.`deliveryStatus` != 0";
+        $sql = "SELECT * FROM hoadon LEFT JOIN nhanvien ON `id_nhanvien`=`nhanvien`.`id` WHERE `hoadon`.`deliveryStatus` != 0 AND `phancong` = '" . $_SESSION['user'] . "'";
 
         if (!empty($_POST['timebd']) && !empty($_POST['timekt'])) {
             $sql .= " AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "' AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "', INTERVAL '1' DAY)";
@@ -43,11 +44,11 @@ if (!empty($_SESSION['nguoidung'])) {
     //         $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "',INTERVAL '1' DAY) AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "'");
     // }
     else
-        $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0");
+        $totalRecords = mysqli_query($con, "SELECT * FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 AND `phancong` = '" . $_SESSION['user'] . "'");
     $totalRecords = $totalRecords->num_rows;
     $totalPages = ceil($totalRecords / $item_per_page);
     if (isset($_POST['timebd']) && isset($_POST['timekt'])) {
-        $sql = "SELECT `hoadon`.`id` AS `idhoadon`, `deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0";
+        $sql = "SELECT `hoadon`.`id` AS `idhoadon`, `deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 AND `phancong` = '" . $_SESSION['user'] . "'";
         if (!empty($_POST['timebd']) && !empty($_POST['timekt'])) {
             $sql .= " AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "',INTERVAL '1' DAY) AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "' ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset;
         }
@@ -79,7 +80,7 @@ if (!empty($_SESSION['nguoidung'])) {
         // if (!empty($_POST['timebd']) && (!empty($_POST['timekt'])))
         //     $hoadon = mysqli_query($con, "SELECT `hoadon`.`id` AS `idhoadon`, `deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "',INTERVAL '1' DAY) AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "' ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
     } else
-        $hoadon = mysqli_query($con, "SELECT `hoadon`.`id` AS `idhoadon`, `deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
+        $hoadon = mysqli_query($con, "SELECT `hoadon`.`id` AS `idhoadon`, `deliveryStatus`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`,`trang_thai`,`ten_nv`,`nhanvien`.`id` FROM (hoadon LEFT JOIN nhanvien ON`id_nhanvien`=`nhanvien`.`id` ) WHERE `hoadon`.`deliveryStatus` != 0 AND `phancong` = '" . $_SESSION['user'] . "' ORDER BY `hoadon`.`ngay_tao` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
     mysqli_close($con);
     ?>
     <style>

@@ -19,24 +19,24 @@
         $totalRecords = mysqli_query($con, "SELECT * FROM `sanpham`");
         $totalRecords = $totalRecords->num_rows;
         $totalPages = ceil($totalRecords / $item_per_page);
-        $products = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = '4' ORDER BY `id` ASC LIMIT " . $item_per_page . " OFFSET " . $offset);
+        $products = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = '7' ORDER BY `id` ASC LIMIT " . $item_per_page . " OFFSET " . $offset);
         if (isset($_GET['sapxep'])) {
             if ($_GET['sapxep'] == 'idgiam')
-                $products = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = '4' ORDER BY `id` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
+                $products = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = '7' ORDER BY `id` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
             if ($_GET['sapxep'] == 'idtang')
-                $products = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = '4' ORDER BY `id` ASC LIMIT " . $item_per_page . " OFFSET " . $offset);
+                $products = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = '7' ORDER BY `id` ASC LIMIT " . $item_per_page . " OFFSET " . $offset);
             if ($_GET['sapxep'] == 'tengiam')
-                $products = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = '4' ORDER BY `ten_sp` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
+                $products = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = '7' ORDER BY `ten_sp` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
             if ($_GET['sapxep'] == 'tentang')
-                $products = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = '4' ORDER BY `ten_sp` ASC LIMIT " . $item_per_page . " OFFSET " . $offset);
+                $products = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = '7' ORDER BY `ten_sp` ASC LIMIT " . $item_per_page . " OFFSET " . $offset);
             if ($_GET['sapxep'] == 'tongiam')
-                $products = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = '4' ORDER BY `so_luong` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
+                $products = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = '7' ORDER BY `so_luong` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
             if ($_GET['sapxep'] == 'tontang')
-                $products = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = '4' ORDER BY `so_luong` ASC LIMIT " . $item_per_page . " OFFSET " . $offset);
+                $products = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = '7' ORDER BY `so_luong` ASC LIMIT " . $item_per_page . " OFFSET " . $offset);
             if ($_GET['sapxep'] == 'bangiam')
-                $products = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = '4' ORDER BY `sl_da_ban` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
+                $products = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = '7' ORDER BY `sl_da_ban` DESC LIMIT " . $item_per_page . " OFFSET " . $offset);
             if ($_GET['sapxep'] == 'bantang')
-                $products = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = '4' ORDER BY `sl_da_ban` ASC LIMIT " . $item_per_page . " OFFSET " . $offset);
+                $products = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = '7' ORDER BY `sl_da_ban` ASC LIMIT " . $item_per_page . " OFFSET " . $offset);
         }
         mysqli_close($con);
         ?>
@@ -78,8 +78,8 @@
                                     </td>
                                     <td style="text-align:center; padding-top: 50px"><?= $row['sl_da_ban'] ?></td>
                                     <td style="text-align:center; padding-top: 50px"><a
-                                            href="admin.php?act=sua&id=<?= $row['id'] ?>">Xem</a></td>
-                                    <td style="text-align:center; padding-top: 50px"><?php if ($row['trangthai'] == '1') { ?><a
+                                            href="admin.php?act=sua&id=<?= $row['id'] ?>">Xem</a> | 
+                                            <?php if ($row['trangthai'] == '7') { ?><a
                                                 href="admin.php?act=xoa&id=<?= $row['id'] ?>"
                                                 onclick="return confirm('Are you sure you want to delete this item?');">Xóa</a><?php } ?>
                                     </td>

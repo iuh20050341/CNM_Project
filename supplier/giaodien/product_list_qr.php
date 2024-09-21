@@ -22,7 +22,7 @@
         $offset = ($current_page - 1) * $item_per_page;
 
         if (isset($_POST['search'])) {
-            $sql = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 2";
+            $sql = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 2 AND `phancong` = '" . $_SESSION['user'] . "'";
 
             if (!empty($_POST['productId'])) {
                 $sql .= " AND `id` = '" . $_POST['productId'] . "'";
@@ -33,7 +33,7 @@
             // echo '' . $sql . '';
             $totalRecordsQuery = mysqli_query($con, $sql);
         } else {
-            $totalRecordsQuery = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 2";
+            $totalRecordsQuery = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 2 AND `phancong` = '" . $_SESSION['user'] . "'";
             $totalRecordsResult = mysqli_query($con, $totalRecordsQuery);
         }
 
@@ -41,7 +41,7 @@
         $totalPages = ceil($totalRecords / $item_per_page);
 
         if (isset($_POST['search'])) {
-            $sql = "SELECT * FROM `sanpham` WHERE id_nhaban =$user_id AND trangthai = 2";
+            $sql = "SELECT * FROM `sanpham` WHERE id_nhaban =$user_id AND trangthai = 2 AND `phancong` = '" . $_SESSION['user'] . "'";
 
             if (!empty($_POST['productId'])) {
                 $sql .= " AND `sanpham`.`id` = '" . $_POST['productId'] . "'";
@@ -52,7 +52,7 @@
             $products = mysqli_query($con, $sql);
 
         } else {
-            $query = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 2 LIMIT $item_per_page OFFSET $offset";
+            $query = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 2 AND `phancong` = '" . $_SESSION['user'] . "' LIMIT $item_per_page OFFSET $offset";
             $products = mysqli_query($con, $query);
         }
 
@@ -119,7 +119,7 @@
                                             <button type="submit" name="btndang">Đăng</button>
                                         </form>
 
-                                        <?php if ($row['trangthai'] == '2') { ?>
+                                        <?php if ($row['trangthai'] == '4') { ?>
                                             <a href="supplier.php?act=xoa&id=<?= $row['id'] ?>"
                                                 onclick="return confirm('Are you sure you want to delete this item?');"><button
                                                     type="submit" name="btndang">Xóa</button></a>

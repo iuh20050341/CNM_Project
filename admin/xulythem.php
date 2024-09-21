@@ -632,9 +632,9 @@
     
         // Cập nhật giá trị của $trangthai dựa trên số checkbox đã được check
         if ($countChecked >= 5) {
-            $trangthai = 5;
-        } else {
             $trangthai = 3;
+        } else {
+            $trangthai = 5;
         }
     
         // Cập nhật giá trị của cột trangthai trong bảng sanpham
@@ -687,7 +687,7 @@
             if ($stmt->execute()) {
                 // Cập nhật trạng thái của sản phẩm thành 2
                 $stmt2 = $conn->prepare("UPDATE sanpham SET trangthai = ? WHERE id = ?");
-                $trangthai = 2; // Giá trị trạng thái là 2
+                $trangthai = 4; // Giá trị trạng thái là 2
                 $stmt2->bind_param("ii", $trangthai, $id);
 
                 if ($stmt2->execute()) {
@@ -721,6 +721,96 @@
             exit(); // Đảm bảo không thực thi mã nào khác
         }
     }
+
+    if (isset($_POST['btn_pckd']) && !empty($_POST['id'])) {
+        $product_id = mysqli_real_escape_string($con, $_POST['id']);
+        $phancong = mysqli_real_escape_string($con, $_POST['kd']); // Dữ liệu nhập từ ô input
+
+        if (!empty($phancong)) {
+            // Cập nhật cột phancong trong bảng sanpham
+            $updateQuery = "UPDATE sanpham SET phancong = ?, trangthai = 2 WHERE id = ?";
+            
+            // Sử dụng Prepared Statements
+            $stmt = $con->prepare($updateQuery);
+            $stmt->bind_param("si", $phancong, $product_id);
+            
+            if ($stmt->execute()) {
+                echo "<script>alert('Phân công thành công!');
+                                window.location.href = 'admin.php?tmuc=Phân công kiểm định';</script>";
+            } else {
+                echo "<script>alert('Phân công thất bại!');
+                                window.location.href = 'admin.php?tmuc=Phân công kiểm định';</script>";
+            }
+            $stmt->close();
+        } else {
+            echo "<script>alert('Vui lòng nhập tên nhân viên Kiểm định!');
+                                window.location.href = 'admin.php?tmuc=Phân công kiểm định';</script>";
+        }
+    }
+
+    if (isset($_POST['btn_pcvc'])) {
+        $id = $_POST['id'];
+        $phancong = isset($_POST['vc']) ? mysqli_real_escape_string($con, $_POST['vc']) : '';
+    
+        // Kiểm tra dữ liệu nhận được (debugging)
+        // echo "ID: " . htmlspecialchars($id) . "<br>";
+        // echo "Phân công: " . htmlspecialchars($phancong) . "<br>";
+    
+        // Cập nhật cơ sở dữ liệu
+        $updateQuery = "UPDATE hoadon SET phancong = ?, deliveryStatus = 1 WHERE id = ?";
+        if ($stmt = $con->prepare($updateQuery)) {
+            $stmt->bind_param("si", $phancong, $id);
+    
+            if ($stmt->execute()) {
+                echo "<script>alert('Phân công thành công!');
+                                window.location.href = 'admin.php?tmuc=Phân công vận chuyển';</script>";
+            } else {
+                echo "<script>alert('Phân công thất bại! Error: " . $stmt->error . "');
+                                window.location.href = 'admin.php?tmuc=Phân công vận chuyển';</script>";
+            }
+            
+            $stmt->close();
+        } else {
+            echo "<script>alert('Lỗi chuẩn bị câu lệnh SQL: " . $con->error . "');
+                            window.location.href = 'admin.php?tmuc=Phân công vận chuyển';</script>";
+        }
+    }
+
+    if (isset($_POST['btndang'])) {
+        // Kết nối cơ sở dữ liệu bằng MySQLi theo kiểu đối tượng
+        $conn = new mysqli("localhost", "root", "", "bannuocdb");
+    
+        // Kiểm tra kết nối
+        if ($conn->connect_error) {
+            die("Kết nối thất bại: " . $conn->connect_error);
+        }
+    
+        // Lấy id sản phẩm từ form
+        $id = $_POST['id'];
+    
+        // Câu lệnh SQL để cập nhật trạng thái sản phẩm
+        $sql = "UPDATE sanpham SET trangthai = 7 WHERE id = ?";
+    
+        // Chuẩn bị và thực thi câu lệnh
+        $stmt = $conn->prepare($sql);
+        if ($stmt) {
+            // Gán tham số cho câu lệnh SQL
+            $stmt->bind_param("i", $id);
+    
+            // Thực thi câu lệnh
+            if ($stmt->execute()) {
+                echo "<script>
+                    alert('Sản phẩm đã được đăng!');
+                    window.location.href = 'admin.php?tmuc=Duyệt bài đăng';
+                </script>";
+            } else {
+                echo "<script>
+                    alert('Đăng sản phẩm thất bại!');
+                    window.location.href = 'admin.php?tmuc=Duyệt bài đăng';
+                </script>";
+            }
+        }
+    } 
     ?>
 </body>
 

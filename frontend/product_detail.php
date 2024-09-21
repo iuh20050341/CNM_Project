@@ -221,7 +221,7 @@ $phantichvisinhvat";
 						$sql='select * from sanpham where id_the_loai='.$listcate_pro['id_tl'].' limit 2, 4';
 						$list=executeResult($sql);
 						foreach($list as $item){
-							if($item['so_luong']==0 && $item['trangthai']==4){
+							if($item['so_luong']==0 && $item['trangthai']==7){
 								echo '<div class="col-md-4 col-xs-6">
 								<div class="product">
 									<div class="product-img" style="height:250px">
@@ -249,7 +249,7 @@ $phantichvisinhvat";
 									</div>
 								</div>
 							</div>';
-							}else if($item['trangthai']==4)
+							}else if($item['trangthai']==7)
 							echo'<div class="col-md-3 col-xs-6">
 							<div class="product" >
 								<div class="product-img">
