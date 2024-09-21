@@ -23,7 +23,7 @@ if (!empty($_SESSION['nguoidung'])) {
         $loggedInFullname = $_SESSION['nguoidung'];
 
         // Lấy tổng số bản ghi với trangthai = 1
-        $totalRecordsQuery = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = 2");
+        $totalRecordsQuery = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = 6");
         
         if ($totalRecordsQuery) {
             $totalRecords = $totalRecordsQuery->num_rows;
@@ -42,7 +42,7 @@ if (!empty($_SESSION['nguoidung'])) {
             $query = "SELECT sanpham.*, khachhang.diachivuon 
                      FROM sanpham
                      JOIN khachhang ON sanpham.id_nhaban = khachhang.id
-                     WHERE sanpham.trangthai = 2
+                     WHERE sanpham.trangthai = 6
                      $filterCondition
                      ORDER BY sanpham.id ASC 
                      LIMIT $item_per_page OFFSET $offset";
@@ -70,11 +70,7 @@ if (!empty($_SESSION['nguoidung'])) {
 ?>
 
         <div class="main-content">
-            <h1>Danh sách sản phẩm cần kiểm định</h1>
-            <div class="product-items">
-                <div class="buttons">
-                    <a href="admin.php?tmuc=SP_QRCode">Sản phẩm cần tạo QR</a>
-                </div>
+            <h1>Danh sách sản phẩm cần duyệt bài đăng</h1>
                 <div class="table-responsive-sm ">
                     <table class="table table-bordered table-striped table-hover">
                         <thead >
@@ -112,7 +108,14 @@ if (!empty($_SESSION['nguoidung'])) {
                                             ?>
                                         </td>
                                         <td style="text-align:center; padding-top: 50px"><?= $row['phancong'] ?></td>
-                                        <td style="text-align:center; padding-top: 50px"><a href="admin.php?act=suakd&id=<?= $row['id'] ?>">Kiểm định</a></td>               
+                                        <td style="text-align:center; padding-top: 50px">
+                                            <form method="POST" action="xulythem.php">
+                                                <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                                                <button type="submit" name="btndang">Đăng</button> | 
+                                                <button type="submit" name="btndang"><a
+                                                href="admin.php?act=sua&id=<?= $row['id'] ?>">Xem</a></td></button>
+                                            </form>
+                                    </td>               
                                         <div class="clear-both"></div>
                                     </tr>
                                 <?php } ?>

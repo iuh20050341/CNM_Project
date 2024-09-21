@@ -12,6 +12,22 @@ if (isset($_GET['tmuc'])) {
         include('product_listing_kd.php');
 }
 if (isset($_GET['tmuc'])) {
+    if ($_GET['tmuc'] == 'Duyệt bài đăng')
+        include('duyetbaidang.php');
+}
+if (isset($_GET['tmuc'])) {
+    if ($_GET['tmuc'] == 'Quản lý nhân viên')
+        include('quanlynhanvien.php');
+}
+if (isset($_GET['tmuc'])) {
+    if ($_GET['tmuc'] == 'Phân công kiểm định')
+        include('phancongkd.php');
+}
+if (isset($_GET['tmuc'])) {
+    if ($_GET['tmuc'] == 'Phân công vận chuyển')
+        include('phancongvc.php');
+}
+if (isset($_GET['tmuc'])) {
     if ($_GET['tmuc'] == 'SP_QRCode')
         include('product_list_qr.php');
 }
@@ -53,7 +69,7 @@ if (isset($_GET['tmuc'])) {
 }
 if (isset($_GET['tmuc'])) {
     if ($_GET['tmuc'] == 'Hóa đơn')
-        include('hoadon.php');
+        include('hoadon_qtv.php');
 }
 if (isset($_GET['tmuc'])) {
     if ($_GET['tmuc'] == 'Danh mục')

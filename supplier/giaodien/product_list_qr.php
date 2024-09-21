@@ -20,13 +20,13 @@
         $offset = ($current_page - 1) * $item_per_page;
         
         // Tổng số bản ghi
-        $totalRecordsQuery = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 2";
+        $totalRecordsQuery = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 4";
         $totalRecordsResult = mysqli_query($con, $totalRecordsQuery);
         $totalRecords = $totalRecordsResult->num_rows;
         $totalPages = ceil($totalRecords / $item_per_page);
         
         // Sản phẩm hiển thị theo trang
-        $query = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 2 LIMIT $item_per_page OFFSET $offset";
+        $query = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 4 LIMIT $item_per_page OFFSET $offset";
         $products = mysqli_query($con, $query);
         mysqli_close($con);
     ?>
@@ -71,7 +71,7 @@
                                             <button type="submit" name="btndang">Đăng</button>
                                         </form>
 
-                                        <?php if ($row['trangthai'] == '2') { ?>
+                                        <?php if ($row['trangthai'] == '4') { ?>
                                             <a href="supplier.php?act=xoa&id=<?= $row['id'] ?>" onclick="return confirm('Are you sure you want to delete this item?');"><button type="submit" name="btndang">Xóa</button></a>
                                         <?php } ?>
                                     </td>

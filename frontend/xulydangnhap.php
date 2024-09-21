@@ -1,4 +1,3 @@
-
 <?php
 // Khai báo sử dụng session
 // session_start();
@@ -8,18 +7,18 @@
 // Xử lý đăng nhập
 if (isset($_POST['dangnhap'])) {
     // Kết nối tới database
-    $conn = mysqli_connect('localhost', 'root', '', 'bannuocdb') or die ('Lỗi kết nối'); 
+    $conn = mysqli_connect('localhost', 'root', '', 'bannuocdb') or die('Lỗi kết nối');
     mysqli_set_charset($conn, "utf8");
 
     // Lấy dữ liệu nhập vào
     $username = addslashes($_POST['username']);
     $password = addslashes($_POST['password']);
 
-    if ($username == "" || $password =="") {
+    if ($username == "" || $password == "") {
         echo '<br><p style="color:red;">Username hoặc Password không được để trống!</p>';
     } else {
         // Lấy mật khẩu đã băm từ cơ sở dữ liệu
-        $sql = "SELECT id, ten_dangnhap, mat_khau, trangthai FROM khachhang WHERE ten_dangnhap = '$username'";
+        $sql = "SELECT id, ten_dangnhap, mat_khau, trangthai, diachivuon FROM khachhang WHERE ten_dangnhap = '$username'";
         $query = mysqli_query($conn, $sql);
         $num_rows = mysqli_num_rows($query);
 
@@ -36,6 +35,8 @@ if (isset($_POST['dangnhap'])) {
                     $_SESSION['user_id'] = $row['id'];
                     $_SESSION['ten_dangnhap'] = $username;
                     $_SESSION['quyen'] = '7';
+                    $_SESSION['diachi'] = $row['diachivuon'];
+
                     echo "<script type='text/javascript'>alert('Đăng nhập thành công');window.location='index.php';</script>";
                 }
             } else {

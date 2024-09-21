@@ -19,7 +19,7 @@
         $offset = ($current_page - 1) * $item_per_page;
 
         // Add filter to exclude statuses 0, 1, 2, 3
-        $status_filter = "trangthai NOT IN (0, 1, 2, 3, 5)";
+        $status_filter = "trangthai NOT IN (0, 1, 2, 3, 4, 5)";
 
         $totalRecords = mysqli_query($con, "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND $status_filter");
         $totalRecords = $totalRecords->num_rows;
@@ -94,11 +94,16 @@
                                 <td style="text-align:center; padding-top: 50px"><?= $row['sl_da_ban'] ?></td>
                                 <td style="text-align:center; padding-top: 50px">
                                     <?php 
-                                        if($row['trangthai'] == '4') echo "Đã đăng"; 
-                                        elseif($row['trangthai'] == '3') echo "Kiểm định thất bại"; 
-                                        elseif($row['trangthai'] == '2') echo "Đã kiểm định thành công";
-                                        elseif($row['trangthai'] == '1') echo "Đang chờ kiểm định";
-                                        elseif($row['trangthai'] == '0') echo "Chưa kiểm định ";
+                                        switch($row['trangthai']) {
+                                            case '7': echo "Đã đăng"; break;
+                                            case '6': echo "Đang chờ duyệt bài đăng"; break;
+                                            case '5': echo "Sản phẩm không đạt chuẩn"; break;
+                                            case '4': echo "Sản phẩm đạt chuẩn"; break;
+                                            case '3': echo "Đang chờ tạo mã QR"; break;
+                                            case '2': echo "Đang chờ kiểm định"; break;
+                                            case '1': echo "Đang chờ phân công kiểm định"; break;
+                                            case '0': echo "Chưa kiểm định"; break;
+                                        }
                                     ?>
                                 </td>
                                 <td style="text-align:center; padding-top: 50px"><a href="supplier.php?act=sua&id=<?= $row['id'] ?>">Sửa</a> | <?php if($row['trangthai']=='4'){?><a href="supplier.php?act=xoa&id=<?= $row['id'] ?>" onclick="return confirm('Are you sure you want to delete this item?');">Xóa</a><?php }?></td>                                  

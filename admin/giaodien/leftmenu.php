@@ -1,4 +1,4 @@
-<div>
+<div style="padding: 10px;">
     <ul class="input-select2">
         <?php
         $sql = "SELECT id, ten_danhmuc FROM danhmuc, quyendahmuc WHERE `id_danhmuc`=`id` AND `id_quyen`=" . $_SESSION['quyen'];

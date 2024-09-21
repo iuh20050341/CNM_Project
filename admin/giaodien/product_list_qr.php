@@ -19,33 +19,46 @@
 
        // Kiểm tra kết nối cơ sở dữ liệu
        if ($con) {
-           // Lấy tổng số bản ghi với trangthai = 1
-           $totalRecordsQuery = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = 5");
-           
-           if ($totalRecordsQuery) {
-               $totalRecords = $totalRecordsQuery->num_rows;
-               $totalPages = ceil($totalRecords / $item_per_page);
+        // Lấy fullname của người dùng hiện tại từ session
+        $loggedInFullname = $_SESSION['nguoidung'];
 
-               // Truy vấn mặc định để lấy sản phẩm với trangthai = 1
-               $query = "SELECT sanpham.*, khachhang.diachivuon 
-                         FROM sanpham 
-                         JOIN khachhang ON sanpham.id_nhaban = khachhang.id 
-                         WHERE sanpham.trangthai = 5 
-                         ORDER BY sanpham.id ASC 
-                         LIMIT $item_per_page OFFSET $offset";
+        // Lấy tổng số bản ghi với trangthai = 1
+        $totalRecordsQuery = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = 3");
+        
+        if ($totalRecordsQuery) {
+            $totalRecords = $totalRecordsQuery->num_rows;
+            $totalPages = ceil($totalRecords / $item_per_page);
 
-               // Thực thi truy vấn
-               $products = mysqli_query($con, $query);
+            // Xây dựng điều kiện lọc dựa trên fullname của người dùng
+            if ($loggedInFullname == 'Kiểm định 1') {
+                $filterCondition = "AND sanpham.phancong = 'Kiểm định 1'";
+            } elseif ($loggedInFullname == 'Kiểm định 2') {
+                $filterCondition = "AND sanpham.phancong = 'Kiểm định 2'";
+            } else {
+                $filterCondition = ""; // Không áp dụng lọc nếu không phải 'Kiểm định 1' hoặc 'Kiểm định 2'
+            }
 
-               // Kiểm tra kết quả truy vấn
-               if (!$products) {
-                   echo "Lỗi truy vấn: " . mysqli_error($con);
-               }
+            // Truy vấn để lấy sản phẩm với trangthai = 1 và điều kiện lọc
+            $query = "SELECT sanpham.*, khachhang.diachivuon 
+                     FROM sanpham
+                     JOIN khachhang ON sanpham.id_nhaban = khachhang.id
+                     WHERE sanpham.trangthai = 3
+                     $filterCondition
+                     ORDER BY sanpham.id ASC 
+                     LIMIT $item_per_page OFFSET $offset";
 
-           } else {
-               echo "Lỗi truy vấn tổng số bản ghi: " . mysqli_error($con);
-           }
-       } else {
+            // Thực thi truy vấn
+            $products = mysqli_query($con, $query);
+
+            // Kiểm tra kết quả truy vấn
+            if (!$products) {
+                echo "Lỗi truy vấn: " . mysqli_error($con);
+            }
+
+        } else {
+            echo "Lỗi truy vấn tổng số bản ghi: " . mysqli_error($con);
+        }
+    } else {
            echo "Lỗi kết nối cơ sở dữ liệu: " . mysqli_connect_error();
        }
 
@@ -67,6 +80,7 @@
                                 <th style="text-align:center">Tên sản phẩm</th>
                                 <th style="text-align:center">Địa chỉ vườn</th>
                                 <th style="text-align:center">Trạng thái</th>
+                                <th style="text-align:center">Nhân viên kiểm định</th>
                                 <th style="text-align:center">Quản lý</th>
                             </tr>
                         </thead>
@@ -81,14 +95,19 @@
                                     <td style="text-align:center; padding-top: 50px"><?= $row['diachivuon'] ?></td>
                                     <td style="text-align:center; padding-top: 50px">
                                         <?php 
-                                            if($row['trangthai'] == '4') echo "Đã đăng"; 
-                                            elseif($row['trangthai'] == '3') echo "Kiểm định thất bại"; 
-                                            elseif($row['trangthai'] == '2') echo "Đã kiểm định thành công";
-                                            elseif($row['trangthai'] == '1') echo "Đang chờ kiểm định";
-                                            elseif($row['trangthai'] == '0') echo "Chưa kiểm định ";
-                                            elseif($row['trangthai'] == '5') echo "Đã kiểm định chờ tạo QR ";
-                                            ?>
+                                            switch($row['trangthai']) {
+                                                case '7': echo "Đã đăng"; break;
+                                                case '6': echo "Đang chờ duyệt bài đăng"; break;
+                                                case '5': echo "Sản phẩm không đạt chuẩn"; break;
+                                                case '4': echo "Sản phẩm đạt chuẩn"; break;
+                                                case '3': echo "Đang chờ tạo mã QR"; break;
+                                                case '2': echo "Đang chờ kiểm định"; break;
+                                                case '1': echo "Đang chờ phân công kiểm định"; break;
+                                                case '0': echo "Chưa kiểm định"; break;
+                                            }
+                                        ?>
                                     </td>
+                                    <td style="text-align:center; padding-top: 50px"><?= $row['phancong'] ?></td>
                                     <td style="text-align:center; padding-top: 50px">
                                         <a href="admin.php?act=add_qr&id=<?= $row['id'] ?>">Tạo mã QR</a>
                                         <?php if ($row['trangthai'] == '4') { ?>
