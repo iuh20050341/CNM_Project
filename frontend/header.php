@@ -127,7 +127,7 @@
 					</div>
 					<!-- /Menu Toogle -->
 				</div>
-				<?php if ($_SESSION['isNongDan'] == 1) { ?>
+				<?php if (isset($_SESSION['isNongDan']) && $_SESSION['isNongDan'] == 1) { ?>
 					<div class="my-store" style="margin-top:30px; color:green; padding-top:25px">
 						<a href="./supplier/supplier.php">
 							<i class="fa-solid fa-store"></i>
