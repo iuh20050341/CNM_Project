@@ -101,18 +101,24 @@
                                     <td style="text-align:center; padding-top: 50px"><?= $row['so_luong'] ?></td>
                                     <td style="text-align:center; padding-top: 50px"><?= $row['sl_da_ban'] ?></td>
                                     <td style="text-align:center; padding-top: 50px">
-                                        <?php
-                                        if ($row['trangthai'] == '4')
+                                    <?php
+                                        if ($row['trangthai'] == '7')
                                             echo "Đã đăng";
+                                        elseif ($row['trangthai'] == '6')
+                                            echo "Chờ duyệt bài đăng";
+                                        elseif ($row['trangthai'] == '5')
+                                            echo "Sản phẩm chưa đạt chuẩn";
+                                        elseif ($row['trangthai'] == '4')
+                                            echo "Sản phẩm đạt chuẩn";
                                         elseif ($row['trangthai'] == '3')
-                                            echo "Kiểm định thất bại";
+                                            echo "Đang chờ tạo mã QR";
                                         elseif ($row['trangthai'] == '2')
-                                            echo "Đã kiểm định thành công";
-                                        elseif ($row['trangthai'] == '1')
                                             echo "Đang chờ kiểm định";
+                                        elseif ($row['trangthai'] == '1')
+                                            echo "Đang chờ phân công kiểm định";
                                         elseif ($row['trangthai'] == '0')
                                             echo "Chưa kiểm định ";
-                                        ?>
+                                    ?>
                                     </td>
                                     <td style="text-align:center; padding-top: 50px">
                                         <form method="POST" action="xulythem.php">

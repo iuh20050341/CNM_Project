@@ -22,7 +22,7 @@
         $offset = ($current_page - 1) * $item_per_page;
 
         if (isset($_POST['search'])) {
-            $sql = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 3 AND `phancong` = '" . $_SESSION['user'] . "'";
+            $sql = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 5 AND `phancong` = '" . $_SESSION['user'] . "'";
 
             if (!empty($_POST['productId'])) {
                 $sql .= " AND `id` = '" . $_POST['productId'] . "'";
@@ -33,7 +33,7 @@
             // echo '' . $sql . '';
             $totalRecordsResult = mysqli_query($con, $sql);
         } else {
-            $totalRecordsQuery = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 3 AND `phancong` = '" . $_SESSION['user'] . "'";
+            $totalRecordsQuery = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 5 AND `phancong` = '" . $_SESSION['user'] . "'";
             $totalRecordsResult = mysqli_query($con, $totalRecordsQuery);
 
         }
@@ -42,7 +42,7 @@
         $totalPages = ceil($totalRecords / $item_per_page);
 
         if (isset($_POST['search'])) {
-            $sql = "SELECT * FROM `sanpham` WHERE id_nhaban =$user_id AND trangthai = 3 AND `phancong` = '" . $_SESSION['user'] . "'";
+            $sql = "SELECT * FROM `sanpham` WHERE id_nhaban =$user_id AND trangthai = 5 AND `phancong` = '" . $_SESSION['user'] . "'";
 
             if (!empty($_POST['productId'])) {
                 $sql .= " AND `sanpham`.`id` = '" . $_POST['productId'] . "'";
@@ -53,7 +53,7 @@
             $products = mysqli_query($con, $sql);
 
         } else {
-            $query = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 3 AND `phancong` = '" . $_SESSION['user'] . "' LIMIT $item_per_page OFFSET $offset";
+            $query = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 5 AND `phancong` = '" . $_SESSION['user'] . "' LIMIT $item_per_page OFFSET $offset";
             $products = mysqli_query($con, $query);
         }
 
@@ -101,18 +101,24 @@
                                     <td style="text-align:center; padding-top: 50px"><?= $row['so_luong'] ?></td>
                                     <td style="text-align:center; padding-top: 50px"><?= $row['sl_da_ban'] ?></td>
                                     <td style="text-align:center; padding-top: 50px">
-                                        <?php
-                                        if ($row['trangthai'] == '4')
+                                    <?php
+                                        if ($row['trangthai'] == '7')
                                             echo "Đã đăng";
+                                        elseif ($row['trangthai'] == '6')
+                                            echo "Chờ duyệt bài đăng";
+                                        elseif ($row['trangthai'] == '5')
+                                            echo "Sản phẩm chưa đạt chuẩn";
+                                        elseif ($row['trangthai'] == '4')
+                                            echo "Sản phẩm đạt chuẩn";
                                         elseif ($row['trangthai'] == '3')
-                                            echo "Kiểm định thất bại";
+                                            echo "Đang chờ tạo mã QR";
                                         elseif ($row['trangthai'] == '2')
-                                            echo "Đã kiểm định thành công";
-                                        elseif ($row['trangthai'] == '1')
                                             echo "Đang chờ kiểm định";
+                                        elseif ($row['trangthai'] == '1')
+                                            echo "Đang chờ phân công kiểm định";
                                         elseif ($row['trangthai'] == '0')
                                             echo "Chưa kiểm định ";
-                                        ?>
+                                    ?>
                                     </td>
                                     <td style="text-align:center; padding-top: 50px">
                                         <form method="POST" action="xulythem.php">
