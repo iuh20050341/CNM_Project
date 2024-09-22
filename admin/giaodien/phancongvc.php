@@ -5,7 +5,7 @@ if (!empty($_SESSION['nguoidung'])) {
     $current_page = (!empty($_GET['page'])) ? intval($_GET['page']) : 1;
     $offset = ($current_page - 1) * $item_per_page;
 
-    $whereClause = "hoadon.deliveryStatus = 0";
+    $whereClause = "hoadon.deliveryStatus = 5";
     
     if (isset($_POST['timebd']) && isset($_POST['timekt'])) {
         $timebd = mysqli_real_escape_string($con, $_POST['timebd']);
