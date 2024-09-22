@@ -550,7 +550,7 @@
         $id = $_POST['id'];
 
         // Câu lệnh SQL để cập nhật trạng thái sản phẩm
-        $sql = "UPDATE sanpham SET trangthai = 4 WHERE id = ?";
+        $sql = "UPDATE sanpham SET trangthai = 6 WHERE id = ?";
 
         // Chuẩn bị và thực thi câu lệnh
         $stmt = $conn->prepare($sql);

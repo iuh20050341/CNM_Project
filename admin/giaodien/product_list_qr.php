@@ -23,7 +23,7 @@
         if ($con) {
             // Lấy tổng số bản ghi với trangthai = 1
             if (isset($_POST['search'])) {
-                $sql = "SELECT * FROM `sanpham` WHERE `trangthai` = 5";
+                $sql = "SELECT * FROM `sanpham` WHERE `trangthai` = 5 AND `phancong` = '" . $_SESSION['user'] . "'";
 
                 if (!empty($_POST['productId'])) {
                     $sql .= " AND `id` = '" . $_POST['productId'] . "'";
@@ -34,7 +34,7 @@
                 // echo '' . $sql . '';
                 $totalRecordsQuery = mysqli_query($con, $sql);
             } else {
-                $totalRecordsQuery = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = 5");
+                $totalRecordsQuery = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = 5 AND `phancong` = '" . $_SESSION['user'] . "'");
             }
 
             if ($totalRecordsQuery) {
@@ -46,7 +46,7 @@
                     $sql = "SELECT sanpham.*, khachhang.diachivuon 
                          FROM sanpham 
                          JOIN khachhang ON sanpham.id_nhaban = khachhang.id 
-                         WHERE sanpham.trangthai = 5";
+                         WHERE sanpham.trangthai = 5 AND `phancong` = '" . $_SESSION['user'] . "'";
 
                     if (!empty($_POST['productId'])) {
                         $sql .= " AND `sanpham`.`id` = '" . $_POST['productId'] . "'";
@@ -60,7 +60,7 @@
                     $query = "SELECT sanpham.*, khachhang.diachivuon 
                     FROM sanpham 
                     JOIN khachhang ON sanpham.id_nhaban = khachhang.id 
-                    WHERE sanpham.trangthai = 5 
+                    WHERE sanpham.trangthai = 5 AND `phancong` = '" . $_SESSION['user'] . "'
                     ORDER BY sanpham.id ASC 
                     LIMIT $item_per_page OFFSET $offset";
 
