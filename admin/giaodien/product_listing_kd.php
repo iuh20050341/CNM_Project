@@ -12,6 +12,7 @@
 
 <body>
     <?php
+
     include_once("./connect_db.php");
     if (!empty($_SESSION['nguoidung'])) {
         $item_per_page = (!empty($_GET['per_page'])) ? $_GET['per_page'] : 6;
@@ -20,56 +21,30 @@
 
         // Kiểm tra kết nối cơ sở dữ liệu
         if ($con) {
-            // Lấy tổng số bản ghi với trangthai = 1
-            if (isset($_POST['search'])) {
-                $sql = "SELECT * FROM `sanpham` WHERE `trangthai` = 1 AND `phancong` = '" . $_SESSION['user'] . "'";
-
-                if (!empty($_POST['productId'])) {
-                    $sql .= " AND `id` = '" . $_POST['productId'] . "'";
-                }
-                if (!empty($_POST['productName'])) {
-                    $sql .= " AND `ten_sp` = '" . $_POST['productName'] . "'";
-                }
-                // echo '' . $sql . '';
-                $totalRecordsQuery = mysqli_query($con, $sql);
-            } else {
-                $totalRecordsQuery = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = 1 AND `phancong` = '" . $_SESSION['user'] . "'");
-
-            }
-
-            if ($totalRecordsQuery) {
-                $totalRecords = $totalRecordsQuery->num_rows;
-                $totalPages = ceil($totalRecords / $item_per_page);
-                if (isset($_POST['search'])) {
-                    $sql = "SELECT sanpham.*, khachhang.diachivuon 
-                         FROM sanpham 
-                         JOIN khachhang ON sanpham.id_nhaban = khachhang.id 
-                         WHERE sanpham.trangthai = 1 AND `phancong` = '" . $_SESSION['user'] . "'";
-
-                    if (!empty($_POST['productId'])) {
-                        $sql .= " AND `sanpham`.`id` = '" . $_POST['productId'] . "'";
-                    }
-                    if (!empty($_POST['productName'])) {
-                        $sql .= " AND `sanpham`.`ten_sp` LIKE '%" . $_POST['productName'] . "%'";
-                    }
-                    $products = mysqli_query($con, $sql);
-
-                } else {
-                    $query = "SELECT sanpham.*, khachhang.diachivuon 
+            // Lấy tổng số bản ghi
+            $sql = "SELECT sanpham.*, khachhang.diachivuon, taikhoang.fullname 
                     FROM sanpham 
                     JOIN khachhang ON sanpham.id_nhaban = khachhang.id 
-                    WHERE sanpham.trangthai = 1 AND `phancong` = '" . $_SESSION['user'] . "'
-                    ORDER BY sanpham.id ASC 
-                    LIMIT $item_per_page OFFSET $offset";
-
-                    $products = mysqli_query($con, $query);
+                    JOIN taikhoang ON taikhoang.username = sanpham.phancong
+                    WHERE sanpham.trangthai = 2 AND sanpham.phancong = '" . $_SESSION['user'] . "'";
+            
+            if (isset($_POST['search'])) {
+                if (!empty($_POST['productId'])) {
+                    $sql .= " AND sanpham.id = '" . $_POST['productId'] . "'";
                 }
-
-                // Kiểm tra kết quả truy vấn
-                if (!$products) {
-                    echo "Lỗi truy vấn: " . mysqli_error($con);
+                if (!empty($_POST['productName'])) {
+                    $sql .= " AND sanpham.ten_sp LIKE '%" . $_POST['productName'] . "%'";
                 }
+            }
 
+            $totalRecordsQuery = mysqli_query($con, $sql);
+            if ($totalRecordsQuery) {
+                $totalRecords = $totalRecordsQuery->num_rows;
+                $totalPages = ceil($totalRecords / $item_per_page); // Tính tổng số trang
+
+                // Truy vấn sản phẩm với phân trang
+                $sql .= " LIMIT $item_per_page OFFSET $offset";
+                $products = mysqli_query($con, $sql);
             } else {
                 echo "Lỗi truy vấn tổng số bản ghi: " . mysqli_error($con);
             }
@@ -89,14 +64,12 @@
         <form method="POST" action="./admin.php?muc=16&tmuc=Kiểm%20định%20nông%20sản">
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <label for="orderId">Mã sản phẩm:</label>
-                    <input type="text" class="form-control" id="productId" name="productId"
-                        placeholder="Nhập Mã sản phẩm">
+                    <label for="productId">Mã sản phẩm:</label>
+                    <input type="text" class="form-control" id="productId" name="productId" placeholder="Nhập Mã sản phẩm">
                 </div>
                 <div class="form-group col-md-3">
-                    <label for="orderId">Tên sản phẩm:</label>
-                    <input type="text" class="form-control" id="productName" name="productName"
-                        placeholder="Nhập Tên sản phẩm">
+                    <label for="productName">Tên sản phẩm:</label>
+                    <input type="text" class="form-control" id="productName" name="productName" placeholder="Nhập Tên sản phẩm">
                 </div>
             </div>
             <input name="search" type="submit" class="btn btn-primary" value="SEARCH">
@@ -105,61 +78,73 @@
             <div class="buttons">
                 <a href="admin.php?tmuc=SP_QRCode">Sản phẩm cần tạo QR</a>
             </div>
-            <div class="table-responsive-sm ">
+            <div class="table-responsive-sm">
                 <table class="table table-bordered table-striped table-hover">
                     <thead>
                         <tr>
-                            <th style="text-align:center">ID<a
-                                    href="./nvkiemdinh.php?muc=4&tmuc=Sản%20phẩm&sapxep=idgiam"></a><a
-                                    href="./nvkiemdinh.php?muc=4&tmuc=Sản%20phẩm&sapxep=idtang"></i></a></th>
-                            <th style="text-align:center">Ảnh </th>
-                            <th style="text-align:center">Tên sản phẩm<a
-                                    href="./nvkiemdinh.php?muc=4&tmuc=Sản%20phẩm&sapxep=tengiam"></i></a><a
-                                    href="./nvkiemdinh.php?muc=4&tmuc=Sản%20phẩm&sapxep=tentang"></i></a></th>
+                            <th style="text-align:center">ID</th>
+                            <th style="text-align:center">Ảnh</th>
+                            <th style="text-align:center">Tên sản phẩm</th>
                             <th style="text-align:center">Địa chỉ vườn</th>
                             <th style="text-align:center">Trạng thái</th>
+                            <th style="text-align:center">Nhân viên kiểm định</th>
                             <th style="text-align:center">Quản lý</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
-                        while ($row = mysqli_fetch_array($products)) {
-                            ?>
+                        <?php if (isset($products) && mysqli_num_rows($products) > 0): ?>
+                            <?php while ($row = mysqli_fetch_array($products)): ?>
+                                <tr>
+                                    <td style="text-align:center; padding-top: 50px"><?= $row['id'] ?></td>
+                                    <td><img style="width: 100px; height: 100px;" src="../img/<?= $row['hinh_anh'] ?>" /></td>
+                                    <td style="text-align:center; padding-top: 50px"><?= $row['ten_sp'] ?></td>
+                                    <td style="text-align:center; padding-top: 50px"><?= $row['diachivuon'] ?></td>
+                                    <td style="text-align:center; padding-top: 50px">
+                                        <?php
+                                        switch ($row['trangthai']) {
+                                            case '7':
+                                                echo "Đã đăng";
+                                                break;
+                                            case '6':
+                                                echo "Chờ duyệt bài đăng";
+                                                break;
+                                            case '5':
+                                                echo "Sản phẩm chưa đạt chuẩn";
+                                                break;
+                                            case '4':
+                                                echo "Sản phẩm đạt chuẩn";
+                                                break;
+                                            case '3':
+                                                echo "Đang chờ tạo mã QR";
+                                                break;
+                                            case '2':
+                                                echo "Đang chờ kiểm định";
+                                                break;
+                                            case '1':
+                                                echo "Đang chờ phân công kiểm định";
+                                                break;
+                                            case '0':
+                                                echo "Chưa kiểm định";
+                                                break;
+                                        }
+                                        ?>
+                                    </td>
+                                    <td style="text-align:center; padding-top: 50px"><?= isset($row['fullname']) ? $row['fullname'] : 'Chưa có thông tin' ?></td>
+                                    <td style="text-align:center; padding-top: 50px"><a href="admin.php?act=suakd&id=<?= $row['id'] ?>">Kiểm định</a></td>
+                                </tr>
+                            <?php endwhile; ?>
+                        <?php else: ?>
                             <tr>
-                                <td style="text-align:center; padding-top: 50px"><?= $row['id'] ?></td>
-                                <td><img style="width: 100px;height: 100px " src="../img/<?= $row['hinh_anh'] ?>" /></td>
-                                <td style="text-align:center; padding-top: 50px"><?= $row['ten_sp'] ?></td>
-                                <td style="text-align:center; padding-top: 50px"><?= $row['diachivuon'] ?></td>
-                                <td style="text-align:center; padding-top: 50px">
-                                    <?php
-                                    if ($row['trangthai'] == '4')
-                                        echo "Đã đăng";
-                                    elseif ($row['trangthai'] == '3')
-                                        echo "Kiểm định thất bại";
-                                    elseif ($row['trangthai'] == '2')
-                                        echo "Đã kiểm định thành công";
-                                    elseif ($row['trangthai'] == '1')
-                                        echo "Đang chờ kiểm định";
-                                    elseif ($row['trangthai'] == '0')
-                                        echo "Chưa kiểm định ";
-                                    ?>
-                                </td>
-                                <td style="text-align:center; padding-top: 50px"><a
-                                        href="admin.php?act=suakd&id=<?= $row['id'] ?>">Kiểm định</a></td>
-                                <div class="clear-both"></div>
+                                <td colspan="7" style="text-align:center">Không có sản phẩm nào.</td>
                             </tr>
-                        <?php } ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
         </div>
-        <?php
-        include './pagination.php';
-        ?>
+        <?php include './pagination.php'; ?>
         <div class="clear-both"></div>
     </div>
-    <?php
-    ?>
 </body>
 
 </html>

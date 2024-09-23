@@ -5,7 +5,7 @@ if (!empty($_SESSION['nguoidung'])) {
     $current_page = (!empty($_GET['page'])) ? intval($_GET['page']) : 1;
     $offset = ($current_page - 1) * $item_per_page;
 
-    $whereClause = "hoadon.deliveryStatus = 0";
+    $whereClause = "hoadon.deliveryStatus = 5";
     
     if (isset($_POST['timebd']) && isset($_POST['timekt'])) {
         $timebd = mysqli_real_escape_string($con, $_POST['timebd']);
@@ -32,15 +32,24 @@ if (!empty($_SESSION['nguoidung'])) {
                     ORDER BY hoadon.ngay_tao DESC
                     LIMIT $item_per_page OFFSET $offset";
     $hoadon = mysqli_query($con, $hoadonQuery);
+
+    // Truy vấn để lấy danh sách người dùng từ bảng taikhoang với id_quyen = 9
+    $userQuery = "SELECT username, fullname FROM taikhoang WHERE id_quyen = 9";
+    $userResult = mysqli_query($con, $userQuery);
+    $users = [];
+    while ($user = mysqli_fetch_assoc($userResult)) {
+        $users[] = $user; // Lưu cả username và fullname vào mảng
+    }
+
     mysqli_close($con);
     ?>
-<style>
+    <style>
         .table-bordered th, .table-bordered td {
             background-color: #ffffff;
             color: #000;
-            text-align: center; /* Căn giữa chữ trong các ô */
-            vertical-align: middle; /* Căn giữa theo chiều dọc */
-            font-weight: normal; /* Không in đậm */
+            text-align: center;
+            vertical-align: middle;
+            font-weight: normal;
         }
 
         .table-bordered th {
@@ -50,7 +59,7 @@ if (!empty($_SESSION['nguoidung'])) {
         .table td {
             border: 1px solid #ddd;
             font-size: 16px;
-            padding: 10px; /* Thêm padding để các ô đều nhau */
+            padding: 10px;
         }
 
         .product-items input[type="date"] {
@@ -74,7 +83,6 @@ if (!empty($_SESSION['nguoidung'])) {
             margin-top: 20px;
         }
 
-        /* Định dạng riêng cho trạng thái vận chuyển */
         .table td.status-delivery {
             color: inherit;
         }
@@ -106,6 +114,9 @@ if (!empty($_SESSION['nguoidung'])) {
                                 <td class="status-delivery">
                                     <?php
                                     switch ($row['deliveryStatus']) {
+                                        case "0":
+                                            echo "<p style='color:orange'>Chờ phân công</p>";
+                                            break;
                                         case "1":
                                             echo "<p style='color:orange'>Chờ lấy hàng</p>";
                                             break;
@@ -125,7 +136,12 @@ if (!empty($_SESSION['nguoidung'])) {
                                 <td style="text-align:center">
                                     <form action="xulythem.php" method="POST" class="form-container">
                                         <input type="hidden" name="id" value="<?= htmlspecialchars($row['idhoadon']) ?>" />
-                                        <input type="text" name="vc" value="<?= isset($row['phancong']) ? htmlspecialchars($row['phancong']) : '' ?>" />
+                                        <select name="vc">
+                                            <option value="">Chọn người dùng</option>
+                                            <?php foreach ($users as $user) { ?>
+                                                <option value="<?= htmlspecialchars($user['username']) ?>" <?= (isset($row['phancong']) && $row['phancong'] == $user['username']) ? 'selected' : '' ?>><?= htmlspecialchars($user['fullname']) ?></option>
+                                            <?php } ?>
+                                        </select>
                                         <input type="submit" name="btn_pcvc" value="Phân công">
                                     </form>
                                 </td>

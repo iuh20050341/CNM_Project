@@ -20,6 +20,10 @@ if (isset($_GET['tmuc'])) {
         include('quanlynhanvien.php');
 }
 if (isset($_GET['tmuc'])) {
+    if ($_GET['tmuc'] == 'Xem danh sách nhân viên')
+        include('pc_qlnv.php');
+}
+if (isset($_GET['tmuc'])) {
     if ($_GET['tmuc'] == 'Phân công kiểm định')
         include('phancongkd.php');
 }

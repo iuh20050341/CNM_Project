@@ -23,7 +23,7 @@
         if ($con) {
             // Lấy tổng số bản ghi với trangthai = 1
             if (isset($_POST['search'])) {
-                $sql = "SELECT * FROM `sanpham` WHERE `trangthai` = 5 AND `phancong` = '" . $_SESSION['user'] . "'";
+                $sql = "SELECT * FROM `sanpham` WHERE `trangthai` = 3 AND `phancong` = '" . $_SESSION['user'] . "'";
 
                 if (!empty($_POST['productId'])) {
                     $sql .= " AND `id` = '" . $_POST['productId'] . "'";
@@ -34,7 +34,7 @@
                 // echo '' . $sql . '';
                 $totalRecordsQuery = mysqli_query($con, $sql);
             } else {
-                $totalRecordsQuery = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = 5 AND `phancong` = '" . $_SESSION['user'] . "'");
+                $totalRecordsQuery = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = 3 AND `phancong` = '" . $_SESSION['user'] . "'");
             }
 
             if ($totalRecordsQuery) {
@@ -46,7 +46,7 @@
                     $sql = "SELECT sanpham.*, khachhang.diachivuon 
                          FROM sanpham 
                          JOIN khachhang ON sanpham.id_nhaban = khachhang.id 
-                         WHERE sanpham.trangthai = 5 AND `phancong` = '" . $_SESSION['user'] . "'";
+                         WHERE sanpham.trangthai = 3 AND `phancong` = '" . $_SESSION['user'] . "'";
 
                     if (!empty($_POST['productId'])) {
                         $sql .= " AND `sanpham`.`id` = '" . $_POST['productId'] . "'";
@@ -60,7 +60,7 @@
                     $query = "SELECT sanpham.*, khachhang.diachivuon 
                     FROM sanpham 
                     JOIN khachhang ON sanpham.id_nhaban = khachhang.id 
-                    WHERE sanpham.trangthai = 5 AND `phancong` = '" . $_SESSION['user'] . "'
+                    WHERE sanpham.trangthai = 3 AND `phancong` = '" . $_SESSION['user'] . "'
                     ORDER BY sanpham.id ASC 
                     LIMIT $item_per_page OFFSET $offset";
 
@@ -124,18 +124,22 @@
                                 <td style="text-align:center; padding-top: 50px"><?= $row['diachivuon'] ?></td>
                                 <td style="text-align:center; padding-top: 50px">
                                     <?php
-                                    if ($row['trangthai'] == '4')
-                                        echo "Đã đăng";
-                                    elseif ($row['trangthai'] == '3')
-                                        echo "Kiểm định thất bại";
-                                    elseif ($row['trangthai'] == '2')
-                                        echo "Đã kiểm định thành công";
-                                    elseif ($row['trangthai'] == '1')
-                                        echo "Đang chờ kiểm định";
-                                    elseif ($row['trangthai'] == '0')
-                                        echo "Chưa kiểm định ";
-                                    elseif ($row['trangthai'] == '5')
-                                        echo "Đã kiểm định chờ tạo QR ";
+                                        if ($row['trangthai'] == '7')
+                                            echo "Đã đăng";
+                                        elseif ($row['trangthai'] == '6')
+                                            echo "Chờ duyệt bài đăng";
+                                        elseif ($row['trangthai'] == '5')
+                                            echo "Sản phẩm chưa đạt chuẩn";
+                                        elseif ($row['trangthai'] == '4')
+                                            echo "Sản phẩm đạt chuẩn";
+                                        elseif ($row['trangthai'] == '3')
+                                            echo "Đang chờ tạo mã QR";
+                                        elseif ($row['trangthai'] == '2')
+                                            echo "Đang chờ kiểm định";
+                                        elseif ($row['trangthai'] == '1')
+                                            echo "Đang chờ phân công kiểm định";
+                                        elseif ($row['trangthai'] == '0')
+                                            echo "Chưa kiểm định ";
                                     ?>
                                 </td>
                                 <td style="text-align:center; padding-top: 50px">
