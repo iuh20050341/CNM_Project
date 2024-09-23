@@ -21,7 +21,8 @@ if ($row) {
     $_SESSION['nguoidung'] = $row['fullname'];
     $_SESSION['quyen'] = $row['id_quyen'];
     $_SESSION['user'] = $row['username'];
-
+    $_SESSION['idnhanvien'] = $row['id'];
+    $_SESSION['tennhanvien'] = $row['ten_nv'];
     header("location:admin.php?dn=true");
 } else {
     header("location:index.php?dn=false");

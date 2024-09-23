@@ -1,37 +1,86 @@
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
 <?php
 include_once("./connect_db.php");
 if (!empty($_SESSION['nguoidung'])) {
-    $item_per_page = (!empty($_GET['per_page'])) ? intval($_GET['per_page']) : 10;
+    $item_per_page = (!empty($_GET['per_page'])) ? intval($_GET['per_page']) : 6;
     $current_page = (!empty($_GET['page'])) ? intval($_GET['page']) : 1;
     $offset = ($current_page - 1) * $item_per_page;
 
-    $whereClause = "hoadon.deliveryStatus = 5";
-    
-    if (isset($_POST['timebd']) && isset($_POST['timekt'])) {
-        $timebd = mysqli_real_escape_string($con, $_POST['timebd']);
-        $timekt = mysqli_real_escape_string($con, $_POST['timekt']);
+    if (isset($_POST['search'])) {
+        $sql = "SELECT *  FROM hoadon LEFT JOIN nhanvien ON `id_nhanvien`=`nhanvien`.`id` WHERE `hoadon`.`deliveryStatus` IN (1, 5)";
 
-        if (!empty($timebd) && !empty($timekt)) {
-            $whereClause .= " AND hoadon.ngay_tao BETWEEN '$timebd' AND DATE_ADD('$timekt', INTERVAL 1 DAY)";
-        } elseif (!empty($timebd)) {
-            $whereClause .= " AND hoadon.ngay_tao >= '$timebd'";
-        } elseif (!empty($timekt)) {
-            $whereClause .= " AND hoadon.ngay_tao <= DATE_ADD('$timekt', INTERVAL 1 DAY)";
+        if (!empty($_POST['timebd']) && !empty($_POST['timekt'])) {
+            $sql .= " AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "' AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "', INTERVAL '1' DAY)";
         }
+
+        if (($_POST['timebd'] == '') && (!empty($_POST['timekt']))) {
+            $sql .= " AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "',INTERVAL '1' DAY)";
+        }
+        if (($_POST['timekt'] == '') && (!empty($_POST['timebd']))) {
+            $sql .= " AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "'";
+        }
+        if (!empty($_POST['status'])) {
+            $sql .= " AND `hoadon`.`deliveryStatus` = '" . $_POST['status'] . "'";
+        }
+
+        if (!empty($_POST['orderId'])) {
+            $sql .= " AND `hoadon`.`id` = '" . $_POST['orderId'] . "'";
+        }
+        if (!empty($_POST['phancong']) && $_POST['phancong'] != '') {
+            $sql .= " AND `hoadon`.`phancong` = '" . $_POST['phancong'] . "'";
+        }
+
+        // echo '' . $sql . '';
+        $totalRecordsQuery = mysqli_query($con, $sql);
+
+    } else {
+        $totalRecordsQuery = mysqli_query($con, "SELECT *  FROM hoadon LEFT JOIN nhanvien ON hoadon.id_nhanvien = nhanvien.id WHERE `hoadon`.`deliveryStatus` IN (1, 5)");
     }
-
-    $totalRecordsQuery = "SELECT COUNT(*) AS total FROM hoadon LEFT JOIN nhanvien ON hoadon.id_nhanvien = nhanvien.id WHERE $whereClause";
-    $totalRecordsResult = mysqli_query($con, $totalRecordsQuery);
-    $totalRecords = mysqli_fetch_assoc($totalRecordsResult)['total'];
-    $totalPages = ceil($totalRecords / $item_per_page);
-
-    $hoadonQuery = "SELECT hoadon.id AS idhoadon, deliveryStatus, id_khachhang, tong_tien, hoadon.ngay_tao, id_nhanvien, trang_thai, ten_nv, nhanvien.id
+    if ($totalRecordsQuery) {
+        $totalRecords = $totalRecordsQuery->num_rows;
+        $totalPages = ceil($totalRecords / $item_per_page);
+        if (isset($_POST['search'])) {
+            $sql = "SELECT hoadon.id AS idhoadon, deliveryStatus, id_khachhang, tong_tien, hoadon.ngay_tao, id_nhanvien, trang_thai, ten_nv, nhanvien.id
                     FROM hoadon
                     LEFT JOIN nhanvien ON hoadon.id_nhanvien = nhanvien.id
-                    WHERE $whereClause
-                    ORDER BY hoadon.ngay_tao DESC
-                    LIMIT $item_per_page OFFSET $offset";
-    $hoadon = mysqli_query($con, $hoadonQuery);
+                    WHERE `hoadon`.`deliveryStatus` IN (1, 5)";
+
+            if (!empty($_POST['timebd']) && !empty($_POST['timekt'])) {
+                $sql .= " AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "' AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "', INTERVAL '1' DAY)";
+            }
+
+            if (($_POST['timebd'] == '') && (!empty($_POST['timekt']))) {
+                $sql .= " AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "',INTERVAL '1' DAY)";
+            }
+            if (($_POST['timekt'] == '') && (!empty($_POST['timebd']))) {
+                $sql .= " AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "'";
+            }
+            if (!empty($_POST['status']) && $_POST['status'] != 99) {
+                $sql .= " AND `hoadon`.`deliveryStatus` = '" . $_POST['status'] . "'";
+            }
+
+            if (!empty($_POST['orderId'])) {
+                $sql .= " AND `hoadon`.`id` = '" . $_POST['orderId'] . "'";
+            }
+            if (!empty($_POST['phancong']) && $_POST['phancong'] != '') {
+                $sql .= " AND `hoadon`.`phancong` = '" . $_POST['phancong'] . "'";
+            }
+
+            echo '' . $sql . '';
+            $hoadon = mysqli_query($con, $sql);
+
+            $totalRecords = mysqli_query($con, $sql);
+        } else {
+            $sql = "SELECT hoadon.id AS idhoadon, deliveryStatus, id_khachhang,phancong, tong_tien, hoadon.ngay_tao, id_nhanvien, trang_thai, ten_nv, nhanvien.id FROM hoadon LEFT JOIN nhanvien ON hoadon.id_nhanvien = nhanvien.id WHERE `hoadon`.`deliveryStatus` IN (1, 5) ORDER BY hoadon.ngay_tao DESC LIMIT $item_per_page OFFSET $offset";
+            $hoadon = mysqli_query($con, $sql);
+        }
+    } else {
+        echo "Lỗi truy vấn tổng số bản ghi: " . mysqli_error($con);
+    }
+    $totalPages = isset($totalPages) ? $totalPages : 1;
+
+
 
     // Truy vấn để lấy danh sách người dùng từ bảng taikhoang với id_quyen = 9
     $userQuery = "SELECT username, fullname FROM taikhoang WHERE id_quyen = 9";
@@ -44,7 +93,8 @@ if (!empty($_SESSION['nguoidung'])) {
     mysqli_close($con);
     ?>
     <style>
-        .table-bordered th, .table-bordered td {
+        .table-bordered th,
+        .table-bordered td {
             background-color: #ffffff;
             color: #000;
             text-align: center;
@@ -90,6 +140,42 @@ if (!empty($_SESSION['nguoidung'])) {
 
     <div class="main-content">
         <h1>Phân công vận chuyển</h1>
+        <form method="POST" action="./admin.php?tmuc=Phân%20công%20vận%20chuyển">
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="timebd">Ngày bắt đầu:</label>
+                    <input type="date" class="form-control" id="timebd" name="timebd">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="timekt">Ngày kết thúc:</label>
+                    <input type="date" class="form-control" id="timekt" name="timekt">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="orderId">Mã đơn hàng:</label>
+                    <input type="text" class="form-control" id="orderId" name="orderId" placeholder="Nhập mã đơn hàng">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="phancong">Phân công:</label>
+                    <select id="phancong" name="phancong" class="form-control">
+                        <option value="">Chưa phân công</option>
+                        <?php foreach ($users as $user): ?>
+                            <option value="<?= $user['username'] ?>"><?= $user['fullname'] ?></option>
+                        <?php endforeach; ?>
+                    </select>
+
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="status">Trạng thái:</label>
+                    <select id="status" name="status" class="form-control">
+                        <option value="99">Chọn trạng thái</option>
+                        <option value="1">Chờ lấy hàng</option>
+                        <option value="2">Đang vận chuyển</option>
+                        <option value="3">Giao hàng thành công</option>
+                    </select>
+                </div>
+            </div>
+            <input name="search" type="submit" class="btn btn-primary" value="SEARCH">
+        </form>
         <div class="product-items">
             <div class="table-responsive-sm">
                 <table class="table table-bordered table-striped table-hover">
@@ -105,48 +191,60 @@ if (!empty($_SESSION['nguoidung'])) {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php while ($row = mysqli_fetch_array($hoadon)) { ?>
-                            <tr class="<?= $row['trang_thai'] == 1 ? 'hoadon-daxacnhan' : 'hoadon-chuaxacnhan' ?>">
-                                <td><?= htmlspecialchars($row['idhoadon']) ?></td>
-                                <td><?= htmlspecialchars($row['id_khachhang']) ?></td>
-                                <td><?= htmlspecialchars($row['tong_tien']) ?></td>
-                                <td><?= htmlspecialchars($row['ngay_tao']) ?></td>
-                                <td class="status-delivery">
-                                    <?php
-                                    switch ($row['deliveryStatus']) {
-                                        case "0":
-                                            echo "<p style='color:orange'>Chờ phân công</p>";
-                                            break;
-                                        case "1":
-                                            echo "<p style='color:orange'>Chờ lấy hàng</p>";
-                                            break;
-                                        case "2":
-                                            echo "<p style='color:green'>Đang vận chuyển</p>";
-                                            break;
-                                        case "3":
-                                            echo "<p style='color:darkgreen'>Giao hàng thành công</p>";
-                                            break;
-                                        case "4":
-                                            echo "Giao hàng thất bại";
-                                            break;
-                                    }
-                                    ?>
-                                </td>
-                                <td><a href="./admin.php?act=cthoadon&id=<?= htmlspecialchars($row['idhoadon']) ?>">Xem chi tiết</a></td>
-                                <td style="text-align:center">
-                                    <form action="xulythem.php" method="POST" class="form-container">
-                                        <input type="hidden" name="id" value="<?= htmlspecialchars($row['idhoadon']) ?>" />
-                                        <select name="vc">
-                                            <option value="">Chọn người dùng</option>
-                                            <?php foreach ($users as $user) { ?>
-                                                <option value="<?= htmlspecialchars($user['username']) ?>" <?= (isset($row['phancong']) && $row['phancong'] == $user['username']) ? 'selected' : '' ?>><?= htmlspecialchars($user['fullname']) ?></option>
-                                            <?php } ?>
-                                        </select>
-                                        <input type="submit" name="btn_pcvc" value="Phân công">
-                                    </form>
-                                </td>
-                            </tr>
-                        <?php } ?>
+                        <?php
+                        if (mysqli_num_rows($hoadon) > 0) {
+                            while ($row = mysqli_fetch_array($hoadon)) { ?>
+                                <tr class="<?= $row['trang_thai'] == 1 ? 'hoadon-daxacnhan' : 'hoadon-chuaxacnhan' ?>">
+                                    <td><?= htmlspecialchars($row['idhoadon']) ?></td>
+                                    <td><?= htmlspecialchars($row['id_khachhang']) ?></td>
+                                    <td><?= htmlspecialchars($row['tong_tien']) ?></td>
+                                    <td><?= htmlspecialchars($row['ngay_tao']) ?></td>
+                                    <td class="status-delivery">
+                                        <?php
+                                        switch ($row['deliveryStatus']) {
+                                            case "0":
+                                                echo "<p style='color:orange'>Chờ phân công</p>";
+                                                break;
+                                            case "1":
+                                                echo "<p style='color:orange'>Chờ lấy hàng</p>";
+                                                break;
+                                            case "2":
+                                                echo "<p style='color:green'>Đang vận chuyển</p>";
+                                                break;
+                                            case "3":
+                                                echo "<p style='color:darkgreen'>Giao hàng thành công</p>";
+                                                break;
+                                            case "4":
+                                                echo "Giao hàng thất bại";
+                                                break;
+                                        }
+                                        ?>
+                                    </td>
+                                    <td><a href="./admin.php?act=cthoadon&id=<?= htmlspecialchars($row['idhoadon']) ?>">Xem chi
+                                            tiết</a></td>
+
+                                    <td style="text-align:center">
+                                        <?php if ($row['phancong'] == '') { ?>
+                                            <form action="xulythem.php" method="POST" class="form-container">
+                                                <input type="hidden" name="id" value="<?= htmlspecialchars($row['idhoadon']) ?>" />
+                                                <select name="vc">
+                                                    <option value="">Chọn người dùng</option>
+                                                    <?php foreach ($users as $user) { ?>
+                                                        <option value="<?= htmlspecialchars($user['username']) ?>"
+                                                            <?= (isset($row['phancong']) && $row['phancong'] == $user['username']) ? 'selected' : '' ?>><?= htmlspecialchars($user['fullname']) ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                                <input type="submit" name="btn_pcvc" value="Phân công">
+                                            </form>
+                                        <?php } else { ?>
+                                            <?= htmlspecialchars($row['phancong']) ?>
+                                        <?php } ?>
+                                    </td>
+                                </tr>
+                            <?php }
+                        } else {
+                            echo "<tr>Không có dữ liệu hóa đơn.</tr>";
+                        } ?>
                     </tbody>
                 </table>
             </div>
@@ -156,3 +254,5 @@ if (!empty($_SESSION['nguoidung'])) {
     <?php
 }
 ?>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>

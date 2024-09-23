@@ -629,30 +629,32 @@
         if (isset($_POST['trangthai']) && is_array($_POST['trangthai'])) {
             $countChecked = count($_POST['trangthai']);
         }
-    
+
         // Cập nhật giá trị của $trangthai dựa trên số checkbox đã được check
         if ($countChecked >= 5) {
             $trangthai = 3;
         } else {
             $trangthai = 5;
         }
-    
+
         // Cập nhật giá trị của cột trangthai trong bảng sanpham
         $sql = "UPDATE `sanpham` SET `trangthai` = '" . $trangthai . "' WHERE `sanpham`.`id` = " . $_GET['id'] . " ";
         $result = execute($sql);
-    
+
         // Chuyển hướng sau khi cập nhật
         header("location:./admin.php?act=khtttc1&dk=yes");
-    }  
+    }
 
     session_start(); // Đảm bảo rằng session đã được khởi tạo
-
+    
     if (isset($_POST['btnadd_qr'])) {
         // Kiểm tra tất cả các trường có giá trị không rỗng
-        if (!empty($_POST['xuatsu']) && !empty($_POST['phanbon']) && !empty($_POST['chatluong']) && 
-            !empty($_POST['dotuoi']) && !empty($_POST['antoanthucpham']) && 
-            !empty($_POST['tinhhopphapnguongoc']) && !empty($_POST['dieukienbaoquan']) && 
-            !empty($_POST['phantichvisinhvat']) && !empty($_POST['id'])) {
+        if (
+            !empty($_POST['xuatsu']) && !empty($_POST['phanbon']) && !empty($_POST['chatluong']) &&
+            !empty($_POST['dotuoi']) && !empty($_POST['antoanthucpham']) &&
+            !empty($_POST['tinhhopphapnguongoc']) && !empty($_POST['dieukienbaoquan']) &&
+            !empty($_POST['phantichvisinhvat']) && !empty($_POST['id'])
+        ) {
 
             $id = $_POST['id'];
 
@@ -679,7 +681,7 @@
                 xuatsu = ?, phanbon = ?, chatluong = ?, dotuoi = ?, 
                 antoanthucpham = ?, tinhhopphapnguongoc = ?, dieukienbaoquan = ?, 
                 phantichvisinhvat = ? WHERE id = ?");
-            
+
             // Gán các tham số
             $stmt->bind_param("ssssssssi", $qr1, $qr2, $qr3, $qr4, $qr5, $qr6, $qr7, $qr8, $id);
 
@@ -725,15 +727,15 @@
     if (isset($_POST['btn_pckd']) && !empty($_POST['id'])) {
         $product_id = mysqli_real_escape_string($con, $_POST['id']);
         $phancong = mysqli_real_escape_string($con, $_POST['kd']); // Dữ liệu nhập từ ô input
-
+    
         if (!empty($phancong)) {
             // Cập nhật cột phancong trong bảng sanpham
             $updateQuery = "UPDATE sanpham SET phancong = ?, trangthai = 2 WHERE id = ?";
-            
+
             // Sử dụng Prepared Statements
             $stmt = $con->prepare($updateQuery);
             $stmt->bind_param("si", $phancong, $product_id);
-            
+
             if ($stmt->execute()) {
                 echo "<script>alert('Phân công thành công!');
                                 window.location.href = 'admin.php?tmuc=Phân công kiểm định';</script>";
@@ -751,7 +753,7 @@
     if (isset($_POST['btn_pcvc'])) {
         $id = $_POST['id'];
         $phancong = isset($_POST['vc']) ? mysqli_real_escape_string($con, $_POST['vc']) : '';
-    
+
         // Kiểm tra dữ liệu nhận được (debugging)
         // echo "ID: " . htmlspecialchars($id) . "<br>";
         // echo "Phân công: " . htmlspecialchars($phancong) . "<br>";
@@ -760,7 +762,7 @@
         $updateQuery = "UPDATE hoadon SET phancong = ?, deliveryStatus = 1 WHERE id = ?";
         if ($stmt = $con->prepare($updateQuery)) {
             $stmt->bind_param("si", $phancong, $id);
-    
+
             if ($stmt->execute()) {
                 echo "<script>alert('Phân công thành công!');
                                 window.location.href = 'admin.php?tmuc=Phân công vận chuyển';</script>";
@@ -768,7 +770,7 @@
                 echo "<script>alert('Phân công thất bại! Error: " . $stmt->error . "');
                                 window.location.href = 'admin.php?tmuc=Phân công vận chuyển';</script>";
             }
-            
+
             $stmt->close();
         } else {
             echo "<script>alert('Lỗi chuẩn bị câu lệnh SQL: " . $con->error . "');
@@ -779,24 +781,24 @@
     if (isset($_POST['btndang'])) {
         // Kết nối cơ sở dữ liệu bằng MySQLi theo kiểu đối tượng
         $conn = new mysqli("localhost", "root", "", "bannuocdb");
-    
+
         // Kiểm tra kết nối
         if ($conn->connect_error) {
             die("Kết nối thất bại: " . $conn->connect_error);
         }
-    
+
         // Lấy id sản phẩm từ form
         $id = $_POST['id'];
-    
+
         // Câu lệnh SQL để cập nhật trạng thái sản phẩm
         $sql = "UPDATE sanpham SET trangthai = 7 WHERE id = ?";
-    
+
         // Chuẩn bị và thực thi câu lệnh
         $stmt = $conn->prepare($sql);
         if ($stmt) {
             // Gán tham số cho câu lệnh SQL
             $stmt->bind_param("i", $id);
-    
+
             // Thực thi câu lệnh
             if ($stmt->execute()) {
                 echo "<script>
@@ -810,7 +812,7 @@
                 </script>";
             }
         }
-    } 
+    }
     ?>
 </body>
 

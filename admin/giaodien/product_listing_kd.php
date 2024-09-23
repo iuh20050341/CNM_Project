@@ -27,21 +27,32 @@
                     JOIN khachhang ON sanpham.id_nhaban = khachhang.id 
                     JOIN taikhoang ON taikhoang.username = sanpham.phancong
                     WHERE sanpham.trangthai = 2 AND sanpham.phancong = '" . $_SESSION['user'] . "'";
-            
+
             if (isset($_POST['search'])) {
+                $sql = "SELECT sanpham.*, khachhang.diachivuon, taikhoang.fullname 
+                    FROM sanpham 
+                    JOIN khachhang ON sanpham.id_nhaban = khachhang.id 
+                    JOIN taikhoang ON taikhoang.username = sanpham.phancong
+                    WHERE sanpham.trangthai = 2 AND sanpham.phancong = '" . $_SESSION['user'] . "'";
+
                 if (!empty($_POST['productId'])) {
                     $sql .= " AND sanpham.id = '" . $_POST['productId'] . "'";
                 }
                 if (!empty($_POST['productName'])) {
                     $sql .= " AND sanpham.ten_sp LIKE '%" . $_POST['productName'] . "%'";
                 }
-            }
+                $totalRecordsQuery = mysqli_query($con, $sql);
 
-            $totalRecordsQuery = mysqli_query($con, $sql);
+            } else
+                $totalRecordsQuery = mysqli_query($con, "SELECT sanpham.*, khachhang.diachivuon, taikhoang.fullname 
+                    FROM sanpham 
+                    JOIN khachhang ON sanpham.id_nhaban = khachhang.id 
+                    JOIN taikhoang ON taikhoang.username = sanpham.phancong
+                    WHERE sanpham.trangthai = 2 AND sanpham.phancong = '" . $_SESSION['user'] . "'");
             if ($totalRecordsQuery) {
                 $totalRecords = $totalRecordsQuery->num_rows;
                 $totalPages = ceil($totalRecords / $item_per_page); // Tính tổng số trang
-
+    
                 // Truy vấn sản phẩm với phân trang
                 $sql .= " LIMIT $item_per_page OFFSET $offset";
                 $products = mysqli_query($con, $sql);
@@ -65,11 +76,13 @@
             <div class="form-row">
                 <div class="form-group col-md-3">
                     <label for="productId">Mã sản phẩm:</label>
-                    <input type="text" class="form-control" id="productId" name="productId" placeholder="Nhập Mã sản phẩm">
+                    <input type="text" class="form-control" id="productId" name="productId"
+                        placeholder="Nhập Mã sản phẩm">
                 </div>
                 <div class="form-group col-md-3">
                     <label for="productName">Tên sản phẩm:</label>
-                    <input type="text" class="form-control" id="productName" name="productName" placeholder="Nhập Tên sản phẩm">
+                    <input type="text" class="form-control" id="productName" name="productName"
+                        placeholder="Nhập Tên sản phẩm">
                 </div>
             </div>
             <input name="search" type="submit" class="btn btn-primary" value="SEARCH">
@@ -129,8 +142,11 @@
                                         }
                                         ?>
                                     </td>
-                                    <td style="text-align:center; padding-top: 50px"><?= isset($row['fullname']) ? $row['fullname'] : 'Chưa có thông tin' ?></td>
-                                    <td style="text-align:center; padding-top: 50px"><a href="admin.php?act=suakd&id=<?= $row['id'] ?>">Kiểm định</a></td>
+                                    <td style="text-align:center; padding-top: 50px">
+                                        <?= isset($row['fullname']) ? $row['fullname'] : 'Chưa có thông tin' ?>
+                                    </td>
+                                    <td style="text-align:center; padding-top: 50px"><a
+                                            href="admin.php?act=suakd&id=<?= $row['id'] ?>">Kiểm định</a></td>
                                 </tr>
                             <?php endwhile; ?>
                         <?php else: ?>
