@@ -8,7 +8,7 @@ if (!empty($_SESSION['nguoidung'])) {
     $offset = ($current_page - 1) * $item_per_page;
 
     if (isset($_POST['search'])) {
-        $sql = "SELECT *  FROM hoadon LEFT JOIN nhanvien ON `id_nhanvien`=`nhanvien`.`id` WHERE `hoadon`.`deliveryStatus` IN (1, 5)";
+        $sql = "SELECT *  FROM hoadon LEFT JOIN nhanvien ON `id_nhanvien`=`nhanvien`.`id` WHERE `hoadon`.`deliveryStatus` != 0";
 
         if (!empty($_POST['timebd']) && !empty($_POST['timekt'])) {
             $sql .= " AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "' AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "', INTERVAL '1' DAY)";
@@ -35,16 +35,16 @@ if (!empty($_SESSION['nguoidung'])) {
         $totalRecordsQuery = mysqli_query($con, $sql);
 
     } else {
-        $totalRecordsQuery = mysqli_query($con, "SELECT *  FROM hoadon LEFT JOIN nhanvien ON hoadon.id_nhanvien = nhanvien.id WHERE `hoadon`.`deliveryStatus` IN (1, 5)");
+        $totalRecordsQuery = mysqli_query($con, "SELECT *  FROM hoadon LEFT JOIN nhanvien ON hoadon.id_nhanvien = nhanvien.id WHERE `hoadon`.`deliveryStatus` != 0");
     }
     if ($totalRecordsQuery) {
         $totalRecords = $totalRecordsQuery->num_rows;
         $totalPages = ceil($totalRecords / $item_per_page);
         if (isset($_POST['search'])) {
-            $sql = "SELECT hoadon.id AS idhoadon, deliveryStatus, id_khachhang, tong_tien, hoadon.ngay_tao, id_nhanvien, trang_thai, ten_nv, nhanvien.id
+            $sql = "SELECT hoadon.id AS idhoadon, deliveryStatus, phancong, id_khachhang, tong_tien, hoadon.ngay_tao, id_nhanvien, trang_thai, ten_nv, nhanvien.id
                     FROM hoadon
                     LEFT JOIN nhanvien ON hoadon.id_nhanvien = nhanvien.id
-                    WHERE `hoadon`.`deliveryStatus` IN (1, 5)";
+                    WHERE `hoadon`.`deliveryStatus` != 0";
 
             if (!empty($_POST['timebd']) && !empty($_POST['timekt'])) {
                 $sql .= " AND `hoadon`.`ngay_tao` >= '" . $_POST['timebd'] . "' AND `hoadon`.`ngay_tao` <= DATE_ADD('" . $_POST['timekt'] . "', INTERVAL '1' DAY)";
@@ -67,12 +67,12 @@ if (!empty($_SESSION['nguoidung'])) {
                 $sql .= " AND `hoadon`.`phancong` = '" . $_POST['phancong'] . "'";
             }
 
-            echo '' . $sql . '';
+            // echo '' . $sql . '';
             $hoadon = mysqli_query($con, $sql);
 
             $totalRecords = mysqli_query($con, $sql);
         } else {
-            $sql = "SELECT hoadon.id AS idhoadon, deliveryStatus, id_khachhang,phancong, tong_tien, hoadon.ngay_tao, id_nhanvien, trang_thai, ten_nv, nhanvien.id FROM hoadon LEFT JOIN nhanvien ON hoadon.id_nhanvien = nhanvien.id WHERE `hoadon`.`deliveryStatus` IN (1, 5) ORDER BY hoadon.ngay_tao DESC LIMIT $item_per_page OFFSET $offset";
+            $sql = "SELECT hoadon.id AS idhoadon, deliveryStatus, id_khachhang, phancong, tong_tien, hoadon.ngay_tao, id_nhanvien, trang_thai, ten_nv, nhanvien.id FROM hoadon LEFT JOIN nhanvien ON hoadon.id_nhanvien = nhanvien.id WHERE `hoadon`.`deliveryStatus` != 0 ORDER BY hoadon.ngay_tao DESC LIMIT $item_per_page OFFSET $offset";
             $hoadon = mysqli_query($con, $sql);
         }
     } else {
@@ -224,7 +224,7 @@ if (!empty($_SESSION['nguoidung'])) {
                                             tiết</a></td>
 
                                     <td style="text-align:center">
-                                        <?php if ($row['phancong'] == '') { ?>
+                                        <?php if (isset($row['phancong']) && $row['phancong'] == '') { ?>
                                             <form action="xulythem.php" method="POST" class="form-container">
                                                 <input type="hidden" name="id" value="<?= htmlspecialchars($row['idhoadon']) ?>" />
                                                 <select name="vc">

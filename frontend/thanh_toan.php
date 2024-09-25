@@ -2,13 +2,6 @@
 session_start();
 include('../db/dbhelper.php');
 if (isset($_SESSION['ten_dangnhap'])) {
-    if (isset($_POST['shippingMethod']) && isset($_POST['price'])) {
-        $selectedName = $_POST['shippingMethod'];
-        $gia = $_POST['price'];
-    } else {
-        $gia = 0;
-        $selectedName = '--Chọn--';
-    }
     $ten_dangnhap = $_SESSION['ten_dangnhap'];
     $sql = 'select * from khachhang where ten_dangnhap="' . $ten_dangnhap . '"';
 
@@ -23,13 +16,18 @@ if (isset($_SESSION['ten_dangnhap'])) {
         $totalPrice = $value['qty'] * $value['price'];
         $totalPriceArr[] = ['name' => $value['name'], 'price' => $totalPrice]; // Lưu tổng giá cho mỗi mặt hàng trong mảng
     }
-    $totalPriceAll = $gia;
+    $totalPriceAll = 0;
     foreach ($cart as $item) {
         $totalPriceAll += $item['qty'] * $item['price'];
     }
     // Tạo ID đơn hàng
     $ngay_tao_HD = date('Y/m/d H:i:s');
-    $id_hoadon = executeSingleResult('SELECT id FROM hoadon ORDER BY ngay_tao DESC LIMIT 0, 1')['id'] + 1;
+    $result = executeSingleResult('SELECT id FROM hoadon ORDER BY ngay_tao DESC LIMIT 0, 1');
+    if ($result !== null) {
+        $id_hoadon = $result['id'] + 1;
+    } else {
+        $id_hoadon = 1;
+    }
     $sql = 'insert into hoadon (id_khachhang, tong_tien, ngay_tao, deliveryStatus) value ("' . $infoCus['id'] . '", "' . $totalPriceAll . '", "' . $ngay_tao_HD . '", 0)';
     execute($sql);
     date_default_timezone_set("Asia/Ho_Chi_Minh");
@@ -41,7 +39,7 @@ if (isset($_SESSION['ten_dangnhap'])) {
         $sl = executeSingleResult('SELECT so_luong FROM sanpham WHERE id=' . $key)['so_luong'];
         $sldabancu = executeSingleResult('SELECT sl_da_ban FROM sanpham WHERE id=' . $key)['sl_da_ban'];
         execute('UPDATE sanpham SET so_luong="' . ($sl - $value['qty']) . '", sl_da_ban="' . ($value['qty'] + $sldabancu) . '" WHERE id=' . $key);
-        execute('INSERT INTO cthoadon (id_hoadon, id_sanpham, so_luong,ptvc) VALUE ("' . $id_hoadon . '", "' . $key . '", "' . $value['qty'] . '","' . $selectedName . '")');
+        execute('INSERT INTO cthoadon (id_hoadon, id_sanpham, so_luong) VALUE ("' . $id_hoadon . '", "' . $key . '", "' . $value['qty'] . '")');
 
     }
 
@@ -189,31 +187,6 @@ $result = executeResult($sql);
 ?>
 
 <body>
-    <script>
-        function updatePrice() {
-            // Lấy giá trị price từ tùy chọn được chọn
-            var select = document.getElementById("shippingMethod");
-            var price = select.options[select.selectedIndex].getAttribute('data-price');
-
-            // Cập nhật giá trị của price vào biến gia
-            document.getElementById("price").value = price;
-
-            // Kiểm tra giá trị cập nhật trong console
-            console.log('Selected price: ' + price);
-
-            document.getElementById('shippingForm').submit();
-        }
-
-        function validateForm() {
-            var price = document.getElementById("price").value;
-            if (!price) {
-                alert("Vui lòng chọn phương thức vận chuyển.");
-                return false;
-            }
-            return true;
-        }
-    </script>
-
     <div class="header">
         <div class="title">
             <h1>Thanh Toán</h1>
@@ -227,7 +200,6 @@ $result = executeResult($sql);
                 <th>Số lượng</th>
                 <th>Đơn giá</th>
                 <th>Thành tiền</th>
-                <th>Phí vận chuyển</th>
             </tr>
         </thead>
         <tbody>
@@ -246,9 +218,7 @@ $result = executeResult($sql);
                         }
                     }
                     echo '<td>' . number_format($totalPrice, 0, ',', '.') . '</td>'; ?>
-                    <td>
-                        <p id="phiVC"></p><?php echo number_format($gia, 0, ',', '.') ?>
-                    </td>
+
                 </tr>
                 <?php
             } ?>
@@ -259,38 +229,6 @@ $result = executeResult($sql);
             </tr>
         </tbody>
     </table>
-    <h2>Phương thức vận chuyển</h2>
-    <form id="shippingForm" method="post" action="" onsubmit="return validateForm()">
-        <label for="shippingMethod">Chọn phương thức vận chuyển:</label>
-        <select id="shippingMethod" name="shippingMethod" onchange="updatePrice()">
-            <option value=""><?php
-            if (isset($selectedName)) {
-                echo "$selectedName";
-            } else {
-                ?>--Chọn PTVC--
-                <?php } ?>
-
-            </option>
-            <?php
-            foreach ($result as $row) {
-                echo '<option value="' . $row['name'] . '" data-price="' . $row['price'] . '">' . $row['name'] . '</option>';
-            }
-            ?>
-        </select>
-        <br>
-        <input type="hidden" id="price" name="price" readonly>
-    </form>
-
-    <script>
-        function showPrice(price) {
-            var giaTienElement = document.getElementById("giaTien");
-            var formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
-            giaTienDisplay = formattedPrice; // Gán giá tiền hiển thị vào biến
-
-            giaTienElement.textContent = formattedPrice;
-        }
-    </script>
-
     <h2>Phương thức thanh toán</h2>
 
     <!-- <label for="paymentMethod">Chọn phương thức thanh toán:</label>
