@@ -126,7 +126,7 @@
                 </div>
                 <div class="clear-both"></div>
             </div>
-            <input name="btnadd_qr" type="submit" title="Lưu sản phẩm" value="Lưu" />
+            <input name="btnadd_qr" type="submit" title="Lưu sản phẩm" value="Lưu" onclick="return confirm('Bạn có muốn tạo QR cho sản phẩm?')"/>
         </form>
         <div class="clear-both"></div>
     </div>

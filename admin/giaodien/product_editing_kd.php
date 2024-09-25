@@ -49,31 +49,31 @@
                             <tr>
                                 <form method="POST" action="./xulythem.php?id=<?= $row['id'] ?>">
                                     <td style = "align='center;'">
-                                        <input type="checkbox" name="trangthai[]" value="1" <?php if($row['trangthai']==2) echo "checked"; ?>>
+                                        <input type="checkbox" name="trangthai[]" value="1" <?php if($row['trangthai']==2) ?>>
                                     </td>
                                     <td style = "align='center;'">
-                                        <input type="checkbox" name="trangthai[]" value="2" <?php if($row['trangthai']==2) echo "checked"; ?>>
+                                        <input type="checkbox" name="trangthai[]" value="2" <?php if($row['trangthai']==2) ?>>
                                     </td>
                                     <td style = "align='center;'">
-                                        <input type="checkbox" name="trangthai[]" value="3" <?php if($row['trangthai']==2) echo "checked"; ?>>
+                                        <input type="checkbox" name="trangthai[]" value="3" <?php if($row['trangthai']==2) ?>>
                                     </td>
                                     <td style = "align='center;'">
-                                        <input type="checkbox" name="trangthai[]" value="4" <?php if($row['trangthai']==2) echo "checked"; ?>>
+                                        <input type="checkbox" name="trangthai[]" value="4" <?php if($row['trangthai']==2) ?>>
                                     </td>
                                     <td style = "align='center;'">
-                                        <input type="checkbox" name="trangthai[]" value="5" <?php if($row['trangthai']==2) echo "checked"; ?>>
+                                        <input type="checkbox" name="trangthai[]" value="5" <?php if($row['trangthai']==2) ?>>
                                     </td>
                                     <td style = "align='center;'">
-                                        <input type="checkbox" name="trangthai[]" value="6" <?php if($row['trangthai']==2) echo "checked"; ?>>
+                                        <input type="checkbox" name="trangthai[]" value="6" <?php if($row['trangthai']==2) ?>>
                                     </td>
                                     <td style = "align='center;'">
-                                        <input type="checkbox" name="trangthai[]" value="7" <?php if($row['trangthai']==2) echo "checked"; ?>>
+                                        <input type="checkbox" name="trangthai[]" value="7" <?php if($row['trangthai']==2) ?>>
                                     </td>
                                     <td style = "align='center;'">
-                                        <input type="checkbox" name="trangthai[]" value="8" <?php if($row['trangthai']==2) echo "checked"; ?>>
+                                        <input type="checkbox" name="trangthai[]" value="8" <?php if($row['trangthai']==2) ?>>
                                     </td>
                                     <td style = "align='center;'">
-                                        <input type="submit" name="btnkd" value="Lưu">
+                                        <input type="submit" name="btnkd" value="Lưu" onclick="return confirm('Bạn có muốn kiểm định sản phẩm?')">
                                     </td?>
                                 </form>                          
                             </tr>

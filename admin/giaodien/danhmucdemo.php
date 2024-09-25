@@ -37,7 +37,7 @@
                                     <td><?= $row['id'] ?></td>
                                     <td><?= $row['ten_quyen'] ?></td>
                                     <td><a href="admin.php?act=suaquyen&id=<?= $row['id'] ?>&tquyen=<?= $row['ten_quyen'] ?>">Sửa</a></td>
-                                    <td><a href="admin.php?act=xoaquyen&id=<?= $row['id'] ?>" onclick="return confirm('Are you sure you want to delete this item?');">Xóa</a></td>
+                                    <td><a href="admin.php?act=xoaquyen&id=<?= $row['id'] ?>" onclick="return confirm('Bạn có muốn xóa quyền?');">Xóa</a></td>
                                     <div class="clear-both"></div>
                                 </tr>
                                 <?php } ?>

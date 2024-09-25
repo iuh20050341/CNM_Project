@@ -6,14 +6,14 @@
         $offset = ($current_page - 1) * $item_per_page;
 
         // Lấy tổng số bản ghi với điều kiện is_nongdan khác 1
-        $totalRecords = mysqli_query($con, "SELECT * FROM `khachhang` WHERE `is_nongdan` != 1");
+        $totalRecords = mysqli_query($con, "SELECT * FROM `khachhang` WHERE `is_nongdan` = 1");
         $totalRecords = $totalRecords->num_rows;
 
         // Tính tổng số trang
         $totalPages = ceil($totalRecords / $item_per_page);
 
         // Truy vấn dữ liệu với điều kiện is_nongdan khác 1
-        $khachhang = mysqli_query($con, "SELECT * FROM `khachhang` WHERE `is_nongdan` != 1 ORDER BY `id` ASC LIMIT " . $item_per_page . " OFFSET " . $offset);
+        $khachhang = mysqli_query($con, "SELECT * FROM `khachhang` WHERE `is_nongdan` = 1 ORDER BY `id` ASC LIMIT " . $item_per_page . " OFFSET " . $offset);
 
         mysqli_close($con);
 ?>
@@ -36,7 +36,7 @@
 }
 </style>
 <div class="main-content">
-    <h1>Khách hàng</h1>
+    <h1>Quản lý doanh thu nông dân</h1>
     <div class="product-items">
         <div class="table-responsive-sm ">
             <table class="table table-bordered table-striped table-hover">
@@ -46,8 +46,7 @@
                         <th>Email</th>
                         <th>Địa chỉ</th>
                         <th>SĐT</th>
-                        <th>Tổng tiền mua</th>
-                        <th>Trạng thái</th>
+                        <th>Doanh thu</th>
                         <th>Thay đổi</th>
                     </tr>
                 </thead>
@@ -62,15 +61,13 @@
                     <tr>
                         <td><?= $row['ten_kh'] ?></td>
                         <td><?= $row['email'] ?></td>
-                        <td><?= $row['dia_chi'] ?></td>
+                        <td><?= $row['diachivuon'] ?></td>
                         <td><?= $row['phone'] ?></td>
-                        <td><?= $row['tong_tien_muahang'] ?></td>
+                        <td><?= $row['doanhthu'] ?></td>
                         <td>
                             <form method="POST" action="./xulythem.php?id=<?= $row['id'] ?>">
-                                <input type="checkbox" name="trangthai"
-                                    <?php if($row['trangthai']==0) echo "checked";?>>
+                            <input type="submit" name="btn_dt" value="Thanh toán" onclick="return confirm('Bạn có muốn thanh toán doanh thu?')">
                         </td>
-                        <td><input type="submit" name="btnkhtt" value="Thay đổi" onclick="return confirm('Bạn có muốn thay đổi trạng thái khách hàng?')"></td>
                         </form>
                         <div class="clear-both"></div>
                     </tr>

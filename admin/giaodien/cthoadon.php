@@ -7,7 +7,10 @@ if (!empty($_SESSION['nguoidung'])) {
     $totalRecords = mysqli_query($con, "SELECT * FROM `cthoadon`,`sanpham` WHERE `id_sanpham`=`sanpham`.`id`  AND `id_hoadon`=" . $_GET['id'] . "");
     $totalRecords = $totalRecords->num_rows;
     $totalPages = ceil($totalRecords / $item_per_page);
-    $cthoadon = mysqli_query($con, "SELECT `id_hoadon`, `id_sanpham`, `cthoadon`.`so_luong`,`sanpham`.`id`,`ten_sp`,`don_gia`  FROM `cthoadon`,`sanpham` WHERE `id_sanpham`=`sanpham`.`id` AND `id_hoadon`=" . $_GET['id'] . " ORDER BY `cthoadon`.`id_hoadon` ASC LIMIT " . $item_per_page . " OFFSET " . $offset);
+    
+    // Cập nhật truy vấn để lấy thêm `id_nhaban`
+    $cthoadon = mysqli_query($con, "SELECT `id_hoadon`, `id_sanpham`, `cthoadon`.`so_luong`, `sanpham`.`id`, `ten_sp`, `don_gia`, `sanpham`.`id_nhaban` FROM `cthoadon`,`sanpham` WHERE `id_sanpham`=`sanpham`.`id` AND `id_hoadon`=" . $_GET['id'] . " ORDER BY `cthoadon`.`id_hoadon` ASC LIMIT " . $item_per_page . " OFFSET " . $offset);
+    
     mysqli_close($con);
     ?>
     <div style="margin: 10px">
@@ -18,13 +21,14 @@ if (!empty($_SESSION['nguoidung'])) {
     <div class="main-content">
         <h1>Chi tiết hóa đơn</h1>
         <div class="product-items">
-            <div class="table-responsive-sm ">
+            <div class="table-responsive-sm">
                 <table class="table table-bordered table-striped table-hover">
                     <thead>
                         <tr>
                             <th>Tên sản phẩm</th>
                             <th>Số lượng</th>
                             <th>Đơn giá</th>
+                            <th>ID Nhà bán</th> <!-- Thêm cột ID Nhà bán -->
                         </tr>
                     </thead>
                     <tbody>
@@ -35,6 +39,7 @@ if (!empty($_SESSION['nguoidung'])) {
                                 <td><?= $row['ten_sp'] ?></td>
                                 <td><?= $row['so_luong'] ?></td>
                                 <td><?= $row['don_gia'] ?></td>
+                                <td><?= $row['id_nhaban'] ?></td> <!-- Hiển thị ID Nhà bán -->
                                 <div class="clear-both"></div>
                             </tr>
                         <?php } ?>

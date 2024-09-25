@@ -1,3 +1,29 @@
+<style>
+form {
+    display: flex;
+    gap: 10px; /* Khoảng cách giữa các nút */
+}
+
+form button {
+    flex: 1; /* Đảm bảo các nút chiếm cùng một lượng không gian */
+    padding: 10px 15px;
+    border: 1px solid black; /* Viền đen */
+    background-color: white; /* Nền trắng */
+    color: black; /* Chữ đen */
+    cursor: pointer;
+    font-size: 16px; /* Cỡ chữ */
+}
+
+form button a {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    line-height: 1.5; /* Căn chỉnh dòng để chữ nằm giữa */
+}
+</style>
 <html lang="en">
 
 <head>
@@ -80,7 +106,6 @@ if (!empty($_SESSION['nguoidung'])) {
                                 <th style="text-align:center">Tên sản phẩm<a href="./nvkiemdinh.php?muc=4&tmuc=Sản%20phẩm&sapxep=tengiam"></i></a><a href="./nvkiemdinh.php?muc=4&tmuc=Sản%20phẩm&sapxep=tentang"></i></a></th>
                                 <th style="text-align:center">Địa chỉ vườn</th>
                                 <th style="text-align:center">Trạng thái</th>
-                                <th style="text-align:center">Nhân viên kiểm định</th>
                                 <th style="text-align:center">Quản lý</th>
                             </tr>
                         </thead>
@@ -107,15 +132,15 @@ if (!empty($_SESSION['nguoidung'])) {
                                                 }
                                             ?>
                                         </td>
-                                        <td style="text-align:center; padding-top: 50px"><?= $row['phancong'] ?></td>
                                         <td style="text-align:center; padding-top: 50px">
                                             <form method="POST" action="xulythem.php">
                                                 <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-                                                <button type="submit" name="btndang">Đăng</button> | 
-                                                <button type="submit" name="btndang"><a
-                                                href="admin.php?act=sua&id=<?= $row['id'] ?>">Xem</a></td></button>
+                                                <button type="submit" name="btndang" onclick="return confirm('Bạn có muốn đăng sản phẩm?')">Đăng</button>
+                                                <button type="button">
+                                                    <a href="admin.php?act=sua&id=<?= $row['id'] ?>">Xem</a>
+                                                </button>
                                             </form>
-                                    </td>               
+                                        </td>               
                                         <div class="clear-both"></div>
                                     </tr>
                                 <?php } ?>

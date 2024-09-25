@@ -81,7 +81,7 @@
                                             href="admin.php?act=sua&id=<?= $row['id'] ?>">Xem</a> | 
                                             <?php if ($row['trangthai'] == '7') { ?><a
                                                 href="admin.php?act=xoa&id=<?= $row['id'] ?>"
-                                                onclick="return confirm('Are you sure you want to delete this item?');">Xóa</a><?php } ?>
+                                                onclick="return confirm('Bạn có muốn xóa sản phẩm?');">Xóa</a><?php } ?>
                                     </td>
                                     <div class="clear-both"></div>
                                 </tr><?php } ?>

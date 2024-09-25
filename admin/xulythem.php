@@ -381,6 +381,25 @@
         $result = execute($sql);
         header("location:./admin.php?act=khtttc&dk=yes");
     }
+    if (isset($_POST['btn_nd'])) {
+        if (isset($_POST['trangthai']) == "on")
+            $trangthai = 0;
+        if (isset($_POST['trangthai']) == NULL)
+            $trangthai = 1;
+        $sql = "UPDATE `khachhang` SET `trangthai` = '" . $trangthai . "' WHERE `khachhang`.`id` = " . $_GET['id'] . " ";
+        $result = execute($sql);
+        if ($result) {
+            echo "<script>
+                alert('Thất bại!');
+                window.location.href = 'admin.php?tmuc=Quản lý doanh thu';
+            </script>";
+        } else {
+            echo "<script>
+                alert('Thành công!');
+                window.location.href = 'admin.php?tmuc=Quản lý doanh thu';
+            </script>";
+        }
+    }
     if (isset($_POST['btnnvadd'])) {
         if (isset($_POST['name']))
             if ($_POST['name'] != '') {
@@ -745,7 +764,7 @@
             }
             $stmt->close();
         } else {
-            echo "<script>alert('Vui lòng nhập tên nhân viên Kiểm định!');
+            echo "<script>alert('Vui lòng chọn nhân viên kiểm định!');
                                 window.location.href = 'admin.php?tmuc=Phân công kiểm định';</script>";
         }
     }
@@ -813,6 +832,43 @@
             }
         }
     }
+
+    if (isset($_POST['btn_dt'])) {
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+
+            // Lấy giá trị hiện tại của doanh thu
+            $selectQuery = "SELECT `doanhthu` FROM `khachhang` WHERE `id` = ?";
+            if ($selectStmt = $con->prepare($selectQuery)) {
+                $selectStmt->bind_param("i", $id);
+                $selectStmt->execute();
+                $selectStmt->bind_result($doanhthu);
+                $selectStmt->fetch();
+                $selectStmt->close();
+            }
+
+            // Cập nhật cột doanh thu và doanh thu_tt
+            $updateQuery = "UPDATE `khachhang` SET `doanhthu` = 0, `doanhthu_tt` = `doanhthu_tt` + ? WHERE `id` = ?";
+
+            if ($stmt = $con->prepare($updateQuery)) {
+                $stmt->bind_param("ii", $doanhthu, $id); // Ràng buộc tham số (hai chỉ số nguyên)
+    
+                if ($stmt->execute()) {
+                    echo "<script>alert('Thanh toán thành công!'); 
+                                  window.location.href = 'admin.php?tmuc=Quản lý doanh thu';</script>";
+                } else {
+                    echo "<script>alert('Thanh toán thất bại! Lỗi: " . $stmt->error . "'); 
+                                  window.location.href = 'admin.php?tmuc=Quản lý doanh thu';</script>";
+                }
+
+                $stmt->close();
+            } else {
+                echo "<script>alert('Lỗi chuẩn bị câu lệnh SQL: " . $con->error . "'); 
+                              window.location.href = 'admin.php?tmuc=Quản lý doanh thu';</script>";
+            }
+        }
+    }
+
     ?>
 </body>
 

@@ -22,7 +22,7 @@
         $offset = ($current_page - 1) * $item_per_page;
 
         if (isset($_POST['search'])) {
-            $sql = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 5 AND `phancong` = '" . $_SESSION['user'] . "'";
+            $sql = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 5";
 
             if (!empty($_POST['productId'])) {
                 $sql .= " AND `id` = '" . $_POST['productId'] . "'";
@@ -33,7 +33,7 @@
             // echo '' . $sql . '';
             $totalRecordsResult = mysqli_query($con, $sql);
         } else {
-            $totalRecordsQuery = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 5 AND `phancong` = '" . $_SESSION['user'] . "'";
+            $totalRecordsQuery = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 5";
             $totalRecordsResult = mysqli_query($con, $totalRecordsQuery);
 
         }
@@ -42,7 +42,7 @@
         $totalPages = ceil($totalRecords / $item_per_page);
 
         if (isset($_POST['search'])) {
-            $sql = "SELECT * FROM `sanpham` WHERE id_nhaban =$user_id AND trangthai = 5 AND `phancong` = '" . $_SESSION['user'] . "'";
+            $sql = "SELECT * FROM `sanpham` WHERE id_nhaban =$user_id AND trangthai = 5";
 
             if (!empty($_POST['productId'])) {
                 $sql .= " AND `sanpham`.`id` = '" . $_POST['productId'] . "'";
@@ -53,7 +53,7 @@
             $products = mysqli_query($con, $sql);
 
         } else {
-            $query = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 5 AND `phancong` = '" . $_SESSION['user'] . "' LIMIT $item_per_page OFFSET $offset";
+            $query = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai = 5 LIMIT $item_per_page OFFSET $offset";
             $products = mysqli_query($con, $query);
         }
 
@@ -123,12 +123,12 @@
                                     <td style="text-align:center; padding-top: 50px">
                                         <form method="POST" action="xulythem.php">
                                             <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-                                            <button type="submit" name="btngui">Gửi lại yêu cầu kiểm định</button>
+                                            <button type="submit" name="btngui" onclick="return confirm('Bạn có muốn gửi yêu cầu kiểm định?')">Gửi lại yêu cầu kiểm định</button>
                                         </form>
 
                                         <?php if ($row['trangthai'] == '5') { ?>
                                             <a href="supplier.php?act=xoa&id=<?= $row['id'] ?>"
-                                                onclick="return confirm('Are you sure you want to delete this item?');"><button
+                                                onclick="return confirm('Bạn có muốn xóa sản phẩm?');"><button
                                                     type="submit" name="btndang">Xóa</button></a>
                                         <?php } ?>
                                     </td>
