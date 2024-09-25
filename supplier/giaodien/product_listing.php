@@ -116,8 +116,8 @@
                                     </td>
                                     <td style="text-align:center">
                                         <a href="supplier.php?act=sua&id=<?= $row['id'] ?>">Sửa</a> |
-                                        <?php if ($row['trangthai'] == '4') { ?>
-                                            <a href="supplier.php?act=xoa&id=<?= $row['id'] ?>" onclick="return confirm('Are you sure you want to delete this item?');">Xóa</a>
+                                        <?php if ($row['trangthai'] == '7') { ?>
+                                            <a href="supplier.php?act=xoa&id=<?= $row['id'] ?>" onclick="return confirm('Bạn có muốn xóa sản phẩm?');">Xóa</a>
                                         <?php } ?>
                                     </td>
                                 </tr>

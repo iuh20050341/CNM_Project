@@ -46,8 +46,8 @@
                                         <input type="checkbox" name="trangthai"<?php if($row['trang_thai']==0) echo "checked";?> >
                                         <?php if($row['trang_thai']==0) echo "Bình thường"; else echo"Bị khóa";?>
                                     </td>
-                                    <td><input type="submit" name="btntksua"value="Thay đổi"></td></form>                                
-                                    <td><?php if($row['trang_thai']==1){?><a href="admin.php?act=xoatk&id=<?= $row['username'] ?>" onclick="return confirm('Are you sure you want to delete this item?');">Xóa</a><?php }?></td>
+                                    <td><input type="submit" name="btntksua"value="Thay đổi" onclick="return confirm('Bạn có muốn thay đổi trạng thái người dùng?')"></td></form>                                
+                                    <td><?php if($row['trang_thai']==1){?><a href="admin.php?act=xoatk&id=<?= $row['username'] ?>" onclick="return confirm('Bạn có muốn xóa tài khoản người dùng?');">Xóa</a><?php }?></td>
                                     <div class="clear-both"></div>
                                 </tr>
                                 <?php } ?>

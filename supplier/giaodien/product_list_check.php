@@ -123,12 +123,12 @@
                                     <td style="text-align:center; padding-top: 50px">
                                         <form method="POST" action="xulythem.php">
                                             <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-                                            <button type="submit" name="btngui">Gửi yêu cầu kiểm định</button>
+                                            <button type="submit" name="btngui" onclick="return confirm('Bạn có muốn gửi yêu cầu kiểm định?')">Gửi yêu cầu kiểm định</button>
                                         </form>
 
                                         <?php if ($row['trangthai'] == '0') { ?>
                                             <a href="supplier.php?act=xoa&id=<?= $row['id'] ?>"
-                                                onclick="return confirm('Are you sure you want to delete this item?');"><button
+                                                onclick="return confirm('Bạn có muốn xóa sản phẩm?');"><button
                                                     type="submit" name="btndang">Xóa</button></a>
                                         <?php } ?>
                                     </td>

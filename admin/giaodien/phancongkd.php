@@ -179,11 +179,12 @@
                                     <form action="xulythem.php" method="POST" class="form-container1">
                                         <input type="hidden" name="id" value="<?= htmlspecialchars($row['id']) ?>" />
                                         <select name="kd">
+                                            <option value="" disabled selected>Chọn</option>
                                             <?php while ($user = mysqli_fetch_array($usersResult)) { ?>
                                                 <option value="<?= htmlspecialchars($user['username']) ?>"><?= htmlspecialchars($user['fullname']) ?></option>
                                             <?php } ?>
                                         </select>
-                                        <input type="submit" name="btn_pckd" value="Phân công">
+                                        <input type="submit" name="btn_pckd" value="Phân công" onclick="return confirm('Bạn có muốn phân công nhân viên?')">
                                     </form>
                                 </td>
                             </tr>

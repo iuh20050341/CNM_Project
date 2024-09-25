@@ -1,5 +1,9 @@
 <?php
 if (isset($_GET['tmuc'])) {
+    if ($_GET['tmuc'] == 'Quản lý doanh thu')
+        include('ql_doanhthu.php');
+}
+if (isset($_GET['tmuc'])) {
     if ($_GET['tmuc'] == 'Quản lý vận chuyển')
         include('hoadon_distributor.php');
 }

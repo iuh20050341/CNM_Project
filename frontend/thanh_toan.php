@@ -38,11 +38,18 @@ if (isset($_SESSION['ten_dangnhap'])) {
 
     foreach ($cart as $key => $value) {
 
+        // Lấy số lượng và số lượng đã bán của sản phẩm
         $sl = executeSingleResult('SELECT so_luong FROM sanpham WHERE id=' . $key)['so_luong'];
         $sldabancu = executeSingleResult('SELECT sl_da_ban FROM sanpham WHERE id=' . $key)['sl_da_ban'];
+    
+        // Lấy id_nhaban từ bảng sanpham
+        $id_nhaban = executeSingleResult('SELECT id_nhaban FROM sanpham WHERE id=' . $key)['id_nhaban'];
+    
+        // Cập nhật số lượng sản phẩm và số lượng đã bán
         execute('UPDATE sanpham SET so_luong="' . ($sl - $value['qty']) . '", sl_da_ban="' . ($value['qty'] + $sldabancu) . '" WHERE id=' . $key);
-        execute('INSERT INTO cthoadon (id_hoadon, id_sanpham, so_luong,ptvc) VALUE ("' . $id_hoadon . '", "' . $key . '", "' . $value['qty'] . '","' . $selectedName . '")');
-
+    
+        // Thêm thông tin vào bảng cthoadon bao gồm id_nhaban
+        execute('INSERT INTO cthoadon (id_hoadon, id_sanpham, so_luong, ptvc, id_nhaban) VALUE ("' . $id_hoadon . '", "' . $key . '", "' . $value['qty'] . '", "' . $selectedName . '", "' . $id_nhaban . '")');
     }
 
     // Cập nhật số lượng sản phẩm
