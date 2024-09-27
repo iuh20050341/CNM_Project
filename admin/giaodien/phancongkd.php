@@ -11,6 +11,13 @@ if (!empty($_SESSION['nguoidung'])) {
     if ($con) {
         $usersQuery = "SELECT username, fullname FROM taikhoang WHERE id_quyen = 8";
         $usersResult = mysqli_query($con, $usersQuery);
+        
+        // Lưu kết quả truy vấn vào một mảng
+        $userList = [];
+        while ($user = mysqli_fetch_array($usersResult)) {
+            $userList[] = $user;
+        }
+
         if (isset($_POST['search'])) {
             $sql = "SELECT * FROM `sanpham` WHERE `trangthai` = 1";
             if (!empty($_POST['productId'])) {
@@ -23,17 +30,16 @@ if (!empty($_SESSION['nguoidung'])) {
                 $sql .= " AND `hoadon`.`phancong` = '" . $_POST['phancong'] . "'";
             }
 
-            // echo '' . $sql . '';
             $totalRecordsQuery = mysqli_query($con, $sql);
 
         } else {
             $totalRecordsQuery = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = 1");
         }
-        // Lấy tổng số bản ghi với trangthai = 1
 
         if ($totalRecordsQuery) {
             $totalRecords = $totalRecordsQuery->num_rows;
             $totalPages = ceil($totalRecords / $item_per_page);
+            
             if (isset($_POST['search'])) {
                 $sql = "SELECT sanpham.*, khachhang.diachivuon 
                          FROM sanpham 
@@ -67,9 +73,6 @@ if (!empty($_SESSION['nguoidung'])) {
             if (!$products) {
                 echo "Lỗi truy vấn: " . mysqli_error($con);
             }
-            if (!$usersResult) {
-                echo "Lỗi truy vấn người dùng: " . mysqli_error($con);
-            }
         } else {
             echo "Lỗi truy vấn tổng số bản ghi: " . mysqli_error($con);
         }
@@ -77,7 +80,6 @@ if (!empty($_SESSION['nguoidung'])) {
         echo "Lỗi kết nối cơ sở dữ liệu: " . mysqli_connect_error();
     }
     $totalPages = isset($totalPages) ? $totalPages : 1;
-
 
     // Đóng kết nối
     mysqli_close($con);
@@ -98,18 +100,12 @@ if (!empty($_SESSION['nguoidung'])) {
 
     <!-- Gắn style trực tiếp vào đây -->
     <style>
-        /* admin_style.css */
-
-        /* Đảm bảo các hàng trong bảng có cùng chiều cao */
         .table td,
         .table th {
             vertical-align: middle;
-            /* Căn giữa theo chiều dọc */
             padding: 10px;
-            /* Khoảng cách xung quanh nội dung của các ô */
         }
 
-        /* Căn giữa nội dung của ô */
         .table img {
             max-width: 100px;
             max-height: 100px;
@@ -139,20 +135,17 @@ if (!empty($_SESSION['nguoidung'])) {
                     <label for="phancong">Phân công:</label>
                     <select id="phancong" name="phancong" class="form-control">
                         <option value="">Chưa phân công</option>
-                        <?php while ($user = mysqli_fetch_array($usersResult)) { ?>
+                        <?php foreach ($userList as $user) { ?>
                             <option value="<?= htmlspecialchars($user['username']) ?>">
                                 <?= htmlspecialchars($user['fullname']) ?>
                             </option>
                         <?php } ?>
-                        <?php foreach ($users as $user): ?>
-                            <option value="<?= $user['username'] ?>"><?= $user['fullname'] ?></option>
-                        <?php endforeach; ?>
                     </select>
-
                 </div>
             </div>
             <input name="search" type="submit" class="btn btn-primary" value="SEARCH">
         </form>
+
         <div class="product-items">
             <div class="table-responsive-sm">
                 <table class="table table-bordered table-striped table-hover">
@@ -208,7 +201,7 @@ if (!empty($_SESSION['nguoidung'])) {
                                         <input type="hidden" name="id" value="<?= htmlspecialchars($row['id']) ?>" />
                                         <select name="kd">
                                             <option value="" disabled selected>Chọn</option>
-                                            <?php while ($user = mysqli_fetch_array($usersResult)) { ?>
+                                            <?php foreach ($userList as $user) { ?>
                                                 <option value="<?= htmlspecialchars($user['username']) ?>">
                                                     <?= htmlspecialchars($user['fullname']) ?>
                                                 </option>
@@ -224,10 +217,7 @@ if (!empty($_SESSION['nguoidung'])) {
             </div>
         </div>
         <?php include './pagination.php'; ?>
-        <div class="clear-both"></div>
     </div>
 </body>
 
 </html>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>

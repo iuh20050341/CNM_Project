@@ -160,7 +160,7 @@
     </div>
 
     <div class="form-group" id="farm_address_group" style="display: none;">
-      <textarea required name="dia_chi_vuon" class="input" type="text" cols="30" rows="5"
+      <textarea name="dia_chi_vuon" class="input" type="text" cols="30" rows="5"
         placeholder="Địa chỉ vườn nông dân"></textarea><br>
     </div>
     <input class="btn" type="submit" name="dangky" value="Đăng Ký" />

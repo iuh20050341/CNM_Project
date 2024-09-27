@@ -136,6 +136,16 @@ if (!empty($_SESSION['nguoidung'])) {
         .table td.status-delivery {
             color: inherit;
         }
+        .form-container input[type="submit"] {
+            padding: 0.25em 0.5em; /* Điều chỉnh padding cho nút */
+            font-size: 0.9em; /* Thay đổi kích thước chữ cho nút */
+            margin-left: 5px; /* Khoảng cách giữa nút và hộp select */
+            cursor: pointer; /* Thay đổi con trỏ khi di chuột lên nút */
+        }
+
+        .form-container select {
+            font-size: 0.9em; /* Đảm bảo kích thước chữ của hộp select khớp với nút */
+        }
     </style>
 
     <div class="main-content">
@@ -220,15 +230,13 @@ if (!empty($_SESSION['nguoidung'])) {
                                         }
                                         ?>
                                     </td>
-                                    <td><a href="./admin.php?act=cthoadon&id=<?= htmlspecialchars($row['idhoadon']) ?>">Xem chi
-                                            tiết</a></td>
-
+                                    <td><a href="./admin.php?act=cthoadon&id=<?= htmlspecialchars($row['idhoadon']) ?>">Xem chi tiết</a></td>
                                     <td style="text-align:center">
-                                        <?php if (isset($row['phancong']) && $row['phancong'] == '') { ?>
+                                        <?php if (empty($row['phancong'])) { ?>
                                             <form action="xulythem.php" method="POST" class="form-container">
                                                 <input type="hidden" name="id" value="<?= htmlspecialchars($row['idhoadon']) ?>" />
                                                 <select name="vc">
-                                                    <option value="">Chọn người dùng</option>
+                                                    <option value="">Chọn</option>
                                                     <?php foreach ($users as $user) { ?>
                                                         <option value="<?= htmlspecialchars($user['username']) ?>"
                                                             <?= (isset($row['phancong']) && $row['phancong'] == $user['username']) ? 'selected' : '' ?>><?= htmlspecialchars($user['fullname']) ?></option>
@@ -243,7 +251,7 @@ if (!empty($_SESSION['nguoidung'])) {
                                 </tr>
                             <?php }
                         } else {
-                            echo "<tr>Không có dữ liệu hóa đơn.</tr>";
+                            echo "<tr><td colspan='7'>Không có dữ liệu hóa đơn.</td></tr>";
                         } ?>
                     </tbody>
                 </table>
