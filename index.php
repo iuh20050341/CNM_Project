@@ -141,196 +141,210 @@ if ($search != '') {
     <script type="text/javascript" src="js/jquery.zoom.min.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     <script>
-        function addCart(idPro, act) {
-            if (act == 0 && $('#soLuong' + idPro).val() == 1) act = -1;
-            if (act == -1) {
-                var option = confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');
-                if (!option) return;
-            }
-            var qtyAdd = $('#qtyAdd').val();
-            var soLuongTrongKho = parseInt($("#sl_tonkho" + idPro).text());
-            if (qtyAdd > soLuongTrongKho) {
-                alert("Số lượng bạn chọn vượt quá số lượng tồn trong kho.");
-                return;
-            } else if (qtyAdd <= 0) {
-                alert("Vui lòng chọn số lượng lớn hơn 0");
-                return;
-            }
-            $.post('frontend/addCart.php', {
+    function addCart(idPro, act) {
+        if (act == 0 && $('#soLuong' + idPro).val() == 1) act = -1;
+        if (act == -1) {
+            var option = confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');
+            if (!option) return;
+        }
+        var qtyAdd = $('#qtyAdd').val();
+        var soLuongTrongKho = parseInt($("#sl_tonkho" + idPro).text());
+        if (qtyAdd > soLuongTrongKho) {
+            alert("Số lượng bạn chọn vượt quá số lượng tồn trong kho.");
+            return;
+        } else if (qtyAdd <= 0) {
+            alert("Vui lòng chọn số lượng lớn hơn 0");
+            return;
+        }
+        $.post('frontend/addCart.php', {
                 'id': idPro,
                 'qtyAdd': qtyAdd,
                 'act': act
             },
-                function (data) {
-                    $('#qtyPro').text(data);
-                })
-        }
+            function(data) {
+                $('#qtyPro').text(data);
+            })
+    }
 
 
-        function thanhtoan(user) {
-            $.post('frontend/thanh_toan.php', {
+    function thanhtoan(user) {
+        $.post('frontend/thanh_toan.php', {
                 'user': user
             },
-                function (data) {
-                    location = 'index.php?act=my_bill';
-                })
+            function(data) {
+                location = 'index.php?act=my_bill';
+            })
+    }
+
+    async function delay(delayInms) {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve(2);
+            }, delayInms);
+        });
+    }
+    async function themThanhCong(id) {
+        var qtyAdd = $('#qtyAdd').val() || 'a';
+        var soLuongTrongKho = parseInt($("#sl_tonkho" + id).text()) || 'a';
+        if ((qtyAdd > 0 && qtyAdd <= soLuongTrongKho) || (soLuongTrongKho === 'a')) {
+            document.getElementById("messAddCart" + id).innerText = "Thêm thành công";
+            let delayres = await delay(200);
+            document.getElementById("messAddCart" + id).innerText = "thêm vào giỏ";
+
         }
+    }
 
-        async function delay(delayInms) {
-            return new Promise(resolve => {
-                setTimeout(() => {
-                    resolve(2);
-                }, delayInms);
-            });
+    async function thanhToanThanhCong() {
+        document.getElementById("btnThanhToanThanhCong").style.display = "block";
+        let delayres = await delay(9000);
+        document.getElementById("btnThanhToanThanhCong").style.display = "none";
+    }
+
+    function checkPhone() {
+        var phoneno = /^\d{3}[-\s]?\d{3}[-\s]?\d{4}$/;
+        var sdt = $("#sdt").val();
+        if (phoneno.test(sdt)) {
+            document.getElementById("thongbaoloisdt").innerText = "";
+        } else document.getElementById("thongbaoloisdt").innerText = "Không phải số điện thoại";
+    }
+
+    function checkPass(n) {
+        var pass = document.getElementById("pswd").value;
+        var passOld = document.getElementById("passOld").value;
+        var passNew1 = document.getElementById("passNew1").value;
+        var passNew2 = document.getElementById("passNew2").value;
+        if (n == 1) {
+            if (passOld != pass) document.getElementById("tb1").innerText = "Mật khẩu củ không chính xác!!!";
+            else document.getElementById("tb1").innerText = "";
+        } else if (n == 2) {
+            if (passNew1 == pass) document.getElementById("tb2").innerText =
+                "Mật khẩu mới trùng với mật khẩu củ!!!";
+            else document.getElementById("tb2").innerText = "";
+        } else if (n == 3) {
+            if (passNew2 != passNew1) document.getElementById("tb3").innerText = "Mật khẩu mới không chính xác!!!";
+            else document.getElementById("tb3").innerText = "";
         }
-        async function themThanhCong(id) {
-            var qtyAdd = $('#qtyAdd').val() || 'a';
-            var soLuongTrongKho = parseInt($("#sl_tonkho" + id).text()) || 'a';
-            if ((qtyAdd > 0 && qtyAdd <= soLuongTrongKho) || (soLuongTrongKho === 'a')) {
-                document.getElementById("messAddCart" + id).innerText = "Thêm thành công";
-                let delayres = await delay(200);
-                document.getElementById("messAddCart" + id).innerText = "thêm vào giỏ";
+    }
 
-            }
-        }
+    function kiemTraSoLuong(n) {
 
-        async function thanhToanThanhCong() {
-            document.getElementById("btnThanhToanThanhCong").style.display = "block";
-            let delayres = await delay(9000);
-            document.getElementById("btnThanhToanThanhCong").style.display = "none";
-        }
+        var a = document.getElementById("qtyAdd").value;
+        if (a < 1) document.getElementById("tbQty").innerText = "Nhập số lượng sản phẩm phù hợp.";
+        else if (a > n) document.getElementById("tbQty").innerText =
+            "Số lượng bạn chọn lớn hơn số lượng còn trông kho.";
+        else document.getElementById("tbQty").innerText = "";
+    }
 
-        function checkPhone() {
-            var phoneno = /^\d{3}[-\s]?\d{3}[-\s]?\d{4}$/;
-            var sdt = $("#sdt").val();
-            if (phoneno.test(sdt)) {
-                document.getElementById("thongbaoloisdt").innerText = "";
-            } else document.getElementById("thongbaoloisdt").innerText = "Không phải số điện thoại";
-        }
+    function kiemTraSoLuong1(a, b) {
+        var c = document.getElementById("soLuong" + b).value;
+        if (c < 1) document.getElementById("tbQty" + b).innerText = "Nhập số lượng sản phẩm phù hợp.";
+        else if (c >= a) alert("Quá số lượng trong kho.");
+        else document.getElementById("tbQty" + b).innerText = "";
+    }
 
-        function checkPass(n) {
-            var pass = document.getElementById("pswd").value;
-            var passOld = document.getElementById("passOld").value;
-            var passNew1 = document.getElementById("passNew1").value;
-            var passNew2 = document.getElementById("passNew2").value;
-            if (n == 1) {
-                if (passOld != pass) document.getElementById("tb1").innerText = "Mật khẩu củ không chính xác!!!";
-                else document.getElementById("tb1").innerText = "";
-            } else if (n == 2) {
-                if (passNew1 == pass) document.getElementById("tb2").innerText =
-                    "Mật khẩu mới trùng với mật khẩu củ!!!";
-                else document.getElementById("tb2").innerText = "";
-            } else if (n == 3) {
-                if (passNew2 != passNew1) document.getElementById("tb3").innerText = "Mật khẩu mới không chính xác!!!";
-                else document.getElementById("tb3").innerText = "";
-            }
-        }
-
-        function kiemTraSoLuong(n) {
-
-            var a = document.getElementById("qtyAdd").value;
-            if (a < 1) document.getElementById("tbQty").innerText = "Nhập số lượng sản phẩm phù hợp.";
-            else if (a > n) document.getElementById("tbQty").innerText =
-                "Số lượng bạn chọn lớn hơn số lượng còn trông kho.";
-            else document.getElementById("tbQty").innerText = "";
-        }
-
-        function kiemTraSoLuong1(a, b) {
-            var c = document.getElementById("soLuong" + b).value;
-            if (c < 1) document.getElementById("tbQty" + b).innerText = "Nhập số lượng sản phẩm phù hợp.";
-            else if (c >= a) alert("Quá số lượng trong kho.");
-            else document.getElementById("tbQty" + b).innerText = "";
-        }
-
-        function huydonhang(id) {
-            var option = confirm('Bạn có chắc chắn muốn xóa đơn hàng này không?');
-            if (!option) return;
-            $.post('frontend/delete_bill.php', {
+    function huydonhang(id) {
+        var option = confirm('Bạn có chắc chắn muốn xóa đơn hàng này không?');
+        if (!option) return;
+        $.post('frontend/delete_bill.php', {
                 'id_hoadon': id
             },
-                function data() {
-                    location.reload();
-                })
-        }
-        function nhandonhang(id) {
-            $.post('frontend/nhanhang_bill.php', {
+            function data() {
+                location.reload();
+            })
+    }
+
+    function nhandonhang(id) {
+        $.post('frontend/nhanhang_bill.php', {
                 'id_hoadon': id
             },
-                function data() {
-                    location.reload();
-                })
-        }
-        function capnhatdiachi(diachivuon) {
-            $.post('supplier/capnhatdiachi.php', {
+            function data() {
+                location.reload();
+            })
+    }
+
+    function capnhatdiachi(diachivuon) {
+        $.post('supplier/capnhatdiachi.php', {
                 'diachivuon': diachivuon
             },
-                function data() {
-                    location.reload();
-                })
+            function data() {
+                location.reload();
+            })
+    }
+
+    function capnhatngaydk(id, ngaynhandukien) {
+        console.log("ID: ", id); // Kiểm tra id có đúng không
+        console.log("Ngày nhận dự kiến: ", ngaynhandukien);
+        $.post('admin/capnhatngaydk.php', {
+                'id': id,
+                'ngaynhandukien': ngaynhandukien
+            },
+            function data() {
+                location.reload();
+            })
+    }
+
+    //tim kiem bang giong
+    const APP_ID = 'cf26e7b2c25b5acd18ed5c3e836fb235';
+    const DEFAULT_VALUE = '--';
+    const searchInput = document.querySelector('#search-input');
+    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+
+    const recognition = new SpeechRecognition();
+    const synth = window.speechSynthesis;
+    recognition.lang = "vi-VI";
+    recognition.continuous = false;
+
+    const microphone = document.querySelector(".microphone");
+
+    const speak = (text) => {
+        if (synth.speaking) {
+            console.error("Busy. Speaking...");
+            return;
         }
 
-        //tim kiem bang giong
-        const APP_ID = 'cf26e7b2c25b5acd18ed5c3e836fb235';
-        const DEFAULT_VALUE = '--';
-        const searchInput = document.querySelector('#search-input');
-        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+        const utter = new SpeechSynthesisUtterance(text);
 
-        const recognition = new SpeechRecognition();
-        const synth = window.speechSynthesis;
-        recognition.lang = "vi-VI";
-        recognition.continuous = false;
-
-        const microphone = document.querySelector(".microphone");
-
-        const speak = (text) => {
-            if (synth.speaking) {
-                console.error("Busy. Speaking...");
-                return;
-            }
-
-            const utter = new SpeechSynthesisUtterance(text);
-
-            utter.onend = () => {
-                console.log("SpeechSynthesisUtterance.onend");
-            };
-            utter.onerror = (err) => {
-                console.error("SpeechSynthesisUtterance.onerror", err);
-            };
-
-            synth.speak(utter);
+        utter.onend = () => {
+            console.log("SpeechSynthesisUtterance.onend");
+        };
+        utter.onerror = (err) => {
+            console.error("SpeechSynthesisUtterance.onerror", err);
         };
 
-        const handleVoice = (text) => {
-            console.log("text", text);
-            // Hiển thị đầu vào giọng nói được nhận dạng trong trường tìm kiếm
-            searchInput.value = text;
-            console.log("searchInput.value", searchInput.value);
-            // Tự động tải để tìm kiếm
-            const searchButton = document.querySelector(".search-btn");
-            searchButton.click();
-        };
-        microphone.addEventListener("click", (e) => {
-            e.preventDefault();
+        synth.speak(utter);
+    };
 
-            recognition.start();
-            microphone.classList.add("recording");
-        });
-        //Dừng quá trình nhận dạng khi người dùng ngừng nói và loại bỏ class recording
-        recognition.onspeechend = () => {
-            recognition.stop();
-            microphone.classList.remove("recording");
-        };
-        //Xử lý lỗi trong quá trình nhận dạng và loại bỏ class recording
-        recognition.onerror = (err) => {
-            console.error(err);
-            microphone.classList.remove("recording");
-        };
-        //Xử lý kết quả nhận dạng giọng nói, lấy văn bản nhận dạng và gọi hàm 
-        recognition.onresult = (e) => {
-            console.log("onresult", e);
-            const text = e.results[0][0].transcript;
-            handleVoice(text);
-        };
+    const handleVoice = (text) => {
+        console.log("text", text);
+        // Hiển thị đầu vào giọng nói được nhận dạng trong trường tìm kiếm
+        searchInput.value = text;
+        console.log("searchInput.value", searchInput.value);
+        // Tự động tải để tìm kiếm
+        const searchButton = document.querySelector(".search-btn");
+        searchButton.click();
+    };
+    microphone.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        recognition.start();
+        microphone.classList.add("recording");
+    });
+    //Dừng quá trình nhận dạng khi người dùng ngừng nói và loại bỏ class recording
+    recognition.onspeechend = () => {
+        recognition.stop();
+        microphone.classList.remove("recording");
+    };
+    //Xử lý lỗi trong quá trình nhận dạng và loại bỏ class recording
+    recognition.onerror = (err) => {
+        console.error(err);
+        microphone.classList.remove("recording");
+    };
+    //Xử lý kết quả nhận dạng giọng nói, lấy văn bản nhận dạng và gọi hàm 
+    recognition.onresult = (e) => {
+        console.log("onresult", e);
+        const text = e.results[0][0].transcript;
+        handleVoice(text);
+    };
     </script>
 </body>
 

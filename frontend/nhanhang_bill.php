@@ -2,11 +2,10 @@
 include('../db/dbhelper.php');
 if (isset($_POST['id_hoadon'])) {
     $id_hoadon = $_POST['id_hoadon'];
-    
-    // Cập nhật trạng thái giao hàng
-    $sql = 'UPDATE hoadon SET deliveryStatus = 3 WHERE id =' . $id_hoadon;
+    $ngaynhanhang = date('Y-m-d');
+    $sql = 'UPDATE hoadon SET deliveryStatus = 3, ngaynhan_thucte = "' . $ngaynhanhang . '" WHERE id =' . $id_hoadon;
     execute($sql);
-    
+
     // Lấy thông tin chi tiết hóa đơn
     $sql1 = "SELECT cthoadon.id_sanpham, cthoadon.id_hoadon, cthoadon.so_luong, sanpham.id_nhaban, sanpham.don_gia
               FROM cthoadon

@@ -76,22 +76,23 @@ ini_set('display_errors', 0);
                                         <td>' . $ten_sp . '</td>
                                         <td>' . currency_format($value['tong_tien']) . '</td>';
                     if ($value['deliveryStatus'] == 0) {
-                        echo '<td align=center style="color:red">Đang xử lý</td>
+                        echo '<td align=center><b style="color:red">Đang xử lý</b></td>
                             <td align:right; ><a onclick="huydonhang(' . $value['id'] . ')" style="color:#d10024"><u>Hủy</u></a></td>';
                     }
                     if ($value['deliveryStatus'] == 1) {
-                        echo '<td align=center style="color:orange">Chờ lấy hàng</td>';
+                        echo '<td align=center><b style="color:orange">Chờ lấy hàng</b></td>';
                     }
                     if ($value['deliveryStatus'] == 2) {
-                        echo '<td align=center style="color:green">Đang vận chuyển</td>
+                        echo '<td align=center><b style="color:green">Đang vận chuyển</b></td>
                             <td align:right; ><button onclick="nhandonhang(' . $value['id'] . ')" style="color:green; border-radius: 5px"><b>Xác nhận đã nhận hàng</b></button></td>';
                     }
                     if ($value['deliveryStatus'] == 3) {
-                        echo '<td align=center style="color:darkgreen;">Giao thành công</td>';
+                        echo '<td align=center ><b style="color:darkgreen;">Giao thành công</b><br><i style="font-size: 12px">Đã nhận hàng vào: ' . $value['ngaynhan_thucte'] . '</i></td>';
                     }
-
-
                     echo '<td></td></tr>';
+                    if (!empty($value['ngaynhandukien'])) {
+                        echo '<tr style="background-color: inherit !important;"><td colspan="6"><i style="color: red; font-size: 12px;">Ngày giao hàng dự kiến: <b>' . $value['ngaynhandukien'] . '</b></i></td></tr>';
+                    }
                 }
                 ?>
 

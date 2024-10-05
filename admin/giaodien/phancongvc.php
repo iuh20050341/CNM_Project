@@ -92,174 +92,182 @@ if (!empty($_SESSION['nguoidung'])) {
 
     mysqli_close($con);
     ?>
-    <style>
-        .table-bordered th,
-        .table-bordered td {
-            background-color: #ffffff;
-            color: #000;
-            text-align: center;
-            vertical-align: middle;
-            font-weight: normal;
-        }
+<style>
+.table-bordered th,
+.table-bordered td {
+    background-color: #ffffff;
+    color: #000;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: normal;
+}
 
-        .table-bordered th {
-            background-color: #f0f0f0;
-        }
+.table-bordered th {
+    background-color: #f0f0f0;
+}
 
-        .table td {
-            border: 1px solid #ddd;
-            font-size: 16px;
-            padding: 10px;
-        }
+.table td {
+    border: 1px solid #ddd;
+    font-size: 16px;
+    padding: 10px;
+}
 
-        .product-items input[type="date"] {
-            width: 150px;
-            padding: 5px;
-            margin: 5px;
-            border: 1px solid #CCC;
-        }
+.product-items input[type="date"] {
+    width: 150px;
+    padding: 5px;
+    margin: 5px;
+    border: 1px solid #CCC;
+}
 
-        .product-items input[type="submit"] {
-            padding: 10px 20px;
-            margin: 5px;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            font-size: 18px;
-        }
+.product-items input[type="submit"] {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
 
-        .product-items .table-responsive-sm {
-            margin-top: 20px;
-        }
+.product-items .table-responsive-sm {
+    margin-top: 20px;
+}
 
-        .table td.status-delivery {
-            color: inherit;
-        }
-        .form-container input[type="submit"] {
-            padding: 0.25em 0.5em; /* Điều chỉnh padding cho nút */
-            font-size: 0.9em; /* Thay đổi kích thước chữ cho nút */
-            margin-left: 5px; /* Khoảng cách giữa nút và hộp select */
-            cursor: pointer; /* Thay đổi con trỏ khi di chuột lên nút */
-        }
+.table td.status-delivery {
+    color: inherit;
+}
 
-        .form-container select {
-            font-size: 0.9em; /* Đảm bảo kích thước chữ của hộp select khớp với nút */
-        }
-    </style>
+.form-container input[type="submit"] {
+    padding: 0.25em 0.5em;
+    /* Điều chỉnh padding cho nút */
+    font-size: 0.9em;
+    /* Thay đổi kích thước chữ cho nút */
+    margin-left: 5px;
+    /* Khoảng cách giữa nút và hộp select */
+    cursor: pointer;
+    /* Thay đổi con trỏ khi di chuột lên nút */
+}
 
-    <div class="main-content">
-        <h1>Phân công vận chuyển</h1>
-        <form method="POST" action="./admin.php?tmuc=Phân%20công%20vận%20chuyển">
-            <div class="form-row">
-                <div class="form-group col-md-3">
-                    <label for="timebd">Ngày bắt đầu:</label>
-                    <input type="date" class="form-control" id="timebd" name="timebd">
-                </div>
-                <div class="form-group col-md-3">
-                    <label for="timekt">Ngày kết thúc:</label>
-                    <input type="date" class="form-control" id="timekt" name="timekt">
-                </div>
-                <div class="form-group col-md-3">
-                    <label for="orderId">Mã đơn hàng:</label>
-                    <input type="text" class="form-control" id="orderId" name="orderId" placeholder="Nhập mã đơn hàng">
-                </div>
-                <div class="form-group col-md-3">
-                    <label for="phancong">Phân công:</label>
-                    <select id="phancong" name="phancong" class="form-control">
-                        <option value="">Chưa phân công</option>
-                        <?php foreach ($users as $user): ?>
-                            <option value="<?= $user['username'] ?>"><?= $user['fullname'] ?></option>
-                        <?php endforeach; ?>
-                    </select>
+.form-container select {
+    font-size: 0.9em;
+    /* Đảm bảo kích thước chữ của hộp select khớp với nút */
+}
+</style>
 
-                </div>
-                <div class="form-group col-md-3">
-                    <label for="status">Trạng thái:</label>
-                    <select id="status" name="status" class="form-control">
-                        <option value="99">Chọn trạng thái</option>
-                        <option value="1">Chờ lấy hàng</option>
-                        <option value="2">Đang vận chuyển</option>
-                        <option value="3">Giao hàng thành công</option>
-                    </select>
-                </div>
+<div class="main-content">
+    <h1>Phân công vận chuyển</h1>
+    <form method="POST" action="./admin.php?tmuc=Phân%20công%20vận%20chuyển">
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="timebd">Ngày bắt đầu:</label>
+                <input type="date" class="form-control" id="timebd" name="timebd">
             </div>
-            <input name="search" type="submit" class="btn btn-primary" value="SEARCH">
-        </form>
-        <div class="product-items">
-            <div class="table-responsive-sm">
-                <table class="table table-bordered table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Mã khách hàng</th>
-                            <th>Tổng tiền</th>
-                            <th>Ngày tạo</th>
-                            <th>Trạng thái vận chuyển</th>
-                            <th>Xem chi tiết</th>
-                            <th style="text-align:center">Phân công</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
+            <div class="form-group col-md-3">
+                <label for="timekt">Ngày kết thúc:</label>
+                <input type="date" class="form-control" id="timekt" name="timekt">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="orderId">Mã đơn hàng:</label>
+                <input type="text" class="form-control" id="orderId" name="orderId" placeholder="Nhập mã đơn hàng">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="phancong">Phân công:</label>
+                <select id="phancong" name="phancong" class="form-control">
+                    <option value="">Chưa phân công</option>
+                    <?php foreach ($users as $user): ?>
+                    <option value="<?= $user['username'] ?>"><?= $user['fullname'] ?></option>
+                    <?php endforeach; ?>
+                </select>
+
+            </div>
+            <div class="form-group col-md-3">
+                <label for="status">Trạng thái:</label>
+                <select id="status" name="status" class="form-control">
+                    <option value="99">Chọn trạng thái</option>
+                    <option value="1">Chờ lấy hàng</option>
+                    <option value="2">Đang vận chuyển</option>
+                    <option value="3">Giao hàng thành công</option>
+                </select>
+            </div>
+        </div>
+        <input name="search" type="submit" class="btn btn-primary" value="SEARCH">
+    </form>
+    <div class="product-items">
+        <div class="table-responsive-sm">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Mã khách hàng</th>
+                        <th>Tổng tiền</th>
+                        <th>Ngày tạo</th>
+                        <th>Trạng thái vận chuyển</th>
+                        <th>Xem chi tiết</th>
+                        <th style="text-align:center">Phân công</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
                         if (mysqli_num_rows($hoadon) > 0) {
                             while ($row = mysqli_fetch_array($hoadon)) { ?>
-                                <tr class="<?= $row['trang_thai'] == 1 ? 'hoadon-daxacnhan' : 'hoadon-chuaxacnhan' ?>">
-                                    <td><?= htmlspecialchars($row['idhoadon']) ?></td>
-                                    <td><?= htmlspecialchars($row['id_khachhang']) ?></td>
-                                    <td><?= htmlspecialchars($row['tong_tien']) ?></td>
-                                    <td><?= htmlspecialchars($row['ngay_tao']) ?></td>
-                                    <td class="status-delivery">
-                                        <?php
+                    <tr class="<?= $row['trang_thai'] == 1 ? 'hoadon-daxacnhan' : 'hoadon-chuaxacnhan' ?>">
+                        <td><?= htmlspecialchars($row['idhoadon']) ?></td>
+                        <td><?= htmlspecialchars($row['id_khachhang']) ?></td>
+                        <td><?= htmlspecialchars($row['tong_tien']) ?></td>
+                        <td><?= htmlspecialchars($row['ngay_tao']) ?></td>
+                        <td class="status-delivery">
+                            <?php
                                         switch ($row['deliveryStatus']) {
-                                            case "0":
+                                            case "1":
                                                 echo "<p style='color:orange'>Chờ phân công</p>";
                                                 break;
-                                            case "1":
+                                            case "2":
                                                 echo "<p style='color:orange'>Chờ lấy hàng</p>";
                                                 break;
-                                            case "2":
+                                            case "3":
                                                 echo "<p style='color:green'>Đang vận chuyển</p>";
                                                 break;
-                                            case "3":
+                                            case "4":
                                                 echo "<p style='color:darkgreen'>Giao hàng thành công</p>";
                                                 break;
-                                            case "4":
+                                            case "5":
                                                 echo "Giao hàng thất bại";
                                                 break;
                                         }
                                         ?>
-                                    </td>
-                                    <td><a href="./admin.php?act=cthoadon&id=<?= htmlspecialchars($row['idhoadon']) ?>">Xem chi tiết</a></td>
-                                    <td style="text-align:center">
-                                        <?php if (empty($row['phancong'])) { ?>
-                                            <form action="xulythem.php" method="POST" class="form-container">
-                                                <input type="hidden" name="id" value="<?= htmlspecialchars($row['idhoadon']) ?>" />
-                                                <select name="vc">
-                                                    <option value="">Chọn</option>
-                                                    <?php foreach ($users as $user) { ?>
-                                                        <option value="<?= htmlspecialchars($user['username']) ?>"
-                                                            <?= (isset($row['phancong']) && $row['phancong'] == $user['username']) ? 'selected' : '' ?>><?= htmlspecialchars($user['fullname']) ?></option>
-                                                    <?php } ?>
-                                                </select>
-                                                <input type="submit" name="btn_pcvc" value="Phân công">
-                                            </form>
-                                        <?php } else { ?>
-                                            <?= htmlspecialchars($row['phancong']) ?>
-                                        <?php } ?>
-                                    </td>
-                                </tr>
-                            <?php }
+                        </td>
+                        <td><a href="./admin.php?act=cthoadon&id=<?= htmlspecialchars($row['idhoadon']) ?>">Xem chi
+                                tiết</a></td>
+                        <td style="text-align:center">
+                            <?php if (empty($row['phancong'])) { ?>
+                            <form action="xulythem.php" method="POST" class="form-container">
+                                <input type="hidden" name="id" value="<?= htmlspecialchars($row['idhoadon']) ?>" />
+                                <select name="vc">
+                                    <option value="">Chọn</option>
+                                    <?php foreach ($users as $user) { ?>
+                                    <option value="<?= htmlspecialchars($user['username']) ?>"
+                                        <?= (isset($row['phancong']) && $row['phancong'] == $user['username']) ? 'selected' : '' ?>>
+                                        <?= htmlspecialchars($user['fullname']) ?></option>
+                                    <?php } ?>
+                                </select>
+                                <input type="submit" name="btn_pcvc" value="Phân công">
+                            </form>
+                            <?php } else { ?>
+                            <?= htmlspecialchars($row['phancong']) ?>
+                            <?php } ?>
+                        </td>
+                    </tr>
+                    <?php }
                         } else {
                             echo "<tr><td colspan='7'>Không có dữ liệu hóa đơn.</td></tr>";
                         } ?>
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+            </table>
         </div>
-        <?php include './pagination.php'; ?>
     </div>
-    <?php
+    <?php include './pagination.php'; ?>
+</div>
+<?php
 }
 ?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

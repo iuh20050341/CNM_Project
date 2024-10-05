@@ -21,54 +21,80 @@ if (!empty($_SESSION['nguoidung'])) {
                       WHERE `id_sanpham`=`sanpham`.`id` AND `id_hoadon`='$id_hoadon' 
                       ORDER BY `cthoadon`.`id_hoadon` ASC 
                       LIMIT $item_per_page OFFSET $offset";
+
     $cthoadon = mysqli_query($con, $cthoadonQuery);
+
+    $sql = 'select * from hoadon where id="' . $id_hoadon . '"';
+    $infoCus = executeSingleResult($sql);
+
 
     // Đóng kết nối cơ sở dữ liệu sau khi truy vấn
     mysqli_close($con);
     ?>
-    
-    <div style="margin: 10px">
-        <button style="background-color: darkgray; border-radius: 5px; width: 55px; height: auto;">
-            <a href="./admin.php?muc=1&tmuc=Quản%20lý%20vận%20chuyển"><i class="fa-solid fa-backward"></i></a>
-        </button>
-    </div>
 
-    <div class="clear-both"></div>
+<div style="margin: 10px">
+    <button style="background-color: darkgray; border-radius: 5px; width: 55px; height: auto;">
+        <a href="./admin.php?muc=1&tmuc=Quản%20lý%20vận%20chuyển"><i class="fa-solid fa-backward"></i></a>
+    </button>
+</div>
 
-    <div class="main-content">
-        <h1>Chi tiết hóa đơn</h1>
-        <div class="product-items">
-            <div class="table-responsive-sm">
-                <table class="table table-bordered table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>Tên sản phẩm</th>
-                            <th>Số lượng</th>
-                            <th>Đơn giá</th>
-                            <th>ID Nhà bán</th> <!-- Hiển thị ID Nhà bán -->
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        while ($row = mysqli_fetch_array($cthoadon)) {
-                            ?>
-                            <tr>
-                                <td><?= htmlspecialchars($row['ten_sp']) ?></td>
-                                <td><?= htmlspecialchars($row['so_luong']) ?></td>
-                                <td><?= htmlspecialchars($row['don_gia']) ?></td>
-                                <td><?= htmlspecialchars($row['id_nhaban']) ?></td> <!-- Hiển thị ID Nhà bán -->
-                            </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
+<div class="clear-both"></div>
+
+<div class="main-content">
+    <h1>Chi tiết hóa đơn</h1>
+    <div class="product-items">
+        <div class="customer-info mb-4 p-3 border rounded">
+            <h5 class="mb-3">Thông tin khách hàng</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <strong>Tên khách hàng:</strong>
+                    <?= isset($infoCus['ten_nguoinhan']) ? htmlspecialchars($infoCus['ten_nguoinhan']) : 'Không có thông tin' ?>
+                </div>
+                <div class="col-md-6">
+                    <strong>Số điện thoại:</strong>
+                    <?= isset($infoCus['sdt_nguoinhan']) ? htmlspecialchars($infoCus['sdt_nguoinhan']) : 'Không có thông tin' ?>
+                </div>
+                <div class="col-md-6">
+                    <strong>Địa chỉ:</strong>
+                    <?= isset($infoCus['diachinhanhang']) ? htmlspecialchars($infoCus['diachinhanhang']) : 'Không có thông tin' ?>
+                </div>
             </div>
         </div>
-        
-        <?php include './pagination2.php'; ?>
-        
-        <div class="clear-both"></div>
+
+
+        <div class="table-responsive-sm">
+            <!-- Bảng sản phẩm -->
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Tên sản phẩm</th>
+                        <th>Số lượng</th>
+                        <th>Đơn giá</th>
+                        <th>ID Nhà bán</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        while ($row = mysqli_fetch_array($cthoadon)) {
+                            ?>
+                    <tr>
+                        <td><?= htmlspecialchars($row['ten_sp']) ?></td>
+                        <td><?= htmlspecialchars($row['so_luong']) ?></td>
+                        <td><?= htmlspecialchars($row['don_gia']) ?></td>
+                        <td><?= htmlspecialchars($row['id_nhaban']) ?></td> <!-- Hiển thị ID Nhà bán -->
+                    </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
     </div>
-    <?php
+
+
+    <?php include './pagination2.php'; ?>
+
+    <div class="clear-both"></div>
+</div>
+<?php
 } else {
     echo "Bạn cần đăng nhập để xem chi tiết hóa đơn.";
 }

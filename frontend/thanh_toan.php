@@ -20,6 +20,15 @@ if (isset($_SESSION['ten_dangnhap'])) {
     foreach ($cart as $item) {
         $totalPriceAll += $item['qty'] * $item['price'];
     }
+    if (isset($_POST['saveTT'])) {
+        $diachi = $_POST['customerAddress'];
+        $ten = $_POST['customerName'];
+        $sdt = $_POST['customerPhone'];
+    } else {
+        $diachi = $infoCus['dia_chi'];
+        $ten = $infoCus['ten_kh'];
+        $sdt = $infoCus['phone'];
+    }
     // Tạo ID đơn hàng
     $ngay_tao_HD = date('Y/m/d H:i:s');
     $result = executeSingleResult('SELECT id FROM hoadon ORDER BY ngay_tao DESC LIMIT 0, 1');
@@ -28,11 +37,9 @@ if (isset($_SESSION['ten_dangnhap'])) {
     } else {
         $id_hoadon = 1;
     }
-    $sql = 'insert into hoadon (id_khachhang, tong_tien, ngay_tao, deliveryStatus) value ("' . $infoCus['id'] . '", "' . $totalPriceAll . '", "' . $ngay_tao_HD . '", 0)';
+    $sql = 'insert into hoadon (id_khachhang, tong_tien, ngay_tao, deliveryStatus, diachinhanhang, ten_nguoinhan, sdt_nguoinhan) value ("' . $infoCus['id'] . '", "' . $totalPriceAll . '", "' . $ngay_tao_HD . '", 0,"' . $diachi . '","' . $ten . '","' . $sdt . '")';
     execute($sql);
     date_default_timezone_set("Asia/Ho_Chi_Minh");
-
-
 
     foreach ($cart as $key => $value) {
 
@@ -57,8 +64,8 @@ if (isset($_SESSION['ten_dangnhap'])) {
         execute('UPDATE sanpham SET so_luong="' . ($sl - $value['qty']) . '", sl_da_ban="' . ($value['qty'] + $sldabancu) . '" WHERE id = ' . $key);
     }
 
-    $tong_tien_muahang = executeSingleResult('select tong_tien_muahang as s from khachhang where id=' . $infoCus['id'])['s'];//TỔng tiền hiện tại khách hàng đã mua
-    execute('UPDATE khachhang SET tong_tien_muahang="' . ($tong_tien_muahang + $tong_tien) . '" WHERE id=' . $infoCus['id']);//Cập nhật lại tổng tiền mau hàng
+    $tong_tien_muahang = executeSingleResult('select tong_tien_muahang as s from khachhang where id=' . $infoCus['id'])['s']; //TỔng tiền hiện tại khách hàng đã mua
+    execute('UPDATE khachhang SET tong_tien_muahang="' . ($tong_tien_muahang + $tong_tien) . '" WHERE id=' . $infoCus['id']); //Cập nhật lại tổng tiền mau hàng
     //Cập nhật lại sô lượng sản phẩm theo thể loại
     $listCate = executeResult('SELECT * FROM theloai WHERE 1');
     foreach ($listCate as $item) {
@@ -79,76 +86,76 @@ if (isset($_SESSION['ten_dangnhap'])) {
 
 ?>
 <style>
-    /* Style the header */
-    .header {
-        background-color: #f8f8f8;
-        padding: 20px;
-    }
+/* Style the header */
+.header {
+    background-color: #f8f8f8;
+    padding: 20px;
+}
 
-    .title {
-        text-align: center;
-    }
+.title {
+    text-align: center;
+}
 
-    h1 {
-        font-size: 24px;
-        font-weight: bold;
-    }
+h1 {
+    font-size: 24px;
+    font-weight: bold;
+}
 
-    /* Style the table */
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
+/* Style the table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
 
-    th,
-    td {
-        padding: 8px;
-        border: 1px solid #ddd;
-    }
+th,
+td {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
 
-    thead th {
-        background-color: #f2f2f2;
-        text-align: left;
-    }
+thead th {
+    background-color: #f2f2f2;
+    text-align: left;
+}
 
-    /* Style the form */
-    form {
-        margin-top: 20px;
-    }
+/* Style the form */
+form {
+    margin-top: 20px;
+}
 
-    .form-group {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-    }
+.form-group {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
 
-    .form-group>div {
-        margin: 0 10px;
-    }
+.form-group>div {
+    margin: 0 10px;
+}
 
-    #ttmomo,
-    #tt {
-        background-color: darkgreen;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        width: 400px;
-    }
+#ttmomo,
+#tt {
+    background-color: darkgreen;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 400px;
+}
 
-    #ttmomo:hover,
-    #tt:hover {
-        background-color: forestgreen;
+#ttmomo:hover,
+#tt:hover {
+    background-color: forestgreen;
 
-    }
+}
 </style>
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title = "Thanh Toán" ?></title>
+    <title><?= $title = "Thstyleoán" ?></title>
 
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
@@ -199,76 +206,77 @@ $result = executeResult($sql);
             <h1>Thanh Toán</h1>
         </div>
     </div>
-    <h2>Thông tin đơn hàng</h2>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Sản phẩm</th>
-                <th>Số lượng</th>
-                <th>Đơn giá</th>
-                <th>Thành tiền</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($cart as $item) { ?>
+    <h2 style="margin-left: 10px;">Thông tin đơn hàng</h2>
+
+    <div style="display: flex; width: 95%; justify-content: space-between; margin: 0 auto;">
+
+        <table class="table table-bordered">
+            <thead>
                 <tr>
-                    <td><?php echo $item['name'] ?></td>
-                    <td><?php echo $item['qty'] ?></td>
-                    <td><?php echo number_format($item['price'], 0, ',', '.') ?></td>
+                    <th>Sản phẩm</th>
+                    <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($cart as $item) { ?>
+                <tr>
+                    <td>
+                        <?php echo $item['name'] ?>
+                    </td>
+                    <td>
+                        <?php echo $item['qty'] ?>
+                    </td>
+                    <td>
+                        <?php echo number_format($item['price'], 0, ',', '.') ?>
+                    </td>
                     <?php $totalPrice = 0;
-                    $totalPrice = $item['qty'] * $item['price'];
-                    $tong_tien += $totalPrice;
-                    foreach ($totalPriceArr as $totalPriceItem) {
-                        if ($totalPriceItem['name'] == $item['name']) {
-                            $totalPrice = $totalPriceItem['price'];
-                            break;
+                        $totalPrice = $item['qty'] * $item['price'];
+                        $tong_tien += $totalPrice;
+                        foreach ($totalPriceArr as $totalPriceItem) {
+                            if ($totalPriceItem['name'] == $item['name']) {
+                                $totalPrice = $totalPriceItem['price'];
+                                break;
+                            }
                         }
-                    }
-                    echo '<td>' . number_format($totalPrice, 0, ',', '.') . '</td>'; ?>
+                        echo '<td>' . number_format($totalPrice, 0, ',', '.') . '</td>'; ?>
 
                 </tr>
                 <?php
-            } ?>
-            <tr>
-                <td colspan="3"></td>
-                <td><strong>Tổng tiền:</strong></td>
-                <td><?php echo number_format($totalPriceAll, 0, ',', '.') ?></td>
-            </tr>
-        </tbody>
-    </table>
+                } ?>
+                <tr>
+                    <td colspan="3"></td>
+                    <td><strong>Tổng tiền:</strong></td>
+                    <td><?php echo number_format($totalPriceAll, 0, ',', '.') ?></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     <h2>Phương thức thanh toán</h2>
-
-    <!-- <label for="paymentMethod">Chọn phương thức thanh toán:</label>
-        <select id="paymentMethod" name="paymentMethod">
-            <option value="">
-                Thanh toán khi nhận hàng
-            </option>
-        </select> -->
-
-
     <?php
     $totalPrice = 0;
     foreach ($cart as $item) {
         $totalPrice += $item['qty'] * $item['price'];
     }
-
-    echo '<table>
-    <tr>
-        <td>
-            <form name = "payUrl" method="POST" action="xulythanhtoanmomo.php" class="form-group">
-            <div><input type="hidden" name="amount" value="' . $totalPriceAll . '">
-            <button id="ttmomo" type="submit">Thanh toán MOMO</button></div>
-            </form>
-            <form action="create_order.php" method="post" class="form-group">
-            <div><input id="tt" type="submit" value="Thanh toán khi nhận hàng" onclick="createOrder();"></div>
-            </form>
-            </td>
-        <td>
-        </td>
-    </tr>
-</table>';
-
     ?>
+    <table>
+        <tr>
+            <td>
+                <form name="payUrl" method="POST" action="xulythanhtoanmomo.php" class="form-group">
+                    <div><input type="hidden" name="amount" value="<?= $totalPriceAll ?>">
+                        <button id="ttmomo" type="submit">Thanh toán MOMO</button>
+                    </div>
+                </form>
+                <form action="create_order.php" method="post" class="form-group">
+                    <div><input id="tt" type="submit" value="Thanh toán khi nhận hàng" onclick="createOrder();"></div>
+                </form>
+            </td>
+            <td>
+            </td>
+        </tr>
+    </table>
+
 
 
 </body>

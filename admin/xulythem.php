@@ -869,6 +869,28 @@
         }
     }
 
+    if (isset($_POST['capnhatdaydk'])) {
+        if (isset($_POST['ngaydk']) && isset($_POST['id'])) {
+            if ($_POST['ngaydk'] != '') {
+                $conn = mysqli_connect("localhost", "root", "", "bannuocdb");
+                $result = mysqli_query($conn, "UPDATE `hoadon` SET `ngaynhandukien` = '" . $_POST['ngaydk'] . "'WHERE `id` = " . $_POST['id'] . " ");
+                if ($result) {
+                    echo "<script>alert('Cập nhật ngày dự kiến giao thành công!');
+                                window.location.href = 'admin.php?muc=18&tmuc=Quản%20lý%20vận%20chuyển';</script>";
+
+                } else {
+                    echo "<script>
+                    alert('Cập nhật ngày thất bại!);
+                                window.location.href = 'admin.php?muc=18&tmuc=Quản%20lý%20vận%20chuyển';
+                    </script>";
+                }
+            } else {
+                echo "<script>alert('Vui lòng nhập ngày!');
+                    window.location.href = 'admin.php?muc=18&tmuc=Quản%20lý%20vận%20chuyển';</script>";
+            }
+        }
+    }
+
     ?>
 </body>
 
