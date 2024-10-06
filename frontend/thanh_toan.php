@@ -21,14 +21,15 @@ if (isset($_SESSION['ten_dangnhap'])) {
         $totalPriceAll += $item['qty'] * $item['price'];
     }
     if (isset($_POST['saveTT'])) {
-        $diachi = $_POST['customerAddress'];
-        $ten = $_POST['customerName'];
-        $sdt = $_POST['customerPhone'];
+        $diachi = isset($_POST['customerAddress']) ? $_POST['customerAddress'] : $infoCus['dia_chi'];
+        $ten = isset($_POST['customerName']) ? $_POST['customerName'] : $infoCus['ten_kh'];
+        $sdt = isset($_POST['customerPhone']) ? $_POST['customerPhone'] : $infoCus['phone'];
     } else {
         $diachi = $infoCus['dia_chi'];
         $ten = $infoCus['ten_kh'];
         $sdt = $infoCus['phone'];
     }
+
     // Tạo ID đơn hàng
     $ngay_tao_HD = date('Y/m/d H:i:s');
     $result = executeSingleResult('SELECT id FROM hoadon ORDER BY ngay_tao DESC LIMIT 0, 1');
@@ -276,7 +277,5 @@ $result = executeResult($sql);
             </td>
         </tr>
     </table>
-
-
 
 </body>
