@@ -4,6 +4,10 @@ if (isset($_GET['tmuc'])) {
         include('ql_doanhthu.php');
 }
 if (isset($_GET['tmuc'])) {
+    if ($_GET['tmuc'] == 'Quy tắc kiểm định')
+        include('quytac_kd.php');
+}
+if (isset($_GET['tmuc'])) {
     if ($_GET['tmuc'] == 'Quản lý vận chuyển')
         include('hoadon_distributor.php');
 }
