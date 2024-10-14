@@ -241,7 +241,9 @@ if (!empty($_SESSION['nguoidung'])) {
                                             <a href="./supplier.php?act=xoahd&id=<?= $row['idhoadon'] ?>"
                                                 onclick="return confirm('Are you sure you want to reject this item?');">Từ
                                                 chối</a><?php } ?>
-                                    </td>
+                                            <b>|</b>
+                                            <a href="/CNM_Project/admin/giaodien/in_hd.php?id=<?= $row['idhoadon'] ?>">In hóa đơn</a>
+                                            </td>
                                     <div class="clear-both"></div>
                                 </tr>
                             <?php } ?>
