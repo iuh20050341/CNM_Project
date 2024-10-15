@@ -63,7 +63,7 @@
                         <td><?= $row['email'] ?></td>
                         <td><?= $row['diachivuon'] ?></td>
                         <td><?= $row['phone'] ?></td>
-                        <td><?= $row['doanhthu'] ?></td>
+                        <td><?= number_format($row['doanhthu'], 0, ',', '.') . ' VNĐ' ?></td>
                         <td>
                             <form method="POST" action="./xulythem.php?id=<?= $row['id'] ?>">
                             <input type="submit" name="btn_dt" value="Thanh toán" onclick="return confirm('Bạn có muốn thanh toán doanh thu?')">

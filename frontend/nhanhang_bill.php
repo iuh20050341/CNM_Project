@@ -13,21 +13,28 @@ if (isset($_POST['id_hoadon'])) {
               WHERE cthoadon.id_hoadon = $id_hoadon";
     $result = executeResult($sql1);
 
-    // Tính toán doanh thu và cập nhật cho từng nhà cung cấp
-    $total_amount = 0; // Khởi tạo tổng số tiền của hóa đơn
-    foreach ($result as $row) {
-        $don_gia = $row['don_gia'];
-        $so_luong = $row['so_luong'];
-        $total_amount += ($don_gia * $so_luong); // Cộng dồn tổng số tiền
-    }
-
-    // Trừ đi 20% từ tổng hóa đơn
-    $final_amount = $total_amount * 0.8;
+    // Khởi tạo mảng để lưu doanh thu của từng nhà cung cấp
+    $revenue_per_nhaban = [];
 
     foreach ($result as $row) {
         $id_nhaban = $row['id_nhaban'];
-        // Cập nhật doanh thu cho nhà cung cấp với số tiền đã trừ
-        $sql3 = 'UPDATE khachhang SET doanhthu = doanhthu + ' . $final_amount . ' WHERE id =' . $id_nhaban;
+        $don_gia = $row['don_gia'];
+        $so_luong = $row['so_luong'];
+        $amount = $don_gia * $so_luong; // Tính tiền cho sản phẩm của nhà cung cấp
+
+        // Trừ đi 20% từ tổng tiền sản phẩm
+        $final_amount = $amount * 0.8;
+
+        // Cộng dồn doanh thu cho từng nhà cung cấp
+        if (!isset($revenue_per_nhaban[$id_nhaban])) {
+            $revenue_per_nhaban[$id_nhaban] = 0;
+        }
+        $revenue_per_nhaban[$id_nhaban] += $final_amount;
+    }
+
+    // Cập nhật doanh thu cho từng nhà cung cấp
+    foreach ($revenue_per_nhaban as $id_nhaban => $revenue) {
+        $sql3 = 'UPDATE khachhang SET doanhthu = doanhthu + ' . $revenue . ' WHERE id =' . $id_nhaban;
         execute($sql3);
     }
 }

@@ -10,6 +10,10 @@ if (isset($_GET['tmuc'])) {
         include('qldt.php');
 }
 if (isset($_GET['tmuc'])) {
+    if ($_GET['tmuc'] == 'Thống kê doanh thu')
+        include('thongke_dt.php');
+}
+if (isset($_GET['tmuc'])) {
     if ($_GET['tmuc'] == 'SP chưa duyệt')
         include('product_list_check.php');
 }
