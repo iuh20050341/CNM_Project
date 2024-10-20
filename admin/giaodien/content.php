@@ -12,7 +12,7 @@ if (isset($_GET['tmuc'])) {
         include('hoadon_distributor.php');
 }
 if (isset($_GET['tmuc'])) {
-    if ($_GET['muc'] == '23' && $_GET['tmuc'] == 'Thống kê')
+    if ($_GET['tmuc'] == 'Thống kê vận chuyển')
         include('thongkevc.php');
 }
 if (isset($_GET['tmuc'])) {
