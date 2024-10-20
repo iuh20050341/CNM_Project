@@ -836,7 +836,7 @@
     if (isset($_POST['btn_dt'])) {
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
-
+    
             // Lấy giá trị hiện tại của doanh thu
             $selectQuery = "SELECT `doanhthu` FROM `khachhang` WHERE `id` = ?";
             if ($selectStmt = $con->prepare($selectQuery)) {
@@ -846,28 +846,36 @@
                 $selectStmt->fetch();
                 $selectStmt->close();
             }
-
+    
             // Cập nhật cột doanh thu và doanh thu_tt
             $updateQuery = "UPDATE `khachhang` SET `doanhthu` = 0, `doanhthu_tt` = `doanhthu_tt` + ? WHERE `id` = ?";
-
+    
             if ($stmt = $con->prepare($updateQuery)) {
                 $stmt->bind_param("ii", $doanhthu, $id); // Ràng buộc tham số (hai chỉ số nguyên)
     
                 if ($stmt->execute()) {
+                    // Thêm câu lệnh để cập nhật thời gian thanh toán và doanh thu_tt vào bảng thongkedt
+                    $insertQuery = "INSERT INTO `thongkedt` (`id_nb`, `thoigian_tt`, `doanhthu_tt`) VALUES (?, NOW(), ?)";
+                    if ($insertStmt = $con->prepare($insertQuery)) {
+                        $insertStmt->bind_param("ii", $id, $doanhthu); // Ràng buộc id_nb và doanhthu_tt
+                        $insertStmt->execute();
+                        $insertStmt->close();
+                    }
+    
                     echo "<script>alert('Thanh toán thành công!'); 
                                   window.location.href = 'admin.php?tmuc=Quản lý doanh thu';</script>";
                 } else {
                     echo "<script>alert('Thanh toán thất bại! Lỗi: " . $stmt->error . "'); 
                                   window.location.href = 'admin.php?tmuc=Quản lý doanh thu';</script>";
                 }
-
+    
                 $stmt->close();
             } else {
                 echo "<script>alert('Lỗi chuẩn bị câu lệnh SQL: " . $con->error . "'); 
                               window.location.href = 'admin.php?tmuc=Quản lý doanh thu';</script>";
             }
         }
-    }
+    }    
 
     if (isset($_POST['capnhatdaydk'])) {
         if (isset($_POST['ngaydk']) && isset($_POST['id'])) {
