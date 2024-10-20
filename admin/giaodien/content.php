@@ -12,6 +12,10 @@ if (isset($_GET['tmuc'])) {
         include('hoadon_distributor.php');
 }
 if (isset($_GET['tmuc'])) {
+    if ($_GET['muc'] == '23' && $_GET['tmuc'] == 'Thống kê')
+        include('thongkevc.php');
+}
+if (isset($_GET['tmuc'])) {
     if ($_GET['tmuc'] == 'Sản phẩm')
         include('product_listing.php');
 }
@@ -91,10 +95,7 @@ if (isset($_GET['tmuc'])) {
     if ($_GET['tmuc'] == 'Phiếu nhập')
         include('phieunhap.php');
 }
-if (isset($_GET['tmuc'])) {
-    if ($_GET['tmuc'] == 'Thống kê')
-        include('thongke2.php');
-}
+
 if (isset($_GET['act']))
     if ($_GET['act'] == 'add')
         include('product_adding.php');

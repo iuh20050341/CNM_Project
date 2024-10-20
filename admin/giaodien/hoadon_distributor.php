@@ -212,8 +212,8 @@ if (!empty($_SESSION['nguoidung'])) {
                             <th>Mã khách hàng</th>
                             <th>Tổng tiền</th>
                             <th>Ngày tạo</th>
-                            <th>Ngày nhận hàng dự kiến</th>
-                            <th>Ngày nhận hàng thực tế</th>
+                            <th>Ngày nhận dự kiến</th>
+                            <th>Ngày nhận thực tế</th>
                             <th>Trạng thái vận chuyển</th>
                             <th>Xem chi tiết</th>
                             <th>Thao tác</th>
@@ -247,7 +247,7 @@ if (!empty($_SESSION['nguoidung'])) {
                                 </form>
                                 <?php endif; ?>
                             </td>
-                            <td><?= isset($row['ngaynhan_thucte']) ? $row['ngaynhan_thucte'] : 'Chưa nhận hàng' ?></td>
+                            <td><?= isset($row['ngaynhan_thucte']) ? $row['ngaynhan_thucte'] : '----/--/--' ?></td>
 
                             <td><?php
                                     if ($row['deliveryStatus'] == "1")
