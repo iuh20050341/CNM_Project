@@ -57,7 +57,7 @@ for ($i = 1; $i <= $daysInMonth; $i++) {
             <div class="col-md-12">
                 <h3 class="text-center">Thống kê đơn hàng và tổng tiền</h3>
                 <div class="d-flex justify-content-end mb-3">
-                    <form method="POST" action="./admin.php?muc=23&tmuc=Thống%20kê">
+                    <form method="POST" action="./admin.php?muc=23&tmuc=Thống%20kê%20vận%20chuyển">
                         <select class="form-select w-auto" name="monthFilter" id="monthFilter">
                             <?php
                             for ($i = 1; $i <= 12; $i++) {
@@ -75,51 +75,51 @@ for ($i = 1; $i <= $daysInMonth; $i++) {
     </div>
 
     <script>
-    const ctx = document.getElementById('orderChart').getContext('2d');
-    const orderChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: <?php echo json_encode($dates); ?>,
-            datasets: [{
-                label: 'Tổng tiền (VNĐ)',
-                backgroundColor: 'rgba(255, 206, 86, 0.7)',
-                borderColor: 'rgba(255, 206, 86, 1)',
-                borderWidth: 1,
-                data: <?php echo json_encode(array_values($totalAmounts)); ?>,
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Giá trị'
-                    }
-                }
+        const ctx = document.getElementById('orderChart').getContext('2d');
+        const orderChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: <?php echo json_encode($dates); ?>,
+                datasets: [{
+                    label: 'Tổng tiền (VNĐ)',
+                    backgroundColor: 'rgba(255, 206, 86, 0.7)',
+                    borderColor: 'rgba(255, 206, 86, 1)',
+                    borderWidth: 1,
+                    data: <?php echo json_encode(array_values($totalAmounts)); ?>,
+                }]
             },
-            plugins: {
-                legend: {
-                    position: 'top'
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Giá trị'
+                        }
+                    }
                 },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            const totalAmount = context.raw;
-                            const dayIndex = context.dataIndex;
-                            const orderCount = <?php echo json_encode(array_values($orderCounts)); ?>[
-                                dayIndex];
-                            return [
-                                `Tổng tiền: ${totalAmount} VNĐ`,
-                                `Số lượng đơn hàng: ${orderCount}`
-                            ];
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                const totalAmount = context.raw;
+                                const dayIndex = context.dataIndex;
+                                const orderCount = <?php echo json_encode(array_values($orderCounts)); ?>[
+                                    dayIndex];
+                                return [
+                                    `Tổng tiền: ${totalAmount} VNĐ`,
+                                    `Số lượng đơn hàng: ${orderCount}`
+                                ];
+                            }
                         }
                     }
                 }
             }
-        }
-    });
+        });
     </script>
 
 </body>

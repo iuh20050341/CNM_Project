@@ -78,10 +78,8 @@
                                     </td>
                                     <td style="text-align:center; padding-top: 50px"><?= $row['sl_da_ban'] ?></td>
                                     <td style="text-align:center; padding-top: 50px"><a
-                                            href="admin.php?act=sua&id=<?= $row['id'] ?>">Xem</a> | 
-                                            <?php if ($row['trangthai'] == '7') { ?><a
-                                                href="admin.php?act=xoa&id=<?= $row['id'] ?>"
-                                                onclick="return confirm('Bạn có muốn xóa sản phẩm?');">Xóa</a><?php } ?>
+                                            href="admin.php?act=sua&id=<?= $row['id'] ?>">Xem</a>
+
                                     </td>
                                     <div class="clear-both"></div>
                                 </tr><?php } ?>
