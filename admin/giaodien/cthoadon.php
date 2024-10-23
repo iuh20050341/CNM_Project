@@ -34,7 +34,7 @@ if (!empty($_SESSION['nguoidung'])) {
 
 <div style="margin: 10px">
     <button style="background-color: darkgray; border-radius: 5px; width: 55px; height: auto;">
-        <a href="./admin.php?muc=1&tmuc=Quản%20lý%20vận%20chuyển"><i class="fa-solid fa-backward"></i></a>
+        <a href="javascript:history.back()" class="back-button"><i class="fa-solid fa-backward"></i></a>
     </button>
 </div>
 

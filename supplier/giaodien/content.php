@@ -14,6 +14,10 @@ if (isset($_GET['tmuc'])) {
         include('thongke_dt.php');
 }
 if (isset($_GET['tmuc'])) {
+    if ($_GET['tmuc'] == 'Thống kê sản phẩm')
+        include('thongkesp.php');
+}
+if (isset($_GET['tmuc'])) {
     if ($_GET['tmuc'] == 'SP chưa duyệt')
         include('product_list_check.php');
 }
