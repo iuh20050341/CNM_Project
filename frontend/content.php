@@ -25,6 +25,9 @@
         if($act=='my_account'){
             include('frontend/my_account.php');
         }
+        if($act=='vechungtoi'){
+            include('frontend/vechungtoi.php');
+        }
         if($act=='bill_detail'){
             include('frontend/bill_detail.php');
         }
