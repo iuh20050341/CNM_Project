@@ -28,6 +28,24 @@
         if($act=='vechungtoi'){
             include('frontend/vechungtoi.php');
         }
+        if($act=='tintuc'){
+            include('frontend/tintuc.php');
+        }
+        if($act=='tintuc1'){
+            include('frontend/tintuc1.php');
+        }
+        if($act=='tintuc2'){
+            include('frontend/tintuc2.php');
+        }
+        if($act=='tintuc3'){
+            include('frontend/tintuc3.php');
+        }
+        if($act=='tintuc4'){
+            include('frontend/tintuc4.php');
+        }
+        if($act=='lienhe'){
+            include('frontend/lienhe.php');
+        }
         if($act=='bill_detail'){
             include('frontend/bill_detail.php');
         }

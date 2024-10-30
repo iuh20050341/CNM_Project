@@ -164,14 +164,14 @@
                     echo '<li><a href="index.php?act=vechungtoi">Về chúng tôi</a></li>';
                 }
 				if ($act == '' && !(isset($_GET['id']))) {
-                    echo '<li class="dropdown"><a href="index.php">Tin tức</a></li>';
+                    echo '<li class="dropdown"><a href="index.php?act=tintuc">Tin tức</a></li>';
                 } else {
-                    echo '<li><a href="index.php">Tin tức</a></li>';
+                    echo '<li><a href="index.php?act=tintuc">Tin tức</a></li>';
                 }
 				if ($act == '' && !(isset($_GET['id']))) {
-                    echo '<li class="dropdown"><a href="index.php">Liên hệ</a></li>';
+                    echo '<li class="dropdown"><a href="index.php?act=lienhe">Liên hệ</a></li>';
                 } else {
-                    echo '<li><a href="index.php">Liên hệ</a></li>';
+                    echo '<li><a href="index.php?act=lienhe">Liên hệ</a></li>';
                 }
                 ?>
             </ul>
