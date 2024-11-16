@@ -3,9 +3,10 @@
 $sql = 'select ten_sp, ten_tl,id_nhaban, theloai.id as id_tl from sanpham, theloai where sanpham.id=' . $id . ' and theloai.id=sanpham.id_the_loai';
 $listcate_pro = executeSingleResult($sql);
 $id_nhaban = $listcate_pro['id_nhaban'];
-$sql1 = 'select ten_kh from khachhang where id = ' . $id_nhaban . '';
+$sql1 = 'select ten_kh, id from khachhang where id = ' . $id_nhaban . '';
 $nhaban = executeSingleResult($sql1);
 $ten_nhaban = $nhaban['ten_kh'];
+$id_nhaban = $nhaban['id'];
 
 ?>
 <!-- /Lấy tên thể loại khi biết id sản phẩm -->
@@ -49,14 +50,14 @@ $detailproduct = executeSingleResult($sql);
             <div class="col-md-5 col-md-push-2">
                 <div id="product-main-img">
                     <?php
-					$sql = 'select hinh_anh from hinhanhsp where id_sp=' . $id;
-					$listImg = executeResult($sql);
-					foreach ($listImg as $item) {
-						echo '<div class="product-preview">
+                    $sql = 'select hinh_anh from hinhanhsp where id_sp=' . $id;
+                    $listImg = executeResult($sql);
+                    foreach ($listImg as $item) {
+                        echo '<div class="product-preview">
 								<img src="./img/' . $item['hinh_anh'] . '" alt="">
 								</div>';
-					}
-					?>
+                    }
+                    ?>
 
                 </div>
             </div>
@@ -66,12 +67,12 @@ $detailproduct = executeSingleResult($sql);
             <div class="col-md-2  col-md-pull-5">
                 <div id="product-imgs">
                     <?php
-					foreach ($listImg as $item) {
-						echo '<div class="product-preview">
+                    foreach ($listImg as $item) {
+                        echo '<div class="product-preview">
 								<img src="./img/' . $item['hinh_anh'] . '" alt="">
 							</div>';
-					}
-					?>
+                    }
+                    ?>
 
                 </div>
             </div>
@@ -107,10 +108,10 @@ $detailproduct = executeSingleResult($sql);
                             Số Lượng
                             <div class="input-number">
                                 <?php
-								$soLuongHienCoTrongGioHang = 0;
-								if (isset($_SESSION['cart'][$id]))
-									$soLuongHienCoTrongGioHang = $_SESSION['cart'][$id]['qty'];
-								?>
+                                $soLuongHienCoTrongGioHang = 0;
+                                if (isset($_SESSION['cart'][$id]))
+                                    $soLuongHienCoTrongGioHang = $_SESSION['cart'][$id]['qty'];
+                                ?>
                                 <input type="number" id="qtyAdd" value=1
                                     onchange="kiemTraSoLuong(<?= $detailproduct['so_luong'] - $soLuongHienCoTrongGioHang ?>);">
                                 <div id="sl_tonkho<?= $id ?>" style="display:none">
@@ -137,6 +138,17 @@ $detailproduct = executeSingleResult($sql);
                     <ul class="product-links">
                         <li>Nhà bán:</li>
                         <li><b><?= $ten_nhaban ?></b></li>
+
+                        <li>
+                            <?php
+                            if (isset($_SESSION['user_id'])) {
+                                echo '<a href="frontend/chatbox/index.php?receiver_id=' . $id_nhaban . '&sender_id=' . $_SESSION['user_id'] . '">
+                <i style="font-size: medium;" class="fa-brands fa-rocketchat"></i>
+              </a>';
+                            }
+                            ?>
+                        </li>
+
                     </ul>
 
                     <ul class="product-links">
@@ -147,21 +159,21 @@ $detailproduct = executeSingleResult($sql);
                         <li><a href="#"><i class="fa fa-envelope"></i></a></li>
                     </ul>
                     <?php
-					echo '<h5 style="margin-top:10px;"><i>Quét để truy xuất nguồn gốc</i></h5>';
-					require_once './QRcode/phpqrcode/qrlib.php';
-					$path = './QRcode/images/';
-					$qrcode = $path . time() . ".png";
-					$sql = 'select ten_sp, ten_tl,id_nhaban, xuatsu,phanbon, chatluong, dotuoi, antoanthucpham, tinhhopphapnguongoc, dieukienbaoquan, phantichvisinhvat, theloai.id as id_tl from sanpham, theloai where sanpham.id=' . $id . ' and theloai.id=sanpham.id_the_loai';
-					$listcate_pro = executeSingleResult($sql);
-					$xuatsu = $listcate_pro['xuatsu'];
-					$phanbon = $listcate_pro['phanbon'];
-					$chatluong = $listcate_pro['chatluong'];
-					$dotuoi = $listcate_pro['dotuoi'];
-					$antoanthucpham = $listcate_pro['antoanthucpham'];
-					$tinhhopphapnguongoc = $listcate_pro['tinhhopphapnguongoc'];
-					$dieukienbaoquan = $listcate_pro['dieukienbaoquan'];
-					$phantichvisinhvat = $listcate_pro['phantichvisinhvat'];
-					$noidung = "$xuatsu
+                    echo '<h5 style="margin-top:10px;"><i>Quét để truy xuất nguồn gốc</i></h5>';
+                    require_once './QRcode/phpqrcode/qrlib.php';
+                    $path = './QRcode/images/';
+                    $qrcode = $path . time() . ".png";
+                    $sql = 'select ten_sp, ten_tl,id_nhaban, xuatsu,phanbon, chatluong, dotuoi, antoanthucpham, tinhhopphapnguongoc, dieukienbaoquan, phantichvisinhvat, theloai.id as id_tl from sanpham, theloai where sanpham.id=' . $id . ' and theloai.id=sanpham.id_the_loai';
+                    $listcate_pro = executeSingleResult($sql);
+                    $xuatsu = $listcate_pro['xuatsu'];
+                    $phanbon = $listcate_pro['phanbon'];
+                    $chatluong = $listcate_pro['chatluong'];
+                    $dotuoi = $listcate_pro['dotuoi'];
+                    $antoanthucpham = $listcate_pro['antoanthucpham'];
+                    $tinhhopphapnguongoc = $listcate_pro['tinhhopphapnguongoc'];
+                    $dieukienbaoquan = $listcate_pro['dieukienbaoquan'];
+                    $phantichvisinhvat = $listcate_pro['phantichvisinhvat'];
+                    $noidung = "$xuatsu
 								$phanbon 
 								$chatluong
 								$dotuoi
@@ -170,9 +182,9 @@ $detailproduct = executeSingleResult($sql);
 								$dieukienbaoquan 
 								$phantichvisinhvat";
 
-					QRcode::png($noidung, $qrcode, 1.9, 1.9);
-					echo "<img src='" . $qrcode . "'>";
-					?>
+                    QRcode::png($noidung, $qrcode, 1.9, 1.9);
+                    echo "<img src='" . $qrcode . "'>";
+                    ?>
 
                 </div>
             </div>
@@ -226,11 +238,11 @@ $detailproduct = executeSingleResult($sql);
             </div>
             <!-- product -->
             <?php
-			$sql = 'select * from sanpham where id_the_loai=' . $listcate_pro['id_tl'] . ' limit 2, 4';
-			$list = executeResult($sql);
-			foreach ($list as $item) {
-				if ($item['so_luong'] == 0 && $item['trangthai'] == 7) {
-					echo '<div class="col-md-4 col-xs-6">
+            $sql = 'select * from sanpham where id_the_loai=' . $listcate_pro['id_tl'] . ' limit 2, 4';
+            $list = executeResult($sql);
+            foreach ($list as $item) {
+                if ($item['so_luong'] == 0 && $item['trangthai'] == 7) {
+                    echo '<div class="col-md-4 col-xs-6">
 								<div class="product">
 									<div class="product-img" style="height:250px">
 										<img src="./img/' . $item['hinh_anh'] . '" alt="" style="height:100%">
@@ -257,8 +269,8 @@ $detailproduct = executeSingleResult($sql);
 									</div>
 								</div>
 							</div>';
-				} else if ($item['trangthai'] == 7)
-					echo '<div class="col-md-3 col-xs-6">
+                } else if ($item['trangthai'] == 7)
+                    echo '<div class="col-md-3 col-xs-6">
 							<div class="product" >
 								<div class="product-img">
 									<img src="./img/' . $item['hinh_anh'] . '" alt="" style="height:250px" onclick="location=\'index.php?act=product&id=' . $item['id'] . '\'">
@@ -285,8 +297,8 @@ $detailproduct = executeSingleResult($sql);
 								</div>
 							</div>
 						</div>';
-			}
-			?>
+            }
+            ?>
             <!-- /product -->
 
 
