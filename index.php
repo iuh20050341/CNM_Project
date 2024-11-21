@@ -248,9 +248,13 @@ if ($search != '') {
         $.post('frontend/delete_bill.php', {
                 'id_hoadon': id
             },
-            function data() {
+            function (data) {
+            alert('Đơn hàng đã xóa thành công');
+            // Sau khi thông báo, mới thực hiện việc tải lại trang
+            setTimeout(function() {
                 location.reload();
-            })
+            }, 500); // Đặt khoảng thời gian ngắn để đảm bảo người dùng có thể thấy thông báo
+        });
     }
 
     function nhandonhang(id) {
