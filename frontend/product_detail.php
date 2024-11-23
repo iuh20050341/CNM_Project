@@ -17,6 +17,8 @@ $sql = 'select * from sanpham where id=' . $id;
 $detailproduct = executeSingleResult($sql);
 ?>
 
+
+
 <!-- /Lấy thông tin chi tiết của sản phẩm -->
 
 <!-- BREADCRUMB -->
@@ -121,9 +123,11 @@ $detailproduct = executeSingleResult($sql);
                                 <span class="qty-down">-</span>
                             </div>
                         </div>
+                        <?php if ($id_nhaban != $_SESSION['user_id']) { ?>
                         <button class="add-to-cart-btn" onclick="addCart(<?= $id ?>,1);themThanhCong(<?= $id ?>);"><i
                                 class="fa fa-shopping-cart"></i> <span id="messAddCart<?= $id ?>">Thêm vào
                                 giỏ</span></button>
+                        <?php } ?>
                     </div>
                     <div id="tbQty" style="color:red"></div>
 
@@ -141,7 +145,7 @@ $detailproduct = executeSingleResult($sql);
 
                         <li>
                             <?php
-                            if (isset($_SESSION['user_id'])) {
+                            if (isset($_SESSION['user_id']) && $id_nhaban != $_SESSION['user_id']) {
                                 echo '<a href="frontend/chatbox/index.php?receiver_id=' . $id_nhaban . '&sender_id=' . $_SESSION['user_id'] . '">
                 <i style="font-size: medium;" class="fa-brands fa-rocketchat"></i>
               </a>';

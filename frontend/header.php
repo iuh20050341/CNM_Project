@@ -1,3 +1,118 @@
+<?php
+if (isset($_SESSION['ten_dangnhap'])) {
+
+    $conn = mysqli_connect("localhost", "root", "", "bannuocdb");
+    $conn->set_charset("utf8mb4");
+    // Kiểm tra kết nối
+    if ($conn->connect_error) {
+        die("Kết nối thất bại: " . $conn->connect_error);
+    }
+
+    $sql = "
+    SELECT DISTINCT 
+        messages.receiver_id, 
+        khachhang.ten_kh 
+    FROM messages 
+    JOIN khachhang 
+        ON messages.receiver_id = khachhang.id
+    WHERE messages.sender_id = $_SESSION[user_id]
+    ORDER BY messages.created_at ASC";
+
+
+    $result = $conn->query($sql);
+    if (!$result) {
+        // Hiển thị lỗi SQL
+        die("Lỗi SQL: " . $conn->error);
+    }
+}
+?>
+
+<style>
+.dropdown-mess {
+    position: relative;
+    /* Để chứa các thành phần con */
+    display: inline-block;
+}
+
+.dropdown-toggle-mess {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    text-decoration: none;
+    color: black;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-toggle-mess:hover {
+    background-color: #f1f1f1;
+}
+
+/* Style cho dropdown nội dung */
+.cart-dropdown-mess {
+    position: absolute;
+    top: 100%;
+    /* Đặt ngay dưới nút dropdown */
+    left: 0;
+    width: 250px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: none;
+    /* Ẩn mặc định */
+    padding: 10px 0;
+}
+
+/* Hiển thị dropdown khi hover */
+.dropdown-mess:hover .cart-dropdown-mess {
+    display: block;
+    /* Hiển thị khi hover vào dropdowna */
+}
+
+/* Style cho danh sách các liên kết */
+.cart-dropdown-mess .list-group {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.cart-dropdown-mess .list-group-item {
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-dropdown-mess .list-group-item:last-child {
+    border-bottom: none;
+    /* Bỏ viền cuối cùng */
+}
+
+.cart-dropdown-mess .list-group-item a {
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.cart-dropdown-mess .list-group-item a:hover {
+    color: #007bff;
+}
+
+/* Style cho thông báo "Không có tin nhắn nào" */
+.cart-dropdown-mess p {
+    text-align: center;
+    color: #888;
+    font-size: 14px;
+    margin: 0;
+    padding: 10px;
+}
+</style>
+
 <!-- TOP HEADER -->
 <div id="top-header" style="background: #5fa533">
 
@@ -38,18 +153,18 @@
             <!-- /LOGO -->
 
             <!-- SEARCH BAR -->
-            <div class="col-md-6" style="padding-top:30px">
+            <div class="col-md-4" style="padding-top:30px">
                 <div class="header-search">
                     <form method="get">
 
-                        <input value="<?php echo isset($search) ? $search : ''; ?>" required style="width: 400px"
+                        <input value="<?php echo isset($search) ? $search : ''; ?>" required style="width: 200px"
                             class="input" name="search" id="search-input" placeholder="Tên sản phẩm......">
 
                         <span class="microphone">
                             <i class="fa fa-microphone"></i>
                             <span class="recording-icon"></span>
                         </span>
-                        <button style="background: green;" class="search-btn">Tìm</button>
+                        <button style="background: green; width: 60px;" class="search-btn">Tìm</button>
                     </form>
                 </div>
             </div>
@@ -57,10 +172,8 @@
 
             <!-- ACCOUNT -->
 
-            <div class="col-md-4 clearfix">
+            <div class="col-md-6">
                 <div class="header-ctn">
-
-
                     <!-- Cart -->
                     <?php
                     $qty = 0;
@@ -73,11 +186,15 @@
                     ?>
                     <div style="padding-top:30px">
                         <a href="?act=cart">
-                            <i class="fa fa-shopping-cart" style="color: green"></i>
-                            <span style="color: black">Giỏ Hàng</span>
-                            <div class="qty" id="qtyPro"><?= $qty ?></div>
+                            <i class="fa fa-shopping-cart" style="color: green;"></i>
+                            <span style="color: black;">Giỏ Hàng</span>
+                            <div class="qty" id="qtyPro"
+                                style="background-color: red; color: white; border-radius: 50%; padding: 2px 5px; font-size: 12px;">
+                                <?= $qty ?>
+                            </div>
                         </a>
                     </div>
+
 
                     <!-- /Cart -->
 
@@ -86,7 +203,6 @@
                         <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" style="cursor: pointer">
                             <?php echo isset($_SESSION['ten_dangnhap']) ? '<i class="fa-regular fa-user" style="color: green"></i>' : '<i class="fa-solid fa-right-to-bracket" style="color: green"></i>'; ?>
                             <span style="color: black">Cài Đặt</span>
-
                         </a>
                         <div class="cart-dropdown">
                             <?php
@@ -127,20 +243,59 @@
                     </div>
                     <!-- /Menu Toogle -->
                 </div>
-                <?php if (isset($_SESSION['isNongDan']) && $_SESSION['isNongDan'] == 1) { ?>
-                    <div class="my-store" style="margin-top:30px; color:green; padding-top:25px">
-                        <a href="./supplier/supplier.php">
-                            <i class="fa-solid fa-store"></i>
-                            <span>My Store</span>
+
+                <?php if (isset($_SESSION['ten_dangnhap'])) { ?>
+                <div class="my-store"
+                    style="margin-top:30px; padding-top:25px; display: flex; align-items: center; gap: 10px;">
+                    <div class="dropdown-mess">
+                        <a class="dropdown-toggle-mess" data-toggle="dropdown" aria-expanded="true"
+                            style="cursor: pointer">
+                            <i class="fa-regular fa-comments" style="color:green; font-size: 16px"></i>
+                            <span>Trò chuyện</span>
                         </a>
+
+                        <div class="cart-dropdown-mess">
+                            <?php
+                                if ($result->num_rows > 0) {
+                                    echo '<ul class="list-group">';
+                                    while ($row = $result->fetch_assoc()) {
+                                        $receiver_id = htmlspecialchars($row['receiver_id']);
+                                        $ten_kh = htmlspecialchars($row['ten_kh']);
+                                        echo "
+                                        <li class='list-group-item'>
+                                            <a href='frontend/chatbox/index.php?receiver_id=$receiver_id&sender_id={$_SESSION['user_id']}'
+                                               class='text-decoration-none text-dark'>
+                                                $ten_kh
+                                            </a>
+                                        </li>";
+
+                                    }
+                                    echo '</ul>';
+                                } else {
+                                    echo "<p class='text-muted'>Không có tin nhắn nào.</p>";
+                                }
+                                ?>
+
+
+                        </div>
                     </div>
+
+                    <?php if ($_SESSION['isNongDan'] == 1) { ?>
+                    <a href="./supplier/supplier.php">
+                        <i class="fa-solid fa-store" style="color:green; font-size: 16px"></i>
+                        <span>Cửa hàng của tôi</span>
+                    </a>
+                    <?php } ?>
+                </div>
                 <?php } ?>
+
             </div>
-            <!-- /ACCOUNT -->
         </div>
-        <!-- row -->
+        <!-- /ACCOUNT -->
     </div>
-    <!-- container -->
+    <!-- row -->
+</div>
+<!-- container -->
 </div>
 <!-- /MAIN HEADER -->
 </header>
