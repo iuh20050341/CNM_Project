@@ -25,6 +25,7 @@
     <link type="text/css" rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" type="text/css" href="css/admin_style.css">
 
+
 </head>
 
 <body>
@@ -521,27 +522,60 @@
     }
     if (isset($_GET['act'])) {
         if ($_GET['act'] == 'xnhdvc') {
-            if (isset($_GET['cuser']))
+            if (isset($_GET['cuser'])) {
                 if ($_GET['cuser'] == '') {
                     $conn = mysqli_connect("localhost", "root", "", "bannuocdb");
-                    //$sql="SELECT `hoadon`.`id`, `id_khachhang`, `tong_tien`, `hoadon`.`ngay_tao`, `id_nhanvien`, `trangthai`, `ten_dangnhap`, `ten_nv`,`nhanvien`.`id` AS `idnv` FROM (`hoadon` LEFT JOIN `nhanvien` ON `nhanvien`.`id`=`id_nhanvien` ) WHERE `hoadon`.`id` = " . $_GET['id'] . "";
-                    $taikhoan = mysqli_query($conn, "SELECT `id`, `ten_dangnhap` FROM `nhanvien` WHERE `id`='" . $_GET['iduser'] . "'");
-                    // $hoadon=mysqli_query($conn,$sql);var_dump($hoadon);
-                    $row = mysqli_fetch_array($taikhoan);
-                    if (isset($_GET['type'])) {
-                        $result1 = mysqli_query($conn, "UPDATE `hoadon` SET `deliveryStatus` = '" . $_GET['type'] . "'  ,`id_nhanvien` = '" . $row['id'] . "',`ngay_tao`=`ngay_tao` WHERE `id` = '" . $_GET['id'] . "'");
-
-                    } else {
-                        $result1 = mysqli_query($conn, "UPDATE `hoadon` SET `trang_thai` = '1', `deliveryStatus` = '1'  ,`id_nhanvien` = '" . $row['id'] . "',`ngay_tao`=`ngay_tao` WHERE `id` = '" . $_GET['id'] . "'");
+                    // Kiểm tra kết nối
+                    if (!$conn) {
+                        die("Kết nối không thành công: " . mysqli_connect_error());
                     }
-                    if ($result1)
-                        header("location:./admin.php?act=xnhdvctc&dk=yes");
-                    else
+
+                    // Kiểm tra ngaynhandukien
+                    $checkQuery = "SELECT ngaynhandukien FROM hoadon WHERE id = '" . mysqli_real_escape_string($conn, $_GET['id']) . "'";
+                    $checkResult = mysqli_query($conn, $checkQuery);
+
+                    if ($checkResult && mysqli_num_rows($checkResult) > 0) {
+                        $rowCheck = mysqli_fetch_assoc($checkResult);
+                        if (!empty($rowCheck['ngaynhandukien'])) {
+                            // Lấy thông tin nhân viên
+                            $taikhoan = mysqli_query($conn, "SELECT `id`, `ten_dangnhap` FROM `nhanvien` WHERE `id`='" . mysqli_real_escape_string($conn, $_GET['iduser']) . "'");
+                            $row = mysqli_fetch_array($taikhoan);
+
+                            if (isset($_GET['type'])) {
+                                $result1 = mysqli_query(
+                                    $conn,
+                                    "UPDATE `hoadon` SET `deliveryStatus` = '" . mysqli_real_escape_string($conn, $_GET['type']) . "', 
+                                    `id_nhanvien` = '" . mysqli_real_escape_string($conn, $row['id']) . "' 
+                                    WHERE `id` = '" . mysqli_real_escape_string($conn, $_GET['id']) . "'"
+                                );
+                            } else {
+                                $result1 = mysqli_query(
+                                    $conn,
+                                    "UPDATE `hoadon` SET `trang_thai` = '1', 
+                                    `deliveryStatus` = '1', 
+                                    `id_nhanvien` = '" . mysqli_real_escape_string($conn, $row['id']) . "' 
+                                    WHERE `id` = '" . mysqli_real_escape_string($conn, $_GET['id']) . "'"
+                                );
+                            }
+
+                            if ($result1) {
+                                header("location:./admin.php?act=xnhdvctc&dk=yes");
+                            } else {
+                                header("location:./admin.php?act=xnhdvctc&dk=no");
+                            }
+                        } else {
+                            header("location:./admin.php?act=xnhdvctc&dk=nodk");
+                        }
+                    } else {
                         header("location:./admin.php?act=xnhdvctc&dk=no");
-                } else
+                    }
+                } else {
                     header("location:./admin.php?act=xnhdvctc&dk=no");
+                }
+            }
         }
     }
+
     // if (isset($_POST['btndm1'])) {
     //     $data=$_POST;
     //     $inserts="";
@@ -836,7 +870,7 @@
     if (isset($_POST['btn_dt'])) {
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
-    
+
             // Lấy giá trị hiện tại của doanh thu
             $selectQuery = "SELECT `doanhthu` FROM `khachhang` WHERE `id` = ?";
             if ($selectStmt = $con->prepare($selectQuery)) {
@@ -846,10 +880,10 @@
                 $selectStmt->fetch();
                 $selectStmt->close();
             }
-    
+
             // Cập nhật cột doanh thu và doanh thu_tt
             $updateQuery = "UPDATE `khachhang` SET `doanhthu` = 0, `doanhthu_tt` = `doanhthu_tt` + ? WHERE `id` = ?";
-    
+
             if ($stmt = $con->prepare($updateQuery)) {
                 $stmt->bind_param("ii", $doanhthu, $id); // Ràng buộc tham số (hai chỉ số nguyên)
     
@@ -861,21 +895,21 @@
                         $insertStmt->execute();
                         $insertStmt->close();
                     }
-    
+
                     echo "<script>alert('Thanh toán thành công!'); 
                                   window.location.href = 'admin.php?tmuc=Quản lý doanh thu';</script>";
                 } else {
                     echo "<script>alert('Thanh toán thất bại! Lỗi: " . $stmt->error . "'); 
                                   window.location.href = 'admin.php?tmuc=Quản lý doanh thu';</script>";
                 }
-    
+
                 $stmt->close();
             } else {
                 echo "<script>alert('Lỗi chuẩn bị câu lệnh SQL: " . $con->error . "'); 
                               window.location.href = 'admin.php?tmuc=Quản lý doanh thu';</script>";
             }
         }
-    }    
+    }
 
     if (isset($_POST['capnhatdaydk'])) {
         if (isset($_POST['ngaydk']) && isset($_POST['id'])) {

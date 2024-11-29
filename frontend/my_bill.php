@@ -59,7 +59,7 @@ ini_set('display_errors', 0);
 
                 </tr>
                 <?php
-                $sql = 'SELECT * from hoadon where id_khachhang=' . $info['id'] . ' ORDER BY hoadon.ngay_tao DESC';
+                $sql = 'SELECT * from hoadon where id_khachhang=' . $info['id'] . ' AND `isDelete` != 1 ORDER BY hoadon.ngay_tao DESC';
                 $listBill = executeResult($sql);
 
                 foreach ($listBill as $value) {

@@ -238,7 +238,7 @@ if (!empty($_SESSION['nguoidung'])) {
                                     nhận</a><?php } ?>
                                 <?php if ($row['deliveryStatus'] == "0") { ?>
                                 <b>|</b>
-                                <a href="./supplier.php?act=xoahd&id=<?= $row['idhoadon'] ?>"
+                                <a href="./admin.php?act=xoahd&id=<?= $row['idhoadon'] ?>"
                                     onclick="return confirm('Are you sure you want to reject this item?');">Từ
                                     chối</a><?php } ?>
                                 <b>|</b>

@@ -32,13 +32,8 @@ if (isset($_SESSION['ten_dangnhap'])) {
 
     // Tạo ID đơn hàng
     $ngay_tao_HD = date('Y/m/d H:i:s');
-    $result = executeSingleResult('SELECT id FROM hoadon ORDER BY ngay_tao DESC LIMIT 0, 1');
-    if ($result !== null) {
-        $id_hoadon = $result['id'] + 1;
-    } else {
-        $id_hoadon = 1;
-    }
-    $sql = 'insert into hoadon (id_khachhang, tong_tien, ngay_tao, deliveryStatus, diachinhanhang, ten_nguoinhan, sdt_nguoinhan) value ("' . $infoCus['id'] . '", "' . $totalPriceAll . '", "' . $ngay_tao_HD . '", 0,"' . $diachi . '","' . $ten . '","' . $sdt . '")';
+    $id_hoadon = executeSingleResult('SELECT id FROM hoadon ORDER BY ngay_tao DESC LIMIT 0, 1')['id'] + 1;
+    $sql = 'insert into hoadon (id_khachhang, tong_tien, ngay_tao) value ("' . $infoCus['id'] . '", "' . $totalPriceAll . '", "' . $ngay_tao_HD . '")';
     execute($sql);
     date_default_timezone_set("Asia/Ho_Chi_Minh");
 
@@ -149,6 +144,24 @@ form {
 #tt:hover {
     background-color: forestgreen;
 
+}
+
+#confirmationModal {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+#overlay {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 </style>
 
@@ -261,6 +274,71 @@ $result = executeResult($sql);
         $totalPrice += $item['qty'] * $item['price'];
     }
     ?>
+    <!-- Footer Modal -->
+    <div id="confirmationModal"
+        style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #ffffff; padding: 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); border-radius: 10px; z-index: 1000; width: 500px; max-height: 80%; overflow-y: auto;">
+        <h2 style="text-align: center; margin-bottom: 20px; font-size: 20px; color: #333;">Xác nhận đơn hàng</h2>
+        <div style="margin-bottom: 20px;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                <thead>
+                    <tr style="background-color: #f5f5f5; text-align: left;">
+                        <th style="padding: 10px; border: 1px solid #ddd;">Sản phẩm</th>
+                        <th style="padding: 10px; border: 1px solid #ddd;">Số lượng</th>
+                        <th style="padding: 10px; border: 1px solid #ddd;">Đơn giá</th>
+                        <th style="padding: 10px; border: 1px solid #ddd;">Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($cart as $item) { ?>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">
+                            <?php echo $item['name'] ?>
+                        </td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">
+                            <?php echo $item['qty'] ?>
+                        </td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">
+                            <?php echo number_format($item['price'], 0, ',', '.') ?>
+                        </td>
+                        <?php
+                            $totalPrice = $item['qty'] * $item['price'];
+                            $tong_tien += $totalPrice;
+                            ?>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">
+                            <?php echo number_format($totalPrice, 0, ',', '.') ?>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                    <tr>
+                        <td colspan="3"
+                            style="padding: 10px; border: 1px solid #ddd; text-align: right; font-weight: bold;">Tổng
+                            cộng:</td>
+                        <td
+                            style="padding: 10px; border: 1px solid #ddd; text-align: right; font-weight: bold; color: #e74c3c;">
+                            <?php echo number_format($totalPriceAll, 0, ',', '.') ?>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+            <form action="create_order.php" method="post" class="form-group">
+                <button type="submit"
+                    style="background-color: green; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">
+                    Xác nhận
+                </button>
+            </form>
+            <button id="cancelOrder"
+                style="margin-top: 20px;height: 40px;background-color: red; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">
+                Hủy
+            </button>
+        </div>
+    </div>
+
+    <div id="overlay"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999;">
+    </div>
+
     <table>
         <tr>
             <td>
@@ -269,9 +347,11 @@ $result = executeResult($sql);
                         <button id="ttmomo" type="submit">Thanh toán MOMO</button>
                     </div>
                 </form>
-                <form action="create_order.php" method="post" class="form-group">
-                    <div><input id="tt" type="submit" value="Thanh toán khi nhận hàng" onclick="createOrder();"></div>
-                </form>
+                <div style="margin-left: 10px;">
+                    <button id="showConfirmation" type="button"
+                        style="background-color: darkgreen; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; width: 400px;">Thanh
+                        toán khi nhận hàng</button>
+                </div>
             </td>
             <td>
             </td>
@@ -279,3 +359,28 @@ $result = executeResult($sql);
     </table>
 
 </body>
+<script>
+// Lấy các phần tử HTML
+const confirmationModal = document.getElementById('confirmationModal');
+const overlay = document.getElementById('overlay');
+const showConfirmation = document.getElementById('showConfirmation');
+const cancelOrder = document.getElementById('cancelOrder');
+
+// Hiển thị modal khi nhấn nút Thanh toán khi nhận hàng
+showConfirmation.addEventListener('click', () => {
+    confirmationModal.style.display = 'block';
+    overlay.style.display = 'block';
+});
+
+// Ẩn modal khi nhấn nút Hủy
+cancelOrder.addEventListener('click', () => {
+    confirmationModal.style.display = 'none';
+    overlay.style.display = 'none';
+});
+
+// Ẩn modal khi nhấn vào overlay
+overlay.addEventListener('click', () => {
+    confirmationModal.style.display = 'none';
+    overlay.style.display = 'none';
+});
+</script>

@@ -13,7 +13,7 @@ if (isset($_POST['message'], $_POST['sender_id'], $_POST['receiver_id'])) {
     $sender_id = (int) $_POST['sender_id'];
     $receiver_id = (int) $_POST['receiver_id'];
 
-    $sql = "INSERT INTO messages (content, sender_id, receiver_id) VALUES ('$message', $sender_id, $receiver_id)";
+    $sql = "INSERT INTO messages (content, sender_id, receiver_id, status) VALUES ('$message', $sender_id, $receiver_id, 'unseen')";
     $conn->query($sql);
 }
 

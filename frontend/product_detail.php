@@ -100,7 +100,16 @@ $detailproduct = executeSingleResult($sql);
                         <h3 class="product-price"><?= currency_format($detailproduct['don_gia']) ?> <del
                                 class="product-old-price"><?= currency_format($detailproduct['don_gia'] + $detailproduct['don_gia'] * 0.2) ?></del>
                         </h3>
-                        <span class="product-available">còn hàng</span>
+                        <span class="product-available">
+                            <?php
+                            if ($detailproduct['so_luong'] > 0) {
+                                echo 'Còn hàng';
+                            } else {
+                                echo 'Hết hàng';
+                            }
+                            ?>
+                        </span>
+
                     </div>
                     <p><?= $detailproduct['noi_dung'] ?></p>
 

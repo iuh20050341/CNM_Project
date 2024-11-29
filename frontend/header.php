@@ -7,16 +7,24 @@ if (isset($_SESSION['ten_dangnhap'])) {
     if ($conn->connect_error) {
         die("Kết nối thất bại: " . $conn->connect_error);
     }
-
     $sql = "
     SELECT DISTINCT 
-        messages.receiver_id, 
-        khachhang.ten_kh 
-    FROM messages 
-    JOIN khachhang 
-        ON messages.receiver_id = khachhang.id
-    WHERE messages.sender_id = $_SESSION[user_id]
-    ORDER BY messages.created_at ASC";
+    CASE 
+        WHEN messages.receiver_id = $_SESSION[user_id] THEN messages.sender_id
+        WHEN messages.sender_id = $_SESSION[user_id] THEN messages.receiver_id
+    END AS user_id,
+    khachhang.ten_kh,
+    messages.status
+    FROM messages
+    JOIN khachhang
+        ON (messages.sender_id = khachhang.id OR messages.receiver_id = khachhang.id)
+    WHERE 
+        (messages.sender_id = $_SESSION[user_id] OR messages.receiver_id = $_SESSION[user_id])
+        AND khachhang.id != $_SESSION[user_id]
+    ORDER BY messages.created_at DESC;
+    ";
+
+
 
 
     $result = $conn->query($sql);
@@ -160,7 +168,7 @@ if (isset($_SESSION['ten_dangnhap'])) {
                         <input value="<?php echo isset($search) ? $search : ''; ?>" required style="width: 200px"
                             class="input" name="search" id="search-input" placeholder="Tên sản phẩm......">
 
-                        <span class="microphone">
+                        <span class="microphone" style="cursor: pointer;">
                             <i class="fa fa-microphone"></i>
                             <span class="recording-icon"></span>
                         </span>
@@ -259,21 +267,27 @@ if (isset($_SESSION['ten_dangnhap'])) {
                                 if ($result->num_rows > 0) {
                                     echo '<ul class="list-group">';
                                     while ($row = $result->fetch_assoc()) {
-                                        $receiver_id = htmlspecialchars($row['receiver_id']);
+                                        $user_id = htmlspecialchars($row['user_id']);
                                         $ten_kh = htmlspecialchars($row['ten_kh']);
-                                        echo "
-                                        <li class='list-group-item'>
-                                            <a href='frontend/chatbox/index.php?receiver_id=$receiver_id&sender_id={$_SESSION['user_id']}'
-                                               class='text-decoration-none text-dark'>
-                                                $ten_kh
-                                            </a>
-                                        </li>";
+                                        $status = htmlspecialchars($row['status']);
+                                        $notificationBadge = ($status === 'unseen') ? "<i class='fa-regular fa-bell text-danger ms-auto'></i>" : "";
 
+
+                                        echo "
+                                            <li class='list-group-item d-flex justify-content-between align-items-center'>
+                                                <a href='frontend/chatbox/index.php?receiver_id=$user_id&sender_id={$_SESSION['user_id']}'
+                                                class='text-decoration-none text-dark'>
+                                                    $ten_kh
+                                                    $notificationBadge
+                                                </a>
+                                                
+                                            </li>";
                                     }
                                     echo '</ul>';
                                 } else {
                                     echo "<p class='text-muted'>Không có tin nhắn nào.</p>";
                                 }
+
                                 ?>
 
 
@@ -303,47 +317,114 @@ if (isset($_SESSION['ten_dangnhap'])) {
 
 <!-- NAVIGATION -->
 <nav id="navigation">
-    <!-- container -->
     <div class="container">
-        <!-- responsive-nav -->
         <div id="responsive-nav">
-            <!-- NAV -->
             <ul class="main-nav nav navbar-nav">
                 <?php
+                // Trạng thái của mục Trang Chủ
                 if ($act == '' && !(isset($_GET['id']))) {
                     echo '<li class="active"><a href="index.php">Trang Chủ</a></li>';
-                } else
+                } else {
                     echo '<li><a href="index.php">Trang Chủ</a></li>';
-                // if($act=='hot'){
-                // 	echo '<li class="active"><a href="index.php?act=category">Tùy Chọn</a></li>';
-                // }else echo '<li><a href="?act=category">Tùy Chọn</a></li>';
-                ?>
-
-
-                <?php
-                if (isset($_GET['id']))
-                    $id = $_GET['id'];
-                if ($act == 'product') {
-                    $sql = 'select id_the_loai from sanpham where id=' . $id;
-                    $id = executeSingleResult($sql)['id_the_loai'];
-
                 }
-                $sql = 'select id, ten_tl from theloai';
+
+                // Mục Sản Phẩm
+                echo '<li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Sản Phẩm</a>
+                        <ul class="dropdown">';
+
+                // Danh sách thể loại sản phẩm
+                $categories = ['Trái Cây', 'Rau Hữu Cơ', 'Thực Phẩm', 'Bún-Gạo-Đậu'];
+                $sql = 'SELECT id, ten_tl FROM theloai WHERE ten_tl IN ("Trái Cây", "Rau Hữu Cơ", "Thực Phẩm", "Bún-Gạo-Đậu")';
                 $list = executeResult($sql);
                 foreach ($list as $item) {
-                    if ($item['id'] == $id) {
-                        echo '<li class="active"><a href="?act=category&id=' . $item['id'] . '">' . $item['ten_tl'] . '</a></li>';
-                    } else
-                        echo '<li><a href="?act=category&id=' . $item['id'] . '">' . $item['ten_tl'] . '</a></li>';
+                    $activeClass = ($act == 'category' && isset($_GET['id']) && $_GET['id'] == $item['id']) ? 'active' : '';
+                    echo '<li class="' . $activeClass . '"><a href="?act=category&id=' . $item['id'] . '">' . $item['ten_tl'] . '</a></li>';
+                }
 
+                echo '</ul></li>'; // Đóng menu con và mục Sản Phẩm
+                
+                // Truy xuất các thể loại khác (nếu cần)
+                $sql = 'SELECT id, ten_tl FROM theloai WHERE ten_tl NOT IN ("Trái Cây", "Rau Hữu Cơ", "Thực Phẩm", "Bún-Gạo-Đậu")';
+                $list = executeResult($sql);
+
+                foreach ($list as $item) {
+                    // Kiểm tra xem mục hiện tại có phải là mục đang hoạt động không
+                    $activeClass = ($act == 'category' && isset($_GET['id']) && $_GET['id'] == $item['id']) ? 'active' : '';
+                    echo '<li class="' . $activeClass . '"><a href="?act=category&id=' . $item['id'] . '">' . $item['ten_tl'] . '</a></li>';
+                }
+                if ($act == '' && !(isset($_GET['id']))) {
+                    echo '<li class="dropdown"><a href="index.php?act=vechungtoi">Về chúng tôi</a></li>';
+                } else {
+                    echo '<li><a href="index.php?act=vechungtoi">Về chúng tôi</a></li>';
+                }
+                if ($act == '' && !(isset($_GET['id']))) {
+                    echo '<li class="dropdown"><a href="index.php?act=tintuc">Tin tức</a></li>';
+                } else {
+                    echo '<li><a href="index.php?act=tintuc">Tin tức</a></li>';
+                }
+                if ($act == '' && !(isset($_GET['id']))) {
+                    echo '<li class="dropdown"><a href="index.php?act=lienhe">Liên hệ</a></li>';
+                } else {
+                    echo '<li><a href="index.php?act=lienhe">Liên hệ</a></li>';
                 }
                 ?>
             </ul>
-
-            <!-- /NAV -->
         </div>
-        <!-- /responsive-nav -->
     </div>
-    <!-- /container -->
 </nav>
+
+<!-- CSS cho menu dropdown -->
+<style>
+.main-nav {
+    display: flex;
+    /* Sử dụng flexbox để căn chỉnh các mục theo hàng */
+    align-items: center;
+    /* Căn giữa các mục theo chiều dọc */
+    padding: 0;
+    /* Loại bỏ padding của ul */
+    margin: 0;
+    /* Loại bỏ margin của ul */
+}
+
+.main-nav>li {
+    position: relative;
+    /* Cần thiết để định vị dropdown */
+    list-style: none;
+    /* Loại bỏ dấu chấm đầu dòng */
+    margin-right: 10px;
+    /* Thêm khoảng cách giữa các mục */
+}
+
+.dropdown {
+    display: none;
+    /* Ẩn menu con mặc định */
+    position: absolute;
+    /* Định vị menu con */
+    background-color: white;
+    /* Màu nền cho menu con */
+    z-index: 1000;
+    /* Đảm bảo menu con hiển thị trên các mục khác */
+    padding: 30px 0;
+    /* Thêm khoảng cách trên và dưới cho menu */
+}
+
+.main-nav>li:hover .dropdown {
+    display: block;
+    /* Hiển thị menu con khi hover */
+}
+
+.dropdown li {
+    white-space: nowrap;
+    /* Đảm bảo văn bản không bị ngắt dòng */
+    padding: 10px 15px;
+    /* Thêm padding cho các mục để tạo khoảng cách */
+}
+
+.dropdown li:hover {
+    background-color: #f0f0f0;
+    /* Thay đổi màu nền khi hover vào mục */
+}
+</style>
+
 <!-- /NAVIGATION -->

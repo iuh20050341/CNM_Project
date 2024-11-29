@@ -34,6 +34,7 @@ if ($receiver_id === null || $sender_id === null) {
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -69,15 +70,16 @@ if ($receiver_id === null || $sender_id === null) {
         margin: 0 auto;
         border: 1px solid #ddd;
         border-radius: 5px;
-        height: 500px;
         display: flex;
         flex-direction: column;
+        max-height: 570px;
+        min-height: 570px;
     }
 
     .chat-messages {
         flex: 1;
+        overflow-y: auto;
         padding: 10px;
-        border-bottom: 1px solid #ddd;
     }
 
     .chat-input {
@@ -124,7 +126,7 @@ if ($receiver_id === null || $sender_id === null) {
     </div>
 
     <div class="container mt-5">
-        <h3 class="text-center">Trò chuyện với nông dân <?php echo $ten_nhaban ?></h3>
+        <h3 class="text-center">Trò chuyện với <?php echo $ten_nhaban ?></h3>
 
         <div class="chatbox">
             <div id="chatMessages" class="chat-messages">
@@ -137,28 +139,30 @@ if ($receiver_id === null || $sender_id === null) {
 
                 $result = $conn->query($sql);
 
+                $update_status_sql = "UPDATE messages 
+                      SET status = 'seen' 
+                      WHERE receiver_id = $sender_id AND status = 'unseen'";
+                $conn->query($update_status_sql);
+
                 // Kiểm tra và hiển thị các tin nhắn
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         $is_sender = $row['sender_id'] == $sender_id;
                         $message = htmlspecialchars($row['content']);
                         $time = htmlspecialchars($row['created_at']);
-
-                        // Hiển thị tin nhắn với định dạng tùy thuộc vào người gửi
-                
+                        $status = $row['status'];
 
                         echo "<div class='" . ($is_sender ? 'text-right' : 'text-left') . " mb-2'>";
-
-
-                        echo "<strong>" . ($is_sender ? "" : '' . $ten_nhaban . ':') . "</strong> ";
-
+                        echo "<strong>" . ($is_sender ? "" : $ten_nhaban . ' : ') . "</strong>";
                         echo "<div class='d-inline-block p-2 rounded-lg " . ($is_sender ? 'bg-primary text-white' : 'bg-light text-dark') . "' style='max-width: 75%;'>";
-
                         echo $message;
                         echo "</div>";
-
+                        if ($is_sender && $status === 'seen') {
+                            echo "<div class='text-muted' style='font-size: 12px;'>Đã xem</div>";
+                        }
                         echo "</div>";
                     }
+
                 } else {
                     echo "<div class='text-muted'>Chưa có tin nhắn nào.</div>";
                 }
@@ -169,10 +173,10 @@ if ($receiver_id === null || $sender_id === null) {
                     <input type="hidden" name="sender_id" value="<?php echo $sender_id; ?>">
                     <input type="hidden" name="receiver_id" value="<?php echo $receiver_id; ?>">
                     <div class="input-group">
-                        <input type="text" name="message" class="form-control col-md-7" placeholder="Type a message"
-                            required>
+                        <input type="text" name="message" id="message-input" class="form-control col-md-7"
+                            placeholder="Type a message" required>
                         <div class="col-md-2" style="padding: 6px; border: 1px solid black">
-                            <span class="microphone" style="padding-bottom: 5px; padding-left:25px;">
+                            <span class="microphone" style="padding-bottom: 5px; padding-left:25px; cursor: pointer;">
                                 <i class="fa fa-microphone"></i>
                                 <span class="recording-icon"></span>
                             </span>
@@ -226,3 +230,67 @@ if ($receiver_id === null || $sender_id === null) {
 </html>
 
 <?php $conn->close(); ?>
+
+<script>
+const APP_ID = 'cf26e7b2c25b5acd18ed5c3e836fb235';
+const DEFAULT_VALUE = '--';
+const messageInput = document.querySelector('#message-input');
+var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+
+const recognition = new SpeechRecognition();
+const synth = window.speechSynthesis;
+recognition.lang = "vi-VI";
+recognition.continuous = false;
+
+const microphone = document.querySelector(".microphone");
+
+const speak = (text) => {
+    if (synth.speaking) {
+        console.error("Busy. Speaking...");
+        return;
+    }
+
+    const utter = new SpeechSynthesisUtterance(text);
+
+    utter.onend = () => {
+        console.log("SpeechSynthesisUtterance.onend");
+    };
+    utter.onerror = (err) => {
+        console.error("SpeechSynthesisUtterance.onerror", err);
+    };
+
+    synth.speak(utter);
+};
+
+const handleVoice = (text) => {
+    console.log("text", text);
+    // Hiển thị đầu vào giọng nói được nhận dạng trong trường tìm kiếm
+    messageInput.value = text;
+    console.log("messageInput.value", messageInput.value);
+    // Tự động tải để tìm kiếm
+    // const searchButton = document.querySelector(".search-btn");
+    // searchButton.click();
+};
+microphone.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    recognition.start();
+    microphone.classList.add("recording");
+});
+//Dừng quá trình nhận dạng khi người dùng ngừng nói và loại bỏ class recording
+recognition.onspeechend = () => {
+    recognition.stop();
+    microphone.classList.remove("recording");
+};
+//Xử lý lỗi trong quá trình nhận dạng và loại bỏ class recording
+recognition.onerror = (err) => {
+    console.error(err);
+    microphone.classList.remove("recording");
+};
+//Xử lý kết quả nhận dạng giọng nói, lấy văn bản nhận dạng và gọi hàm 
+recognition.onresult = (e) => {
+    console.log("onresult", e);
+    const text = e.results[0][0].transcript;
+    handleVoice(text);
+};
+</script>

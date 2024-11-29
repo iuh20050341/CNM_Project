@@ -318,6 +318,14 @@ if (isset($_GET['act'])) {
 </div>');
 }
 if (isset($_GET['act'])) {
+    if (($_GET['act'] == 'xnhdvctc') && ($_GET['dk'] == 'nodk'))
+        echo ('<div id="error-notify" class="box-content">
+    <h2>Vui lòng nhập ngày giao hàng dự kiến</h2>
+    
+    <a href="./admin.php?tmuc=Quản lý vận chuyển">Danh sách hóa đơn</a>
+</div>');
+}
+if (isset($_GET['act'])) {
     if (($_GET['act'] == 'khtttc') && ($_GET['dk'] == 'yes'))
         echo ('<div id="error-notify" class="box-content">
     <h2>Thành công</h2>

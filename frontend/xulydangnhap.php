@@ -1,3 +1,13 @@
+<!-- Thêm toastr CSS và JS vào file HTML -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script>
+function showNotification(message) {
+    toastr.success(message);
+}
+</script>
+
 <?php
 // Khai báo sử dụng session
 // session_start();
@@ -36,8 +46,12 @@ if (isset($_POST['dangnhap'])) {
                     $_SESSION['ten_dangnhap'] = $username;
                     $_SESSION['quyen'] = '7';
                     $_SESSION['isNongDan'] = $row['is_nongdan'];
-
-                    echo "<script type='text/javascript'>alert('Đăng nhập thành công!');window.location='index.php';</script>";
+                    echo "<script>
+                            showNotification('Đăng nhập thành công!');
+                            setTimeout(() => {
+                                window.location = 'index.php';
+                            }, 1000);
+                        </script>";
                 }
             } else {
                 echo '<br><p style="color:red;">Tên đăng nhập hoặc mật khẩu không đúng ! </p>';
