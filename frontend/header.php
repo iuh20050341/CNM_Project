@@ -158,6 +158,27 @@
                     $activeClass = ($act == 'category' && isset($_GET['id']) && $_GET['id'] == $item['id']) ? 'active' : '';
                     echo '<li class="' . $activeClass . '"><a href="?act=category&id=' . $item['id'] . '">' . $item['ten_tl'] . '</a></li>';
                 }
+
+				echo '<li class="dropdown">
+							<a href="#" class="dropdown-toggle">Nông dân</a>
+							<ul class="dropdown">';
+
+					// Danh sách nông dân có is_nongdan = 1
+					$sql = 'SELECT id, ten_kh FROM khachhang WHERE is_nongdan = 1';
+					$result = executeResult($sql);
+
+					// Kiểm tra kết quả và hiển thị các tên nông dân
+					if ($result) {
+						foreach ($result as $row) {
+							// Kiểm tra xem mục hiện tại có phải là mục đang hoạt động không
+							$activeClass = ($act1 == 'category' && isset($_GET['nongdan_id']) && $_GET['nongdan_id'] == $row['id']) ? 'active' : '';
+							echo '<li class="' . $activeClass . '"><a href="?act1=category&nongdan_id=' . $row['id'] . '">' . $row['ten_kh'] . '</a></li>';
+						}
+					} else {
+						echo '<li>Không có nông dân nào</li>';
+					}
+
+					echo '</ul></li>';
 				if ($act == '' && !(isset($_GET['id']))) {
                     echo '<li class="dropdown"><a href="index.php?act=vechungtoi">Về chúng tôi</a></li>';
                 } else {

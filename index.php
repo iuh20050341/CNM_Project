@@ -9,11 +9,15 @@ if (isset($_SESSION['ten_dangnhap'])) {
     $info = executeSingleResult($sql);
 }
 $act = '';
+$act1 = '';
 $search = '';
 $id = 0;
 $title = 'Trang Chủ';
 if (isset($_GET['act'])) {
     $act = $_GET['act'];
+}
+if (isset($_GET['act'])) {
+    $act1 = $_GET['act'];
 }
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
@@ -38,6 +42,21 @@ if ($act == 'category' || $id > 0) {
 }
 
 if ($act == 'category' && $id == 0) {
+    $title = 'Danh Mục Sản Phẩm';
+}
+
+if ($act1 == 'category' || $id > 0) {
+    $sql = 'SELECT ten_kh FROM khachhang WHERE id=' . $id;
+    $cate = executeSingleResult($sql);
+
+    if ($cate && isset($cate['ten_kh'])) {
+        $title = $cate['ten_kh'];
+    } else {
+        $title = 'Không tìm thấy danh mục';
+    }
+}
+
+if ($act1 == 'category' && $id == 0) {
     $title = 'Danh Mục Sản Phẩm';
 }
 if ($act == 'product') {

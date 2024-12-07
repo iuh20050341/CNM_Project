@@ -8,6 +8,10 @@ if (isset($_GET['tmuc'])) {
         include('quytac_kd.php');
 }
 if (isset($_GET['tmuc'])) {
+    if ($_GET['tmuc'] == 'Sản phẩm không đạt chuẩn')
+        include('product_list_fail.php');
+}
+if (isset($_GET['tmuc'])) {
     if ($_GET['tmuc'] == 'Quản lý vận chuyển')
         include('hoadon_distributor.php');
 }
@@ -114,6 +118,10 @@ if (isset($_GET['act'])) {
 if (isset($_GET['act'])) {
     if ($_GET['act'] == 'suakd')
         include('product_editing_kd.php');
+}
+if (isset($_GET['act'])) {
+    if ($_GET['act'] == 'sua_khongdat')
+        include('lydo_kd.php');
 }
 if (isset($_GET['act'])) {
     if ($_GET['act'] == 'addtl')

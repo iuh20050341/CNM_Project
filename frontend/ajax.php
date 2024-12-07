@@ -5,8 +5,10 @@ include('../common/utility.php');
  $limit=3;
  $page=1;
  $act='';
+ $act1='';
  $search='';
  $id='';
+ $nongdan_id='';
  $selected_sort=0;
  $add_sort_sql='';
  $price_min=1000;
@@ -47,6 +49,9 @@ if(isset($_POST['checkedDv'])){
  if(isset($_POST['act'])){
      $act=$_POST['act'];
  }
+ if(isset($_POST['act'])){
+    $act1=$_POST['act'];
+}
  if(isset($_POST['id'])){
     $id=$_POST['id'];
 }
@@ -68,6 +73,7 @@ if($act=='category'){
 }else if($act=='' && $search != ''){
     $sql='select * from sanpham where 1 and ten_sp like "%'.$search.'%" '.$checkedBrand.$checkedDv.$add_price_sql.$add_sort_sql.' limit '.$firstIndex.', '.$limit;
 }
+
 //echo $sql;
 $list=executeResult($sql);
 if(empty($list))echo '<h3>0 sản phẩm được tìm thấy.</h3>';

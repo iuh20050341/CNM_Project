@@ -85,8 +85,8 @@
                                 <th style="text-align:center">Ảnh</th>
                                 <th style="text-align:center">Tên sản phẩm</th>
                                 <th style="text-align:center">Số lượng tồn</th>
-                                <th style="text-align:center">Số lượng bán</th>
                                 <th style="text-align:center">Trạng thái</th>
+                                <th style="text-align:center">Lý do không đạt</th>
                                 <th style="text-align:center">Quản lý</th>
                             </tr>
                         </thead>
@@ -99,7 +99,6 @@
                                     <td><img style="width: 100px;height: 100px " src="../img/<?= $row['hinh_anh'] ?>" /></td>
                                     <td style="text-align:center; padding-top: 50px"><?= $row['ten_sp'] ?></td>
                                     <td style="text-align:center; padding-top: 50px"><?= $row['so_luong'] ?></td>
-                                    <td style="text-align:center; padding-top: 50px"><?= $row['sl_da_ban'] ?></td>
                                     <td style="text-align:center; padding-top: 50px">
                                     <?php
                                         if ($row['trangthai'] == '7')
@@ -120,6 +119,7 @@
                                             echo "Chưa kiểm định ";
                                     ?>
                                     </td>
+                                    <td style="text-align:center; padding-top: 50px"><?= $row['lydo'] ?></td>
                                     <td style="text-align:center; padding-top: 50px">
                                         <form method="POST" action="xulythem.php">
                                             <input type="hidden" name="id" value="<?php echo $row['id']; ?>">

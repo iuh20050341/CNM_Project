@@ -899,6 +899,50 @@
         }
     }
 
+    if (isset($_POST['btnadd_lydo'])) {
+        // Kiểm tra tất cả các trường có giá trị không rỗng
+        if (!empty($_POST['lydo']) && !empty($_POST['id'])) {
+            $id = $_POST['id'];
+    
+            // Kết nối cơ sở dữ liệu
+            $conn = mysqli_connect("localhost", "root", "", "bannuocdb");
+    
+            // Kiểm tra kết nối
+            if (!$conn) {
+                die("Connection failed: " . mysqli_connect_error());
+            }
+    
+            // Lấy và bảo vệ dữ liệu POST
+            $lydo = mysqli_real_escape_string($conn, $_POST['lydo']);
+    
+            // Truy vấn cập nhật lý do
+            $stmt = $conn->prepare("UPDATE sanpham SET lydo = ? WHERE id = ?");
+            $stmt->bind_param("si", $lydo, $id);
+    
+            // Thực thi truy vấn
+            if ($stmt->execute()) {
+                // Chuyển hướng nếu thành công
+                header("Location: ./admin.php?act=suaqr&dk=yes");
+                exit(); // Đảm bảo không thực thi mã nào khác
+            } else {
+                // Hiển thị lỗi SQL nếu có
+                echo "Error: " . $stmt->error;
+                // Chuyển hướng nếu thất bại
+                header("Location: ./admin.php?act=suaqr&dk=no");
+                exit(); // Đảm bảo không thực thi mã nào khác
+            }
+    
+            // Đóng câu lệnh và kết nối
+            $stmt->close();
+            mysqli_close($conn);
+        } else {
+            // Chuyển hướng nếu có trường rỗng hoặc thiếu 'id'
+            header("Location: ./admin.php?act=suaqr&dk=noid");
+            exit(); // Đảm bảo không thực thi mã nào khác
+        }
+    }
+    
+
     ?>
 </body>
 
