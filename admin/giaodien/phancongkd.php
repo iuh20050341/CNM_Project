@@ -19,13 +19,16 @@ if (!empty($_SESSION['nguoidung'])) {
         }
 
         if (isset($_POST['search'])) {
-            $sql = "SELECT * FROM `sanpham` WHERE `trangthai` = 1";
+            $sql = "SELECT * FROM `sanpham` WHERE `trangthai` IN (1,2)";
+            //Nếu người dùng nhập productId, câu truy vấn sẽ thêm điều kiện lọc theo id của sản phẩm.
             if (!empty($_POST['productId'])) {
                 $sql .= " AND `id` = '" . $_POST['productId'] . "'";
             }
+            //Nếu người dùng nhập productName, câu truy vấn thêm điều kiện lọc theo tên sản phẩm (ten_sp).
             if (!empty($_POST['productName'])) {
                 $sql .= " AND `ten_sp` = '" . $_POST['productName'] . "'";
             }
+            //Nếu người dùng nhập giá trị phancong, câu truy vấn sẽ lọc theo cột phancong trong bảng hoadon.
             if (!empty($_POST['phancong']) && $_POST['phancong'] != '') {
                 $sql .= " AND `hoadon`.`phancong` = '" . $_POST['phancong'] . "'";
             }
@@ -197,6 +200,7 @@ if (!empty($_SESSION['nguoidung'])) {
                                     ?>
                                 </td>
                                 <td style="text-align:center">
+                                    <?php if (empty($row['phancong'])) { ?>
                                     <form action="xulythem.php" method="POST" class="form-container1">
                                         <input type="hidden" name="id" value="<?= htmlspecialchars($row['id']) ?>" />
                                         <select name="kd">
@@ -209,6 +213,9 @@ if (!empty($_SESSION['nguoidung'])) {
                                         </select>
                                         <input type="submit" name="btn_pckd" value="Phân công" onclick="return confirm('Bạn có muốn phân công nhân viên?')">
                                     </form>
+                                    <?php } else { ?>
+                                    <?= htmlspecialchars($row['phancong']) ?>
+                                    <?php } ?>
                                 </td>
                             </tr>
                         <?php } ?>

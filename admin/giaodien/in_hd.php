@@ -1,11 +1,7 @@
 <?php
-
+include_once("./connect_db.php");
 include("../../../CNM_Project/TCPDF-main/tcpdf.php");
-$host = "localhost";
-$user = "root";
-$password = "";
-$database = "bannuocdb";
-$con = mysqli_connect($host, $user, $password, $database);
+$con = mysqli_connect("localhost", "root", "", "bannuocdb");
 if (mysqli_connect_errno()) {
     echo "Connection Fail: " . mysqli_connect_errno();
     exit;

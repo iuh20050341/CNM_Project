@@ -6,15 +6,15 @@ if (!empty($_SESSION['nguoidung'])) {
     $current_page = (!empty($_GET['page'])) ? $_GET['page'] : 1;
     $offset = ($current_page - 1) * $item_per_page;
 
-    // Query to get total records
+    // Truy vấn để lấy tổng số bản ghi
     $totalRecords = mysqli_query($con, "SELECT `ten_sp`, `hinh_anh` FROM `sanpham`");
     $totalRecords = $totalRecords->num_rows;
 
-    // Calculate total pages
+    // Tính tổng số trang
     $totalPages = ceil($totalRecords / $item_per_page);
 
-    // Query to get products with pagination (MariaDB compatible LIMIT syntax)
-    $id = isset($_GET['id']) ? (int)$_GET['id'] : 0; // Chuyển $id thành kiểu số nguyên để tránh lỗi
+    // Truy vấn để nhận sản phẩm có phân trang
+    $id = isset($_GET['id']) ? (int)$_GET['id'] : 0; // Chuyển $id thành kiểu số nguyên
     if ($id > 0) {
         $product = mysqli_query($con, "SELECT `id`, `ten_sp`, `hinh_anh`, `trangthai` FROM `sanpham` WHERE `sanpham`.`id` = $id LIMIT $offset, $item_per_page");
     } else {
@@ -80,6 +80,14 @@ if (!empty($_SESSION['nguoidung'])) {
                                 <td style="text-align:center;">
                                     <input type="submit" name="btnkd" value="Lưu" onclick="return confirm('Bạn có muốn kiểm định sản phẩm?')">
                                 </td>
+                                <tr>
+                                    <td colspan="8" style="text-align:center;">
+                                        <div id="input-reason" style="display: none; margin-top: 10px;">    
+                                            <label for="reason">Lý do sản phẩm chưa đạt chuẩn:</label><br>
+                                            <textarea name="lydo" placeholder="Nhập lý do..." rows="4" cols="50"></textarea>
+                                        </div>
+                                    </td>
+                                </tr>
                             </form>
                         </tr>
                     <?php
@@ -91,34 +99,39 @@ if (!empty($_SESSION['nguoidung'])) {
     </div>
 
     <!-- Thông báo chất lượng -->
-    <div id="quality-message" style="color: green; font-weight: bold; display: none;"></div>
+<!-- Thông báo chất lượng -->
+<div id="quality-message" style="color: green; font-weight: bold; display: none;"></div>
 
-    <script>
-        function updateQualityMessage() {
-            // Lấy tất cả checkbox
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            let checkedCount = 0;
+<script>
+    function updateQualityMessage() {
+        // Lấy tất cả checkbox
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        let checkedCount = 0;
 
-            // Đếm số checkbox được chọn
-            checkboxes.forEach((checkbox) => {
-                if (checkbox.checked) {
-                    checkedCount++;
-                }
-            });
-
-            // Hiển thị thông báo
-            const messageDiv = document.getElementById('quality-message');
-            if (checkedCount >= 5) {
-                messageDiv.innerText = "Kết quả: Sản phẩm đạt chuẩn!";
-                messageDiv.style.color = "green";
-                messageDiv.style.display = "block";
-            } else {
-                messageDiv.innerText = "Kết quả: Sản phẩm chưa đạt chuẩn!";
-                messageDiv.style.color = "red";
-                messageDiv.style.display = "block";
+        // Đếm số checkbox được chọn
+        checkboxes.forEach((checkbox) => {
+            if (checkbox.checked) {
+                checkedCount++;
             }
+        });
+
+        // Hiển thị hoặc ẩn các phần tử liên quan
+        const messageDiv = document.getElementById('quality-message');
+        const inputReasonDiv = document.getElementById('input-reason');
+
+        if (checkedCount >= 5) {
+            messageDiv.innerText = "Kết quả: Sản phẩm đạt chuẩn!";
+            messageDiv.style.color = "green";
+            messageDiv.style.display = "block";
+            inputReasonDiv.style.display = "none";
+        } else {
+            messageDiv.innerText = "Kết quả: Sản phẩm chưa đạt chuẩn!";
+            messageDiv.style.color = "red";
+            messageDiv.style.display = "block";
+            inputReasonDiv.style.display = "block";
         }
-    </script>
+    }
+</script>
     
     <div class="clear-both"></div>
 </div>

@@ -643,29 +643,54 @@
     }
 
     if (isset($_POST['btnkd'])) {
-        // Đếm số checkbox được check (trangthai là một mảng chứa giá trị "on" nếu checkbox được check)
+        // Đếm số checkbox được check
         $countChecked = 0;
         if (isset($_POST['trangthai']) && is_array($_POST['trangthai'])) {
             $countChecked = count($_POST['trangthai']);
         }
-
+    
         // Cập nhật giá trị của $trangthai dựa trên số checkbox đã được check
-        if ($countChecked >= 5) {
-            $trangthai = 3;
+        $trangthai = ($countChecked >= 5) ? 3 : 5;
+    
+        // Kiểm tra giá trị nhập vào
+        if (($countChecked < 5 && !empty($_POST['lydo'])) || $countChecked >= 5) {
+            if (!empty($_GET['id'])) {
+                $id = $_GET['id'];
+                
+                // Lấy dữ liệu POST
+                $lydo = $countChecked < 5 ? mysqli_real_escape_string($conn, $_POST['lydo']) : NULL;
+    
+                // Truy vấn cập nhật lý do và trạng thái
+                $stmt = $conn->prepare("UPDATE sanpham SET lydo = ?, trangthai = ? WHERE id = ?");
+                $stmt->bind_param("sii", $lydo, $trangthai, $id); // Gán tham số cho câu lệnh SQL
+    
+                // Thực thi truy vấn
+                if ($stmt->execute()) {
+                    // Chuyển hướng nếu thành công
+                    header("Location: ./admin.php?act=khtttc1&dk=yes");
+                    exit();
+                } else {
+                    // Hiển thị lỗi SQL nếu có
+                    echo "Error: " . $stmt->error;
+                    header("Location: ./admin.php?act=khtttc1&dk=no");
+                    exit();
+                }
+    
+                // Đóng câu lệnh và kết nối
+                $stmt->close();
+                mysqli_close($conn);
+            } else {
+                // Chuyển hướng nếu thiếu 'id'
+                header("Location: ./admin.php?act=khtttc1&dk=noid");
+                exit();
+            }
         } else {
-            $trangthai = 5;
+            // Chuyển hướng nếu thiếu lý do khi cần thiết
+            header("Location: ./admin.php?act=khtttc1&dk=noreason");
+            exit();
         }
-
-        // Cập nhật giá trị của cột trangthai trong bảng sanpham
-        $sql = "UPDATE `sanpham` SET `trangthai` = '" . $trangthai . "' WHERE `sanpham`.`id` = " . $_GET['id'] . " ";
-        $result = execute($sql);
-
-        // Chuyển hướng sau khi cập nhật
-        header("location:./admin.php?act=khtttc1&dk=yes");
     }
 
-    session_start(); // Đảm bảo rằng session đã được khởi tạo
-    
     if (isset($_POST['btnadd_qr'])) {
         // Kiểm tra tất cả các trường có giá trị không rỗng
         if (
@@ -676,14 +701,7 @@
         ) {
 
             $id = $_POST['id'];
-
-            // Kết nối cơ sở dữ liệu
             $conn = mysqli_connect("localhost", "root", "", "bannuocdb");
-
-            // Kiểm tra kết nối
-            if (!$conn) {
-                die("Connection failed: " . mysqli_connect_error());
-            }
 
             // Lấy và bảo vệ dữ liệu POST
             $qr1 = mysqli_real_escape_string($conn, $_POST['xuatsu']);
@@ -695,7 +713,7 @@
             $qr7 = mysqli_real_escape_string($conn, $_POST['dieukienbaoquan']);
             $qr8 = mysqli_real_escape_string($conn, $_POST['phantichvisinhvat']);
 
-            // Truy vấn cập nhật thông tin QR
+            // Chuẩn bị để cập nhật dữ liệu trong bảng sanpham
             $stmt = $conn->prepare("UPDATE sanpham SET 
                 xuatsu = ?, phanbon = ?, chatluong = ?, dotuoi = ?, 
                 antoanthucpham = ?, tinhhopphapnguongoc = ?, dieukienbaoquan = ?, 
@@ -706,9 +724,9 @@
 
             // Thực thi truy vấn
             if ($stmt->execute()) {
-                // Cập nhật trạng thái của sản phẩm thành 2
+                // Cập nhật trạng thái của sản phẩm thành 4
                 $stmt2 = $conn->prepare("UPDATE sanpham SET trangthai = ? WHERE id = ?");
-                $trangthai = 4; // Giá trị trạng thái là 2
+                $trangthai = 4; // Giá trị trạng thái là 4
                 $stmt2->bind_param("ii", $trangthai, $id);
 
                 if ($stmt2->execute()) {
@@ -744,7 +762,7 @@
     }
 
     if (isset($_POST['btn_pckd']) && !empty($_POST['id'])) {
-        $product_id = mysqli_real_escape_string($con, $_POST['id']);
+        $product_id = mysqli_real_escape_string($con, $_POST['id']);// Hàm của MySQLi dùng để làm sạch dữ liệu đầu vào trước khi đưa vào câu truy vấn SQL.
         $phancong = mysqli_real_escape_string($con, $_POST['kd']); // Dữ liệu nhập từ ô input
     
         if (!empty($phancong)) {
@@ -798,14 +816,6 @@
     }
 
     if (isset($_POST['btndang'])) {
-        // Kết nối cơ sở dữ liệu bằng MySQLi theo kiểu đối tượng
-        $conn = new mysqli("localhost", "root", "", "bannuocdb");
-
-        // Kiểm tra kết nối
-        if ($conn->connect_error) {
-            die("Kết nối thất bại: " . $conn->connect_error);
-        }
-
         // Lấy id sản phẩm từ form
         $id = $_POST['id'];
 
@@ -840,10 +850,10 @@
             // Lấy giá trị hiện tại của doanh thu
             $selectQuery = "SELECT `doanhthu` FROM `khachhang` WHERE `id` = ?";
             if ($selectStmt = $con->prepare($selectQuery)) {
-                $selectStmt->bind_param("i", $id);
-                $selectStmt->execute();
-                $selectStmt->bind_result($doanhthu);
-                $selectStmt->fetch();
+                $selectStmt->bind_param("i", $id);// Gán giá trị cho tham số ? trong câu truy vấn.
+                $selectStmt->execute(); //Chạy câu lệnh SQL với giá trị được gán trước đó.
+                $selectStmt->bind_result($doanhthu);// Liên kết kết quả trả về của câu truy vấn vào biến $doanhthu.
+                $selectStmt->fetch();// Lấy kết quả từ câu truy vấn và gán vào biến $doanhthu.
                 $selectStmt->close();
             }
     
@@ -854,7 +864,7 @@
                 $stmt->bind_param("ii", $doanhthu, $id); // Ràng buộc tham số (hai chỉ số nguyên)
     
                 if ($stmt->execute()) {
-                    // Thêm câu lệnh để cập nhật thời gian thanh toán và doanh thu_tt vào bảng thongkedt
+                    // Câu lệnh để cập nhật thời gian thanh toán và doanh thu_tt vào bảng thongkedt
                     $insertQuery = "INSERT INTO `thongkedt` (`id_nb`, `thoigian_tt`, `doanhthu_tt`) VALUES (?, NOW(), ?)";
                     if ($insertStmt = $con->prepare($insertQuery)) {
                         $insertStmt->bind_param("ii", $id, $doanhthu); // Ràng buộc id_nb và doanhthu_tt
@@ -903,16 +913,8 @@
         // Kiểm tra tất cả các trường có giá trị không rỗng
         if (!empty($_POST['lydo']) && !empty($_POST['id'])) {
             $id = $_POST['id'];
-    
-            // Kết nối cơ sở dữ liệu
-            $conn = mysqli_connect("localhost", "root", "", "bannuocdb");
-    
-            // Kiểm tra kết nối
-            if (!$conn) {
-                die("Connection failed: " . mysqli_connect_error());
-            }
-    
-            // Lấy và bảo vệ dữ liệu POST
+
+            // Lấy dữ liệu POST
             $lydo = mysqli_real_escape_string($conn, $_POST['lydo']);
     
             // Truy vấn cập nhật lý do

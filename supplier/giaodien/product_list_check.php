@@ -32,7 +32,6 @@
             if (!empty($_POST['status']) && $_POST['status'] != '99') {
                 $sql .= " AND `trangthai` = '" . $_POST['status'] . "'";
             }
-            // echo '' . $sql . '';
             $totalRecordsResult = mysqli_query($con, $sql);
         } else {
             $totalRecordsQuery = "SELECT * FROM `sanpham` WHERE id_nhaban = $user_id AND trangthai IN (0,1,2)";

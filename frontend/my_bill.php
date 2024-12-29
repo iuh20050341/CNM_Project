@@ -77,7 +77,7 @@ ini_set('display_errors', 0);
                                         <td>' . currency_format($value['tong_tien']) . '</td>';
                     if ($value['deliveryStatus'] == 0) {
                         echo '<td align=center><b style="color:red">Đang xử lý</b></td>
-                            <td align:right; ><a onclick="huydonhang(' . $value['id'] . ')" style="color:#d10024"><u>Hủy</u></a></td>';
+                            <td align:right; ><a onclick="huydonhang(' . $value['id'] . ')" style="color:#d10024; cursor: pointer"><u>Hủy</u></a></td>';
                     }
                     if ($value['deliveryStatus'] == 1) {
                         echo '<td align=center><b style="color:orange">Chờ lấy hàng</b></td>';

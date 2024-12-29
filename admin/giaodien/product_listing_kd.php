@@ -15,19 +15,20 @@
 
     include_once("./connect_db.php");
     if (!empty($_SESSION['nguoidung'])) {
+        // Phân trang
         $item_per_page = (!empty($_GET['per_page'])) ? $_GET['per_page'] : 6;
         $current_page = (!empty($_GET['page'])) ? $_GET['page'] : 1;
         $offset = ($current_page - 1) * $item_per_page;
 
         // Kiểm tra kết nối cơ sở dữ liệu
         if ($con) {
-            // Lấy tổng số bản ghi
+            // Lấy thông tin sản phẩm cần kiểm định, địa chỉ vườn và tên nhân viên phụ trách.   
             $sql = "SELECT sanpham.*, khachhang.diachivuon, taikhoang.fullname 
                     FROM sanpham 
                     JOIN khachhang ON sanpham.id_nhaban = khachhang.id 
                     JOIN taikhoang ON taikhoang.username = sanpham.phancong
                     WHERE sanpham.trangthai = 2 AND sanpham.phancong = '" . $_SESSION['user'] . "'";
-
+            // Tìm kiếm sản phẩm
             if (isset($_POST['search'])) {
                 $sql = "SELECT sanpham.*, khachhang.diachivuon, taikhoang.fullname 
                     FROM sanpham 

@@ -79,6 +79,8 @@
             color: black;
             text-decoration: none;
             cursor: pointer;
+
+            
         }
     </style>
 </head>
@@ -103,7 +105,6 @@
     </div>
 </body>
 </html>
-
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {

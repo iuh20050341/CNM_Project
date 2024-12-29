@@ -4,22 +4,23 @@ header('Content-type: text/html; charset=utf-8');
 
 function execPostRequest($url, $data)
 {
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $ch = curl_init($url); // Khởi tạo CURL với URL
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST"); // Cài đặt phương thức POST
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);// Dữ liệu cần gửi
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);// Trả về kết quả
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'Content-Type: application/json',
         'Content-Length: ' . strlen($data))
     );
-    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 5);// Giới hạn thời gian chờ
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-    $result = curl_exec($ch);
+    $result = curl_exec($ch);// Thực thi lệnh CURL
     curl_close($ch);
     return $result;
 }
 
 // Thông tin thanh toán MoMo
+// Cấu hình thông tin MoMo API
 $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
 $partnerCode = 'MOMOBKUN20180529';
 $accessKey = 'klm05TvNBzhg7h7j';
@@ -38,15 +39,15 @@ $redirectUrl = "http://localhost:88/CNM_Project/"; // Đường dẫn sau khi th
 $ipnUrl = "http://localhost:88/CNM_Project/frontend/thanh_toan.php"; // Đường dẫn nhận thông báo IPN (chế độ Live sẽ nhận thông báo IPN)
 $extraData = ""; // Thêm dữ liệu phụ (nếu cần)
 
-// Tạo requestId và signature
+// Tạo thông tin thanh toán và chữ ký
 $requestId = time() . "";
 $requestType = "payWithATM";
-
+// Tạo chuỗi để ký
 $rawHash = "accessKey=" . $accessKey . "&amount=" . $amount . "&extraData=" . $extraData . 
     "&ipnUrl=" . $ipnUrl . "&orderId=" . $orderId . "&orderInfo=" . $orderInfo . 
     "&partnerCode=" . $partnerCode . "&redirectUrl=" . $redirectUrl . "&requestId=" . $requestId . 
     "&requestType=" . $requestType;
-
+// Ký chuỗi bằng HMAC SHA256
 $signature = hash_hmac("sha256", $rawHash, $secretKey);
 
 // Tạo dữ liệu yêu cầu để gửi cho MoMo

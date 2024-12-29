@@ -1,6 +1,7 @@
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
 <?php
+//
 include_once("./connect_db.php");
 if (!empty($_SESSION['nguoidung'])) {
     $item_per_page = (!empty($_GET['per_page'])) ? intval($_GET['per_page']) : 6;

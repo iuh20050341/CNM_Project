@@ -2,9 +2,9 @@
 session_start();
 include('../db/dbhelper.php');
 if (isset($_SESSION['ten_dangnhap'])) {
+    //Lấy thông tin khách hàng
     $ten_dangnhap = $_SESSION['ten_dangnhap'];
     $sql = 'select * from khachhang where ten_dangnhap="' . $ten_dangnhap . '"';
-
     $tong_tien = 0;
     $infoCus = executeSingleResult($sql);
     if (isset($_SESSION['cart']))
@@ -16,6 +16,7 @@ if (isset($_SESSION['ten_dangnhap'])) {
         $totalPrice = $value['qty'] * $value['price'];
         $totalPriceArr[] = ['name' => $value['name'], 'price' => $totalPrice]; // Lưu tổng giá cho mỗi mặt hàng trong mảng
     }
+    //Tính tổng tiền giỏ hàng
     $totalPriceAll = 0;
     foreach ($cart as $item) {
         $totalPriceAll += $item['qty'] * $item['price'];

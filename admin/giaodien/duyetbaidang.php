@@ -47,29 +47,19 @@ if (!empty($_SESSION['nguoidung'])) {
     if ($con) {
         // Lấy fullname của người dùng hiện tại từ session
         $loggedInFullname = $_SESSION['nguoidung'];
-
+        //
         // Lấy tổng số bản ghi với trangthai = 1
         $totalRecordsQuery = mysqli_query($con, "SELECT * FROM `sanpham` WHERE `trangthai` = 6");
         
         if ($totalRecordsQuery) {
             $totalRecords = $totalRecordsQuery->num_rows;
             $totalPages = ceil($totalRecords / $item_per_page);
-
-            // Xây dựng điều kiện lọc dựa trên fullname của người dùng
-            if ($loggedInFullname == 'Kiểm định 1') {
-                $filterCondition = "AND sanpham.phancong = 'Kiểm định 1'";
-            } elseif ($loggedInFullname == 'Kiểm định 2') {
-                $filterCondition = "AND sanpham.phancong = 'Kiểm định 2'";
-            } else {
-                $filterCondition = ""; // Không áp dụng lọc nếu không phải 'Kiểm định 1' hoặc 'Kiểm định 2'
-            }
-
+            
             // Truy vấn để lấy sản phẩm với trangthai = 1 và điều kiện lọc
             $query = "SELECT sanpham.*, khachhang.diachivuon 
                      FROM sanpham
                      JOIN khachhang ON sanpham.id_nhaban = khachhang.id
                      WHERE sanpham.trangthai = 6
-                     $filterCondition
                      ORDER BY sanpham.id ASC 
                      LIMIT $item_per_page OFFSET $offset";
 

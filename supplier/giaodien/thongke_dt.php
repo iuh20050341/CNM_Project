@@ -129,6 +129,7 @@ if (isset($_SESSION['ten_dangnhap']) && !empty($_SESSION['ten_dangnhap']) && iss
     </table>
 </div>
 <script>
+    // Tạo mảng
     const labels = [];
     const data = [];
 

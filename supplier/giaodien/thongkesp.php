@@ -4,7 +4,7 @@ include_once("./connect_db.php");
 if (isset($_SESSION['ten_dangnhap']) && !empty($_SESSION['ten_dangnhap']) && isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 
-    // Lấy năm và tháng được chọn từ form (nếu có)
+    // Lấy năm và tháng được chọn từ form
     $selectedYear = isset($_GET['year']) ? $_GET['year'] : '';
     $selectedMonth = isset($_GET['month']) ? $_GET['month'] : '';
 

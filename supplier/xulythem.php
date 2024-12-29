@@ -513,14 +513,6 @@
     }
 
     if (isset($_POST['btndang'])) {
-        // Kết nối cơ sở dữ liệu bằng MySQLi theo kiểu đối tượng
-        $conn = new mysqli("localhost", "root", "", "bannuocdb");
-
-        // Kiểm tra kết nối
-        if ($conn->connect_error) {
-            die("Kết nối thất bại: " . $conn->connect_error);
-        }
-
         // Lấy id sản phẩm từ form
         $id = $_POST['id'];
 
@@ -546,14 +538,6 @@
     }
 
     if (isset($_POST['btngui'])) {
-        // Kết nối cơ sở dữ liệu bằng MySQLi theo kiểu đối tượng
-        $conn = new mysqli("localhost", "root", "", "bannuocdb");
-
-        // Kiểm tra kết nối
-        if ($conn->connect_error) {
-            die("Kết nối thất bại: " . $conn->connect_error);
-        }
-
         // Lấy id sản phẩm từ form
         $id = $_POST['id'];
 

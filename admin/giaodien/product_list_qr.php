@@ -13,6 +13,7 @@
 
 <body>
     <?php
+    //
     include_once("./connect_db.php");
     if (!empty($_SESSION['nguoidung'])) {
         $item_per_page = (!empty($_GET['per_page'])) ? $_GET['per_page'] : 6;
